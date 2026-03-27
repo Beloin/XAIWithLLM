@@ -65,3 +65,11 @@ A single chat session per model with two phases:
 
 This tests whether XAI evidence changes or improves the LLM's reasoning within the same conversation.
 
+## Detailed information of each Method
+
+- [Without XAI](without_XAI/VALIDATION_FINDINGS.md)
+  - With raw output of better fitted parameters [here](without_XAI/RESULTS_N20.md)
+- [With XAI](with_XAI/VALIDATION_FINDINGS.md)
+  - With raw output of better fitted parameters [here](with_XAI/RESULTS_LOCAL_15.md)
+- [Enforce Knowledge](enforce_knowledge/VALIDATION_FINDINGS.md)
+  - With raw output of better fitted parameters [here](enforce_knowledge/RESULTS_SAMPLES_20_LOCAL_15.md) 
