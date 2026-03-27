@@ -180,27 +180,27 @@ The model is a Random Forest classifier trained to detect network intrusions (Bo
 
 ### 4. **Instance-Level Reasoning**
 #### **Example 1 (BotAttack):**
-```json
+`
 {"Port":2,"Request_Type":6,"Protocol":1,"Payload_Size":2.83,"User_Agent":2,"Status":0,"Scan_Type_Label":0}
-```
+`
 - **Why predicted BotAttack (0):**
   - **`Port = 2` (SSH)** and **`Request_Type = 6` (Telnet)**: Targeted services often exploited by bots.
   - **`Status = 0` (Failure)**: Failed attempts are common in brute-force attacks.
   - **`User_Agent = 2` (Wget/1.20.3)**: Script-based tools used for automated scanning.
 
 #### **Example 2 (PortScan):**
-```json
+`
 {"Port":11,"Request_Type":0,"Protocol":0,"Payload_Size":2.73,"User_Agent":4,"Status":0,"Scan_Type_Label":0}
-```
+`
 - **Why predicted PortScan (2):**
   - **`User_Agent = 4` (`nmap/7.80`)**: Explicit indicator of PortScan.
   - **`Protocol = 0` (ICMP)**: ICMP is a common tool for scanning (e.g., ping sweeps).
   - **`Payload_Size = 2.73` (high deviation)**: Indicates repetitive, low-interaction probes.
 
 #### **Example 3 (Normal):**
-```json
+`
 {"Port":80,"Request_Type":2,"Protocol":1,"Payload_Size":0.5,"User_Agent":0,"Status":1,"Scan_Type_Label":1}
-```
+`
 - **Why predicted Normal (1):**
   - **`Port = 80` (HTTP)** and **`Request_Type = 2` (HTTP)**: Common for legitimate traffic.
   - **`User_Agent = 0` (`Mozilla/5.0`)**: Represents a standard browser.
