@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(du -sh /home/beloin/Documents/pos-grad/masters/soc_xai/*.ipynb)",
+      "Bash(python3:*)"
+    ]
+  }
+}
