@@ -23,7 +23,7 @@ Master's research comparing LLM analysis of a network intrusion detection model 
 - Other `soc_XAI_LLM_*.ipynb` notebooks are older iterations/prototypes.
 
 ### ML pipeline
-Dataset: `Network_logs.csv` (network intrusion detection, 3 classes: BotAttack, Normal, PortScan).
+Dataset: `intrusion_detection_logs/Network_logs.csv` (network intrusion detection, 3 classes: BotAttack, Normal, PortScan).
 Pipeline: drop IPs → label encode categoricals → StandardScaler on Payload_Size → SMOTE balancing → 70/30 stratified split → Random Forest.
 
 ### LLM models (via Ollama at localhost:11434)
@@ -57,7 +57,7 @@ enforce_knowledge/
 - `resultados_comparison_with_without_xai.json` — `{chat_a_without_xai, chat_b_with_xai}` per model (legacy)
 - `resultados_enforce_knowledge.json` — `{phase1_without_xai, phase2_with_xai}` per model (legacy)
 - `validation_llm_xai_responses.ipynb` — Validation notebook: pretty-prints responses, checks feature ranking accuracy, SHAP citation accuracy, fabrication detection, and Chat A vs B improvement.
-- `run_all.sh` — converts notebooks to `.py` via `nbconvert`, runs them with `ipython` (needed for `!ollama stop` shell commands), then cleans up generated `.py` files. Each script runs with `cwd` set to its own folder so `../Network_logs.csv` resolves correctly. Requires: `pip install nbconvert`, `ipython` in venv.
+- Each notebook runs with `cwd` set to its own folder so `../data/Network_logs.csv` resolves correctly.
 
 ## Known issues
 - **qwen3:30b** consistently returns empty responses for longer-context phases (Chat B / Phase 2 with XAI data). Works fine for shorter contexts (Chat A / Phase 1). Likely OOM or context-length limit on 30B model via Ollama.

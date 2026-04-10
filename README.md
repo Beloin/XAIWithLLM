@@ -1,75 +1,48 @@
-# Analysis of XAI with LLM
+# SOC XAI — Project Overview
 
 Can a Large Language Model produce cybersecurity explanations comparable to what a human analyst would derive from SHAP and LIME?
 
-## LLMs Used
+## Structure
 
-| Model | Size | Tier |
-|---|---|---|
-| GLM-4.7-Flash | ~9B | Medium |
-| Qwen3 14B | 14B | Medium |
-| GPT-OSS 20B | 20B | Medium |
-| Qwen3 30B | 30B | Large |
+```
+soc_xai/
+├── README.md
+├── CLAUDE.md                    # Project guide
+├── AGENTS.md                    # Agent context file
+├── run_all.sh                   # Run all experiments
+│
+└── intrusion_detection_logs/    # Dataset + experiments
+    ├── README.md                # Experiment overview
+    ├── DATASET.md              # Dataset documentation
+    ├── CONCLUSION.md           # Research conclusions
+    ├── XAI_EXPLANATION_QUALITY.md
+    ├── Network_logs.csv         # Dataset
+    │
+    ├── without_XAI/             # Baseline experiments
+    ├── with_XAI/                # XAI injection experiments
+    └── enforce_knowledge/       # Two-phase paired experiments
+```
 
-All models run locally via Ollama.
+## Experiments
 
-## Dataset
+| Experiment | Description |
+|------------|-------------|
+| **Without XAI** | Baseline: LLM analyzes model with raw data samples only |
+| **With XAI** | Intervention: LLM receives SHAP + LIME explanations |
+| **Enforce Knowledge** | Two-phase: Same chat, Phase 1 without XAI → Phase 2 with XAI |
 
-**Network_logs.csv** — network traffic log entries labeled as one of three classes:
-- **BotAttack** (0) — botnet command-and-control traffic
-- **Normal** (1) — legitimate network activity
-- **PortScan** (2) — reconnaissance scanning
+## Models
 
-Features: Port, Request_Type, Protocol, Payload_Size, User_Agent, Status (all numerically encoded).
+All run locally via Ollama:
+- glm-4.7-flash (~9B)
+- qwen3:14b (14B)
+- gpt-oss:20b (20B)
+- qwen3:30b (30B)
 
-## Pipeline
+## Key Finding
 
-1. Pre-process and encode features
-2. Balance classes with SMOTE
-3. Train a Random Forest classifier (~99.7% accuracy)
-4. Generate SHAP (TreeExplainer) and LIME explanations
-5. Feed data to LLMs via multi-turn Ollama API calls
-6. Compare LLM outputs across methods
+**XAI injection improves LLM reasoning:**
+- Without XAI: 25% feature ranking accuracy, 75% User_Agent bias
+- With XAI: 100% accuracy, bias eliminated
 
-## Methods
-
-### 1. Ground Truth
-
-Human interpretations based on SHAP global/local values and LIME feature contributions. This serves as the baseline for evaluating LLM-generated explanations.
-
-### 2. LLM Without XAI
-
-The LLM receives only:
-- Model info and column descriptions
-- Raw training data samples
-- Real vs predicted labels
-
-It must infer feature importance and explain predictions based solely on data patterns.
-
-Experiments vary the amount of raw data provided (10, 20, 40 samples) to test how data volume affects explanation quality.
-
-### 3. LLM With XAI
-
-The LLM receives everything from Method 2, plus:
-- SHAP global feature importance per class
-- SHAP local explanations per instance
-- LIME local explanations for the same instances
-
-Experiments vary the number of local SHAP+LIME instances (5, 10, 15, 25) while keeping raw data fixed at 20 samples.
-
-### 4. Enforce Knowledge (Before/After)
-
-A single chat session per model with two phases:
-1. **Phase 1:** LLM analyzes with raw data only (no XAI)
-2. **Phase 2:** Same chat, SHAP+LIME data is injected, LLM revises its analysis
-
-This tests whether XAI evidence changes or improves the LLM's reasoning within the same conversation.
-
-## Detailed information of each Method
-
-- [Without XAI](without_XAI/VALIDATION_FINDINGS.md)
-  - With raw output of better fitted parameters [here](without_XAI/RESULTS_N20.md)
-- [With XAI](with_XAI/VALIDATION_FINDINGS.md)
-  - With raw output of better fitted parameters [here](with_XAI/RESULTS_LOCAL_15.md)
-- [Enforce Knowledge](enforce_knowledge/VALIDATION_FINDINGS.md)
-  - With raw output of better fitted parameters [here](enforce_knowledge/RESULTS_SAMPLES_20_LOCAL_15.md) 
+See `intrusion_detection_logs/CONCLUSION.md` for full results.
