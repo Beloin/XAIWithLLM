@@ -229,7 +229,19 @@ def _stop_model(model_name):
 
 
 def _query_llm(prompts, model_dict, max_tokens, timeout=REQUEST_TIMEOUT):
-    """Query LLM via OpenAI-compatible API."""
+    """Query LLM via OpenAI-compatible API.
+    
+    Args:
+        prompts: Single prompt string OR list of prompts for chat mode
+        model_dict: Model configuration dict
+        max_tokens: Single int or list of ints for multi-turn
+        timeout: Request timeout
+    
+    Returns:
+        (response, elapsed_ms, thinking_process, token_usage) tuple
+        thinking_process is None if model doesn't support it
+        token_usage is dict with prompt_tokens, completion_tokens, total_tokens
+    """
     client = OpenAI(
         base_url=model_dict["api"],
         api_key=model_dict.get("api_key", "ollama")
@@ -237,7 +249,13 @@ def _query_llm(prompts, model_dict, max_tokens, timeout=REQUEST_TIMEOUT):
     
     model_name = model_dict["name"]
     
+    def _extract_thinking(message):
+        """Extract thinking/reasoning from message if available."""
+        msg_dict = message.model_dump()
+        return msg_dict.get("reasoning") or msg_dict.get("reasoning_content")
+    
     if isinstance(prompts, str):
+        # Single prompt mode
         start = time.time()
         response = client.chat.completions.create(
             model=model_name,
@@ -246,12 +264,25 @@ def _query_llm(prompts, model_dict, max_tokens, timeout=REQUEST_TIMEOUT):
             timeout=timeout
         )
         elapsed_ms = (time.time() - start) * 1000
-        return response.choices[0].message.content, elapsed_ms
+        
+        thinking = _extract_thinking(response.choices[0].message)
+        
+        usage = {
+            "prompt_tokens": response.usage.prompt_tokens if response.usage else None,
+            "completion_tokens": response.usage.completion_tokens if response.usage else None,
+            "total_tokens": response.usage.total_tokens if response.usage else None
+        }
+        
+        return response.choices[0].message.content, elapsed_ms, thinking, usage
     
     else:
+        # Chat mode (list of prompts)
         chat_history = []
         responses = []
+        thinking_parts = []
         total_time = 0
+        total_prompt_tokens = 0
+        total_completion_tokens = 0
         
         for i, prompt in enumerate(prompts):
             tokens = max_tokens[i] if isinstance(max_tokens, list) else max_tokens
@@ -267,11 +298,25 @@ def _query_llm(prompts, model_dict, max_tokens, timeout=REQUEST_TIMEOUT):
             elapsed_ms = (time.time() - start) * 1000
             total_time += elapsed_ms
             
+            if response.usage:
+                total_prompt_tokens += response.usage.prompt_tokens
+                total_completion_tokens += response.usage.completion_tokens
+            
             content = response.choices[0].message.content
             chat_history.append({"role": "assistant", "content": content})
             responses.append(content)
+            
+            thinking = _extract_thinking(response.choices[0].message)
+            if thinking:
+                thinking_parts.append(thinking)
         
-        return responses[-1], total_time
+        final_thinking = "\n\n--- Turn Break ---\n\n".join(thinking_parts) if thinking_parts else None
+        usage = {
+            "prompt_tokens": total_prompt_tokens,
+            "completion_tokens": total_completion_tokens,
+            "total_tokens": total_prompt_tokens + total_completion_tokens
+        }
+        return responses[-1], total_time, final_thinking, usage
 
 
 def _format_time(ms):
@@ -439,6 +484,232 @@ Cite specific SHAP values and LIME rules to support your revised conclusions.
     return [phase1, phase2]
 
 
+# ===== CHAT PROMPT BUILDERS =====
+# For APIs that can't handle large single inputs, split into multi-turn chat
+
+def _build_chat_prompts_without_xai(model_info, column_desc_str, train_sample_str, pred_sample_str, 
+                                    feature_cols, class_names):
+    """Build chat prompts for without_xai experiment (split into chunks)."""
+    
+    prompts = []
+    
+    # Message 1: Model info + column descriptions
+    prompts.append(f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
+
+You will analyze a network intrusion detection model. I will send the data in multiple messages.
+
+**Wait for further instructions before responding.**
+
+# Model Information
+
+- **Type:** {model_info['type']}
+- **Task:** Network intrusion detection from log entries
+- **Target:** {model_info['target_col']}
+- **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
+- **Features:** {', '.join(feature_cols)}
+- **Accuracy:** {model_info['accuracy']:.4f} (on test set)
+- **Pipeline:** Data cleaning → feature selection → label encoding → class balancing (SMOTE) → 70/30 stratified train/test split
+
+# Column Descriptions
+
+{column_desc_str}
+
+Please acknowledge receipt of this information and wait for the data samples.
+""")
+    
+    # Message 2: Training samples + predictions + analysis request
+    prompts.append(f"""# Training Samples (representative examples)
+
+{train_sample_str}
+
+# Predictions (true label vs predicted label)
+
+{pred_sample_str}
+
+---
+
+Now please analyze this model and explain:
+
+1. **Feature Importance:** Rank the top 3-5 features by their importance for each class. Be specific about why each feature matters.
+
+2. **Class-Specific Patterns:** For each class, describe what patterns the model looks for.
+
+3. **Misclassification Risk:** What might cause this model to misclassify? Consider edge cases and class confusion.
+
+4. **Security Implications:** How would a SOC analyst use these insights? What detection rules would you derive?
+
+Be precise and ground your reasoning in the data samples provided. Do NOT fabricate statistics or metrics that weren't explicitly given.
+""")
+    
+    return prompts
+
+
+def _build_chat_prompts_with_xai(model_info, column_desc_str, train_sample_str, pred_sample_str, 
+                                 shap_global_str, shap_local_str, lime_local_str, feature_cols, class_names):
+    """Build chat prompts for with_xai experiment (split into chunks)."""
+    
+    prompts = []
+    
+    # Message 1: Model info + column descriptions
+    prompts.append(f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
+
+You will analyze a network intrusion detection model using XAI explanations. I will send the data in multiple messages.
+
+**Wait for further instructions before responding.**
+
+# Model Information
+
+- **Type:** {model_info['type']}
+- **Task:** Network intrusion detection from log entries
+- **Target:** {model_info['target_col']}
+- **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
+- **Features:** {', '.join(feature_cols)}
+- **Accuracy:** {model_info['accuracy']:.4f} (on test set)
+- **Pipeline:** Data cleaning → feature selection → label encoding → class balancing (SMOTE) → 70/30 stratified train/test split
+
+# Column Descriptions
+
+{column_desc_str}
+
+Please acknowledge receipt and wait for the data samples and XAI explanations.
+""")
+    
+    # Message 2: Training samples + predictions
+    prompts.append(f"""# Training Samples (representative examples)
+
+{train_sample_str}
+
+# Predictions (true label vs predicted label)
+
+{pred_sample_str}
+
+**Wait for the XAI explanations in the next message.**
+""")
+    
+    # Message 3: XAI data + analysis request
+    prompts.append(f"""# Explainability Data
+
+## SHAP Global Importance (mean |SHAP| per feature per class)
+
+{shap_global_str}
+
+## SHAP Local Explanations (per-instance feature contributions)
+
+{shap_local_str}
+
+## LIME Local Explanations (rule-based feature contributions)
+
+{lime_local_str}
+
+---
+
+Now please analyze this model using the SHAP and LIME explanations provided:
+
+1. **Feature Importance:** Using SHAP global values, rank the top 3 features for each class. Explain why these features have the highest impact.
+
+2. **Class-Specific Patterns:** For each class, describe how the model distinguishes it from others. Reference specific SHAP values and LIME rules.
+
+3. **Comparing SHAP and LIME:** Do the explanations converge? Where do they differ? Which features are consistently important?
+
+4. **Security Implications:** What detection rules would you recommend for a SOC analyst? Be specific about thresholds and conditions.
+
+Cite the SHAP values and LIME rules in your explanation. Be precise and avoid fabrication.
+""")
+    
+    return prompts
+
+
+def _build_chat_prompts_enforce_knowledge(model_info, column_desc_str, train_sample_str, pred_sample_str,
+                                          feature_cols, class_names, shap_global_str=None, 
+                                          shap_local_str=None, lime_local_str=None):
+    """Build chat prompts for enforce_knowledge experiment.
+    
+    Returns list of prompts that builds up conversation:
+    - Messages 1-2: Phase 1 (without XAI)
+    - Messages 3-4: Phase 2 (with XAI, revision)
+    """
+    
+    prompts = []
+    
+    # Message 1: Model info
+    prompts.append(f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
+
+You will analyze a network intrusion detection model. I will send the data in multiple messages.
+
+**Wait for further instructions before responding.**
+
+# Model Information
+
+- **Type:** {model_info['type']}
+- **Task:** Network intrusion detection from log entries
+- **Target:** {model_info['target_col']}
+- **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
+- **Features:** {', '.join(feature_cols)}
+- **Accuracy:** {model_info['accuracy']:.4f} (on test set)
+- **Pipeline:** Data cleaning → label encoding → class balancing (SMOTE) → 70/30 stratified train/test split
+
+# Column Descriptions
+
+{column_desc_str}
+
+Please acknowledge receipt and wait for the data samples.
+""")
+    
+    # Message 2: Data + analysis request (Phase 1)
+    prompts.append(f"""# Training Samples
+
+{train_sample_str}
+
+# Predictions
+
+{pred_sample_str}
+
+---
+
+Please analyze this model and explain:
+
+1. **Feature Importance:** Rank the top 3-5 features by their importance for each class.
+
+2. **Class-Specific Patterns:** For each class, describe what patterns the model looks for.
+
+3. **Security Implications:** What detection rules would you derive?
+
+Be precise and ground your reasoning in the data provided.
+""")
+    
+    # Message 3: XAI data (Phase 2 starts)
+    prompts.append(f"""Now I've computed SHAP and LIME explanations for this model.
+
+# SHAP Global Importance
+
+{shap_global_str}
+
+# SHAP Local Explanations
+
+{shap_local_str}
+
+# LIME Local Explanations
+
+{lime_local_str}
+
+**Wait for analysis instructions.**
+""")
+    
+    # Message 4: Revision request
+    prompts.append(f"""Please revise your previous analysis incorporating this explainability data:
+
+1. **Feature Importance Update:** Compare your earlier ranking to the SHAP values. What changed?
+
+2. **Evidence-Based Corrections:** Where did your initial reasoning deviate from actual model behavior? What did the XAI data reveal?
+
+3. **Actionable Insights:** Based on the SHAP/LIME evidence, provide concrete detection rules for SOC analysts.
+
+Cite specific SHAP values and LIME rules to support your revised conclusions.
+""")
+    
+    return prompts
+
+
 # ===== MAIN PIPELINE =====
 
 def pipeline(
@@ -446,6 +717,7 @@ def pipeline(
     columnDesc,
     models=None,
     experiment_type="with_xai",
+    chat=False,
     n_samples=20,
     n_shap_local=20,
     n_lime_local=20,
@@ -463,6 +735,8 @@ def pipeline(
         columnDesc: List of descriptions per column (same order as features, excluding target)
         models: List of dicts with 'name', 'api', and optional 'api_key'. Default: 4 local Ollama models
         experiment_type: "with_xai", "without_xai", or "enforce_knowledge"
+        chat: If True, split prompts into multi-turn chat (for APIs with input size limits)
+              When True, prompts include "Wait for further instructions" and data is sent in chunks
         n_samples: Number of train/pred samples to show LLM
         n_shap_local: Number of SHAP local instances
         n_lime_local: Number of LIME local instances
@@ -538,39 +812,60 @@ def pipeline(
         "target_col": target_col
     }
     
+    shap_global_str = json.dumps(shap_results["shap_global_raw"], indent=2, ensure_ascii=False)
+    shap_local_str = json.dumps(shap_results["shap_local"], indent=2, ensure_ascii=False)
+    lime_local_str = json.dumps(lime_local, indent=2, ensure_ascii=False)
+    
+    # Build prompts based on experiment_type and chat mode
     if experiment_type == "without_xai":
-        prompts = _build_prompt_without_xai(
-            model_info, column_desc_str, train_sample_str, pred_sample_str, 
-            feature_cols, class_names
-        )
-        max_tokens = explain_message_tokens
-        prompts_for_output = {"prompt": prompts}
+        if chat:
+            prompts = _build_chat_prompts_without_xai(
+                model_info, column_desc_str, train_sample_str, pred_sample_str, 
+                feature_cols, class_names
+            )
+            max_tokens = [4096, explain_message_tokens]  # First msg: ack, second: analysis
+        else:
+            prompts = _build_prompt_without_xai(
+                model_info, column_desc_str, train_sample_str, pred_sample_str, 
+                feature_cols, class_names
+            )
+            max_tokens = explain_message_tokens
+        prompts_for_output = {"chat_prompts": prompts} if chat else {"prompt": prompts}
     
     elif experiment_type == "with_xai":
-        shap_global_str = json.dumps(shap_results["shap_global_raw"], indent=2, ensure_ascii=False)
-        shap_local_str = json.dumps(shap_results["shap_local"], indent=2, ensure_ascii=False)
-        lime_local_str = json.dumps(lime_local, indent=2, ensure_ascii=False)
-        
-        prompts = _build_prompt_with_xai(
-            model_info, column_desc_str, train_sample_str, pred_sample_str,
-            shap_global_str, shap_local_str, lime_local_str,
-            feature_cols, class_names
-        )
-        max_tokens = explain_message_tokens
-        prompts_for_output = {"prompt": prompts}
+        if chat:
+            prompts = _build_chat_prompts_with_xai(
+                model_info, column_desc_str, train_sample_str, pred_sample_str,
+                shap_global_str, shap_local_str, lime_local_str,
+                feature_cols, class_names
+            )
+            max_tokens = [4096, 4096, explain_message_tokens]  # ack, ack, analysis
+        else:
+            prompts = _build_prompt_with_xai(
+                model_info, column_desc_str, train_sample_str, pred_sample_str,
+                shap_global_str, shap_local_str, lime_local_str,
+                feature_cols, class_names
+            )
+            max_tokens = explain_message_tokens
+        prompts_for_output = {"chat_prompts": prompts} if chat else {"prompt": prompts}
     
     elif experiment_type == "enforce_knowledge":
-        shap_global_str = json.dumps(shap_results["shap_global_raw"], indent=2, ensure_ascii=False)
-        shap_local_str = json.dumps(shap_results["shap_local"], indent=2, ensure_ascii=False)
-        lime_local_str = json.dumps(lime_local, indent=2, ensure_ascii=False)
-        
-        prompts = _build_prompts_enforce_knowledge(
-            model_info, column_desc_str, train_sample_str, pred_sample_str,
-            feature_cols, class_names,
-            shap_global_str, shap_local_str, lime_local_str
-        )
-        max_tokens = [PHASE1_MAX_TOKENS, explain_message_tokens]
-        prompts_for_output = {"phase1": prompts[0], "phase2": prompts[1]}
+        if chat:
+            prompts = _build_chat_prompts_enforce_knowledge(
+                model_info, column_desc_str, train_sample_str, pred_sample_str,
+                feature_cols, class_names,
+                shap_global_str, shap_local_str, lime_local_str
+            )
+            # 4 messages: ack, phase1 analysis, ack, phase2 analysis
+            max_tokens = [4096, explain_message_tokens, 4096, explain_message_tokens]
+        else:
+            prompts = _build_prompts_enforce_knowledge(
+                model_info, column_desc_str, train_sample_str, pred_sample_str,
+                feature_cols, class_names,
+                shap_global_str, shap_local_str, lime_local_str
+            )
+            max_tokens = [PHASE1_MAX_TOKENS, explain_message_tokens]
+        prompts_for_output = {"chat_prompts": prompts} if chat else {"phase1": prompts[0], "phase2": prompts[1]}
     
     else:
         raise ValueError(f"Invalid experiment_type: {experiment_type}. Must be 'with_xai', 'without_xai', or 'enforce_knowledge'")
@@ -587,10 +882,12 @@ def pipeline(
             if needs_start_stop:
                 _start_model(model_name)
             
-            response, time_ms = _query_llm(prompts, model_dict, max_tokens)
+            response, time_ms, thinking_process, token_usage = _query_llm(prompts, model_dict, max_tokens)
             
             results[model_name] = {
                 "response": response,
+                "thinking_process": thinking_process,
+                "token_usage": token_usage,
                 "time_ms": round(time_ms, 2),
                 "time_formatted": _format_time(time_ms),
                 "error": None
@@ -602,6 +899,8 @@ def pipeline(
         except Exception as e:
             results[model_name] = {
                 "response": None,
+                "thinking_process": None,
+                "token_usage": None,
                 "time_ms": 0,
                 "time_formatted": "0s",
                 "error": str(e)
@@ -615,6 +914,7 @@ def pipeline(
     output = {
         "experiment_type": experiment_type,
         "config": {
+            "chat": chat,
             "n_samples": n_samples,
             "n_shap_local": n_shap_local,
             "n_lime_local": n_lime_local,

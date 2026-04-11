@@ -234,6 +234,204 @@ ollama stop qwen3:30b
 
 ---
 
+## Pipeline Module
+
+A reusable pipeline module (`intrusion_detection_logs/pipeline.py`) handles data preprocessing, model training, SHAP/LIME computation, and LLM querying.
+
+### Location
+
+```
+intrusion_detection_logs/pipeline.py
+```
+
+### Features
+
+| Feature | Description |
+|---------|-------------|
+| **Experiment types** | `with_xai`, `without_xai`, `enforce_knowledge` |
+| **Custom models** | Local Ollama or remote OpenAI-compatible APIs |
+| **Smart start/stop** | Skips for cloud models (model name contains "cloud") |
+| **SHAP output** | Raw values + normalized percentages per class |
+| **LIME output** | Per-instance feature contributions |
+| **Class names** | Custom or auto-generated (class_0, class_1, ...) |
+| **Output** | Return dict or save to JSON file |
+
+### Function Signature
+
+```python
+def pipeline(
+    dataset,                  # CSV path or preprocessed DataFrame
+    columnDesc,               # List of feature descriptions
+    models=None,              # List of model dicts
+    experiment_type="with_xai",
+    chat=False,               # If True, split prompts into multi-turn chat
+    n_samples=20,
+    n_shap_local=20,
+    n_lime_local=20,
+    target_col=None,          # Required
+    class_names=None,         # Optional: ["BotAttack", "Normal", "PortScan"]
+    explain_message_tokens=12288,
+    random_seed=42,
+    output_file=None,         # Save to JSON if provided
+) -> dict
+```
+
+### Chat Mode (`chat=True`)
+
+When `chat=True`, prompts are split into multiple messages for APIs with input size limits. Each message includes "Wait for further instructions" to prevent premature responses.
+
+| Experiment | Messages (chat=True) |
+|------------|---------------------|
+| `without_xai` | 2: Model info → Data + analysis request |
+| `with_xai` | 3: Model info → Samples → XAI + analysis |
+| `enforce_knowledge` | 4: Model info → Phase 1 → XAI → Phase 2 revision |
+
+Example chat flow for `with_xai`:
+```
+User: Model info + columns... [Wait for further instructions]
+LLM:  Acknowledged, waiting for data.
+User: Training samples + predictions... [Wait for XAI explanations]
+LLM:  Ready for XAI data.
+User: SHAP + LIME data + analysis request
+LLM:  [Full analysis]
+```
+
+Output structure differs:
+- `chat=False`: `{"prompt": "single prompt text"}`
+- `chat=True`: `{"chat_prompts": ["msg1", "msg2", ...]}`
+
+### Model Dict Format
+
+```python
+models = [
+    # Local Ollama model (needs start/stop)
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    
+    # Local cloud model (no start/stop needed)
+    {"name": "qwen3.5:cloud", "api": "http://localhost:11434/v1"},
+    
+    # Remote API (no start/stop needed)
+    {"name": "gpt-4o", "api": "https://api.openai.com/v1", "api_key": "sk-..."},
+]
+```
+
+### Smart Model Start/Stop
+
+The pipeline automatically manages model lifecycle:
+
+```python
+def _needs_model_start_stop(model_dict):
+    """
+    Returns True if model needs ollama start/stop.
+    
+    Conditions:
+    - API is localhost/127.0.0.1
+    - Model name does NOT contain "cloud"
+    
+    Examples:
+    - qwen3:14b + localhost → True (needs start/stop)
+    - qwen3.5:cloud + localhost → False (cloud model, no start/stop)
+    - gpt-4o + api.openai.com → False (remote API)
+    """
+```
+
+### Usage Example
+
+```python
+from pipeline import pipeline
+
+result = pipeline(
+    dataset="Network_logs.csv",
+    columnDesc=[
+        "Communication port (encoded)",
+        "Request type (DNS=0, FTP=1, ...)",
+        "Transport protocol (ICMP=0, TCP=1, UDP=2)",
+        "Packet payload size (normalized)",
+        "Client agent (encoded)",
+        "Request status (Failure=0, Success=1)",
+    ],
+    target_col="Scan_Type_Label",
+    class_names=["BotAttack", "Normal", "PortScan"],
+    models=[{"name": "qwen3.5:cloud", "api": "http://localhost:11434/v1"}],
+    experiment_type="with_xai",
+    n_samples=20,
+    n_shap_local=15,
+    n_lime_local=15,
+    output_file="results.json"
+)
+
+# Access results
+print(result["shap_global_raw"])        # SHAP mean |values| per class
+print(result["shap_global_percentages"]) # Normalized percentages
+print(result["model_info"]["accuracy"])   # Model accuracy
+print(result["results"]["qwen3.5:cloud"]["response"])  # LLM response
+print(len(result["results"]["qwen3.5:cloud"]["response"]))  # Character count
+```
+
+### Output JSON Structure
+
+```json
+{
+  "experiment_type": "with_xai",
+  "config": {
+    "chat": false,
+    "n_samples": 20,
+    "n_shap_local": 15,
+    "n_lime_local": 15,
+    "explain_message_tokens": 12288,
+    "random_seed": 42
+  },
+  "model_info": {
+    "type": "RandomForestClassifier",
+    "accuracy": 0.9989,
+    "features": ["Port", "Request_Type", ...],
+    "classes": ["BotAttack", "Normal", "PortScan"]
+  },
+  "shap_global_raw": {
+    "BotAttack": {"Port": 0.081, "Status": 0.022, ...},
+    "Normal": {...},
+    "PortScan": {...}
+  },
+  "shap_global_percentages": {
+    "BotAttack": {"Port": 0.45, "Status": 0.12, ...},
+    ...
+  },
+  "results": {
+    "qwen3.5:cloud": {
+      "response": "...",
+      "time_ms": 84004,
+      "time_formatted": "1m24s",
+      "error": null
+    }
+  }
+}
+```
+
+### Dataset Preprocessing
+
+User **must** provide preprocessed data (label-encoded, scaled). The pipeline validates:
+
+1. No non-numeric columns (raises error if found)
+2. Target column exists
+3. `columnDesc` length matches feature columns
+
+### Test Script
+
+`intrusion_detection_logs/with_xai.py` demonstrates usage:
+
+```bash
+cd intrusion_detection_logs
+../venv/bin/python with_xai.py
+```
+
+Output includes character count per response:
+```
+Model results:
+  qwen3.5:cloud: 1m24s (84004ms) | 8045 chars
+```
+
+---
+
 ## Research Timeline
 
 1. **Experiments completed:** Without XAI (3 configs), With XAI (4 configs), Enforce Knowledge (3 configs)
