@@ -1,0 +1,108 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+Loading configuration from: inputs/context_prompt.input.json
+============================================================
+WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
+============================================================
+Original shape: (9537, 11)
+After cleaning: (7571, 10)
+Final shape: (7571, 10)
+Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
+Training RandomForestClassifier...
+Model accuracy: 0.8948
+Classes: ['Normal', 'Attack']
+Sampling 2272 instances for SHAP/LIME computation...
+Computing SHAP for 2272 instances...
+SHAP computed: 2 classes, 9 features
+Computing LIME for 20 instances...
+LIME computed: 20 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_context_prompt.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 10m25s
+  Error: None
+  Response length: 4475 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the analysis of the provided explanation data (embedded in the `explainer_data` field), here is the breakdown of feature importance, class patterns, comparisons between SHAP/Lime, and security implications.
+
+### 1. Feature Importance Analysis
+The Global Importance of features is determined by the magnitude (absolute value) of the SHAP/LIME scores across the provided instances.
+
+**Top 3 Most Influential Features:**
+
+1.  **`ip_reputation_score`**
+    *   **Magnitude:** Ranges up to **0.26
+...
+
+
+qwen3:14b:
+  Time: 5m45s
+  Error: None
+  Response length: 2365 chars
+
+--- Response Preview (first 500 chars) ---
+### **1. Feature Importance Analysis Across Classes**  
+Due to the absence of explicit class labels or probabilities in the provided SHAP values, we focus on the magnitude of SHAP contributions to identify the most influential features overall. Key findings include:  
+
+- **Most Influential Features** (based on **absolute SHAP values**):  
+  - **`login_attempts`**: Highest magnitude (0.1817 in one instance). Likely indicates that the number of successful login attempts strongly influences model p
+...
+
+
+gpt-oss:20b:
+  Time: 4m51s
+  Error: None
+  Response: None
+
+qwen3:30b:
+  Time: 5m24s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 3m42s
+  Error: None
+  Response length: 6426 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the provided SHAP and LIME explanations, training data, and model predictions, here is the analysis of the intrusion detection model.
+
+### 1. Feature Importance
+
+Based on the SHAP Global Importance (mean |SHAP| values), the top 3 features driving the model's decisions for both the "Normal" and "Attack" classes are:
+
+1.  **`failed_logins` (Importance: 0.179)**: This is the most dominant feature. The large SHAP value indicates that the number of failed login attempts is the primary decidi
+...
+
+
+Full results saved to: resultados_context_prompt.json

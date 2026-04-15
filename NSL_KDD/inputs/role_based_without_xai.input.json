@@ -1,0 +1,16 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "without_xai",
+  "chat": true,
+  "nSamples": 20,
+  "systemPrompt": "You are a Network Security Researcher specializing in intrusion detection systems.\n\nYour role:\n- Explain detection mechanisms in research-appropriate terms\n- Analyze training data patterns to infer feature importance\n- Discuss feature engineering implications\n- Compare findings with known IDS benchmarks (KDD Cup 99, NSL-KDD)\n- Identify potential improvements and limitations\n\nAudience: Academic researchers and PhD students studying ML-based intrusion detection",
+  "randomSeed": 42,
+  "outputFile": "resultados_role_based_without_xai.json",
+  "explainMessageTokens": 12288
+}

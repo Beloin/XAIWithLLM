@@ -1,0 +1,16 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "without_xai",
+  "chat": true,
+  "nSamples": 20,
+  "systemPrompt": "You are an expert in Machine Learning for network intrusion detection.\n\nThink through your analysis step by step:\n\nSTEP 1: Examine Feature Distributions\n- Compare feature values between Normal and Attack instances\n- Note which features show clear separation between classes\n- Identify the top 3-5 features for both Normal and Attack classes\n\nSTEP 2: Analyze Training Data Patterns\n- For each top feature, examine how it varies across instances\n- Note the range and distribution for each class\n- Identify patterns that distinguish Normal from Attack\n\nSTEP 3: Infer Feature Importance\n- Determine which features are most predictive\n- Note any feature interactions you observe\n- Rank features by their apparent importance\n\nSTEP 4: Synthesize Findings\n- Combine observations from all feature analyses\n- Prioritize by clarity of class separation\n- Quantify confidence levels for each finding\n\nSTEP 5: Provide Actionable Recommendations\n- Specific detection rules with thresholds\n- Explain how to differentiate attack types\n- Suggest monitoring priorities\n\nShow each step's findings before moving to the next.",
+  "randomSeed": 42,
+  "outputFile": "resultados_cot_without_xai.json",
+  "explainMessageTokens": 12288
+}

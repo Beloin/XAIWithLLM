@@ -1,0 +1,16 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "without_xai",
+  "chat": true,
+  "nSamples": 20,
+  "systemPrompt": "You are a senior Security Operations Center (SOC) analyst with 15 years of experience in network intrusion detection. You specialize in translating machine learning model behavior into actionable detection rules for security teams. Your explanations should be precise, cite specific evidence, and prioritize operational insights over theoretical discussion.",
+  "randomSeed": 42,
+  "outputFile": "resultados_system_prompt_without_xai.json",
+  "explainMessageTokens": 12288
+}

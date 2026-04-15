@@ -21,7 +21,7 @@ import time
 import warnings
 import subprocess
 from pathlib import Path
-from typing import Literal
+from typing import Literal, List, Dict, Any, Optional
 
 import numpy as np
 import pandas as pd
@@ -31,6 +31,13 @@ from openai import OpenAI
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+
+# Import self-consistency module
+try:
+    from self_consistency import process_self_consistency, build_self_consistency_prompt
+except ImportError:
+    process_self_consistency = None
+    build_self_consistency_prompt = None
 
 
 # ===== CONSTANTS =====
@@ -723,6 +730,10 @@ def pipeline(
     n_lime_local=20,
     target_col=None,
     class_names=None,
+    system_prompt=None,
+    self_consistency=False,
+    self_consistency_runs=5,
+    self_consistency_top_n=5,
     explain_message_tokens=12288,
     random_seed=42,
     output_file=None,
@@ -742,6 +753,10 @@ def pipeline(
         n_lime_local: Number of LIME local instances
         target_col: Target column name (required)
         class_names: List of class names. If None, inferred from target values (default: class_0, class_1, ...)
+        system_prompt: Custom system prompt. If None, uses default expert prompt
+        self_consistency: If True, run multiple times and aggregate feature rankings
+        self_consistency_runs: Number of runs for self-consistency (default: 5)
+        self_consistency_top_n: Number of top features to extract (default: 5)
         explain_message_tokens: Max tokens for final LLM response
         random_seed: Random seed for reproducibility
         output_file: Path to save results as JSON. If None, only return dict
@@ -816,6 +831,10 @@ def pipeline(
     shap_local_str = json.dumps(shap_results["shap_local"], indent=2, ensure_ascii=False)
     lime_local_str = json.dumps(lime_local, indent=2, ensure_ascii=False)
     
+    # Default system prompt
+    default_system = "You are an expert in Machine Learning, Explainable AI, and Cybersecurity."
+    sys_prompt = system_prompt if system_prompt else default_system
+    
     # Build prompts based on experiment_type and chat mode
     if experiment_type == "without_xai":
         if chat:
@@ -823,12 +842,15 @@ def pipeline(
                 model_info, column_desc_str, train_sample_str, pred_sample_str, 
                 feature_cols, class_names
             )
+            # Inject custom system prompt
+            prompts[0] = prompts[0].replace(default_system, sys_prompt)
             max_tokens = [4096, explain_message_tokens]  # First msg: ack, second: analysis
         else:
             prompts = _build_prompt_without_xai(
                 model_info, column_desc_str, train_sample_str, pred_sample_str, 
                 feature_cols, class_names
             )
+            prompts = prompts.replace(default_system, sys_prompt)
             max_tokens = explain_message_tokens
         prompts_for_output = {"chat_prompts": prompts} if chat else {"prompt": prompts}
     
@@ -839,6 +861,7 @@ def pipeline(
                 shap_global_str, shap_local_str, lime_local_str,
                 feature_cols, class_names
             )
+            prompts[0] = prompts[0].replace(default_system, sys_prompt)
             max_tokens = [4096, 4096, explain_message_tokens]  # ack, ack, analysis
         else:
             prompts = _build_prompt_with_xai(
@@ -846,6 +869,7 @@ def pipeline(
                 shap_global_str, shap_local_str, lime_local_str,
                 feature_cols, class_names
             )
+            prompts = prompts.replace(default_system, sys_prompt)
             max_tokens = explain_message_tokens
         prompts_for_output = {"chat_prompts": prompts} if chat else {"prompt": prompts}
     
@@ -856,6 +880,7 @@ def pipeline(
                 feature_cols, class_names,
                 shap_global_str, shap_local_str, lime_local_str
             )
+            prompts[0] = prompts[0].replace(default_system, sys_prompt)
             # 4 messages: ack, phase1 analysis, ack, phase2 analysis
             max_tokens = [4096, explain_message_tokens, 4096, explain_message_tokens]
         else:
@@ -864,11 +889,46 @@ def pipeline(
                 feature_cols, class_names,
                 shap_global_str, shap_local_str, lime_local_str
             )
+            prompts[0] = prompts[0].replace(default_system, sys_prompt)
             max_tokens = [PHASE1_MAX_TOKENS, explain_message_tokens]
         prompts_for_output = {"chat_prompts": prompts} if chat else {"phase1": prompts[0], "phase2": prompts[1]}
     
     else:
         raise ValueError(f"Invalid experiment_type: {experiment_type}. Must be 'with_xai', 'without_xai', or 'enforce_knowledge'")
+    
+    # 7.5. Handle self-consistency prompt override
+    if self_consistency:
+        if build_self_consistency_prompt is None:
+            raise ImportError("self_consistency module not available")
+        
+        sc_prompt = build_self_consistency_prompt(self_consistency_top_n)
+        
+        # Build minimal context prompt for self-consistency
+        sc_context = f"""# Model Information
+
+- **Type:** {model_info['type']}
+- **Target:** {model_info['target_col']}
+- **Classes:** {', '.join(class_names)}
+- **Features:** {', '.join(feature_cols)}
+- **Accuracy:** {model_info['accuracy']:.4f}
+
+# Column Descriptions
+
+{column_desc_str}
+
+# Training Samples (representative examples)
+
+{train_sample_str}
+
+---
+
+"""
+        if chat:
+            prompts = [sc_context + sc_prompt]
+        else:
+            prompts = sc_context + sc_prompt
+        max_tokens = explain_message_tokens
+        prompts_for_output = {"prompt": prompts, "self_consistency_mode": True}
     
     # 8. Query models
     results = {}
@@ -882,16 +942,53 @@ def pipeline(
             if needs_start_stop:
                 _start_model(model_name)
             
-            response, time_ms, thinking_process, token_usage = _query_llm(prompts, model_dict, max_tokens)
-            
-            results[model_name] = {
-                "response": response,
-                "thinking_process": thinking_process,
-                "token_usage": token_usage,
-                "time_ms": round(time_ms, 2),
-                "time_formatted": _format_time(time_ms),
-                "error": None
-            }
+            # Self-consistency mode: run multiple times
+            if self_consistency:
+                if process_self_consistency is None:
+                    raise ImportError("self_consistency module not available")
+                
+                print(f"  Running self-consistency with {self_consistency_runs} runs...")
+                responses = []
+                total_time = 0
+                all_tokens = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
+                
+                for run_idx in range(self_consistency_runs):
+                    print(f"    Run {run_idx + 1}/{self_consistency_runs}...")
+                    response, time_ms, thinking_process, token_usage = _query_llm(prompts, model_dict, max_tokens)
+                    responses.append(response)
+                    total_time += time_ms
+                    all_tokens["prompt_tokens"] += token_usage.get("prompt_tokens", 0) or 0
+                    all_tokens["completion_tokens"] += token_usage.get("completion_tokens", 0) or 0
+                    all_tokens["total_tokens"] += token_usage.get("total_tokens", 0) or 0
+                
+                # Aggregate results
+                aggregated = process_self_consistency(
+                    responses, 
+                    feature_cols, 
+                    top_n=self_consistency_top_n
+                )
+                
+                results[model_name] = {
+                    "response": aggregated.get("summary", ""),
+                    "thinking_process": None,
+                    "token_usage": all_tokens,
+                    "time_ms": round(total_time, 2),
+                    "time_formatted": _format_time(total_time),
+                    "error": None,
+                    "self_consistency": aggregated
+                }
+            else:
+                # Standard single-run mode
+                response, time_ms, thinking_process, token_usage = _query_llm(prompts, model_dict, max_tokens)
+                
+                results[model_name] = {
+                    "response": response,
+                    "thinking_process": thinking_process,
+                    "token_usage": token_usage,
+                    "time_ms": round(time_ms, 2),
+                    "time_formatted": _format_time(time_ms),
+                    "error": None
+                }
             
             if needs_start_stop:
                 _stop_model(model_name)
@@ -918,6 +1015,9 @@ def pipeline(
             "n_samples": n_samples,
             "n_shap_local": n_shap_local,
             "n_lime_local": n_lime_local,
+            "self_consistency": self_consistency,
+            "self_consistency_runs": self_consistency_runs if self_consistency else None,
+            "self_consistency_top_n": self_consistency_top_n if self_consistency else None,
             "explain_message_tokens": explain_message_tokens,
             "random_seed": random_seed
         },

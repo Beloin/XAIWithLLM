@@ -1,15 +1,18 @@
 """
 Run without_xai experiment on NSL_KDD intrusion detection dataset.
-Calls pipeline.py with chat=True.
+Usage: python without_xai.py [input.json]
+If no input file provided, uses default configuration.
 """
 
 import pandas as pd
+import json
 import sys
+
 sys.path.insert(0, '..')
 from pipeline import pipeline
 
 DATASET_PATH = "KDDTrain+_20Percent.txt"
-OUTPUT_FILE = "resultados_without_xai_local.json"
+DEFAULT_OUTPUT = "resultados_without_xai_default.json"
 
 COLUMN_DESCRIPTIONS = [
     "Connection duration in seconds",
@@ -81,43 +84,86 @@ def preprocess_dataset(path):
     return df
 
 
+def load_input_config(input_path):
+    """Load configuration from JSON input file."""
+    with open(input_path, 'r') as f:
+        config = json.load(f)
+    return config
+
+
 def main():
+    if len(sys.argv) > 1:
+        input_path = sys.argv[1]
+        print(f"Loading configuration from: {input_path}")
+        config = load_input_config(input_path)
+    else:
+        print("No input file provided, using default configuration")
+        config = None
+    
     print("=" * 60)
     print("WITHOUT XAI EXPERIMENT - NSL_KDD Intrusion Detection")
     print("=" * 60)
     
     df = preprocess_dataset(DATASET_PATH)
     
-    result = pipeline(
-        dataset=df,
-        columnDesc=COLUMN_DESCRIPTIONS,
-        target_col=TARGET_COL,
-        class_names=CLASS_NAMES,
-        models=[
-            {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
-            {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
-            {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
-            {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
-            {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"},
-        ],
-        experiment_type="without_xai",
-        chat=True,
-        n_samples=20,
-        explain_message_tokens=12288,
-        random_seed=42,
-        output_file=OUTPUT_FILE
-    )
+    if config:
+        kwargs = {
+            "dataset": df,
+            "columnDesc": COLUMN_DESCRIPTIONS,
+            "target_col": TARGET_COL,
+            "class_names": CLASS_NAMES,
+            "models": config.get("models", [{"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}]),
+            "experiment_type": config.get("experimentType", "without_xai"),
+            "chat": config.get("chat", True),
+            "n_samples": config.get("nSamples", 20),
+            "system_prompt": config.get("systemPrompt"),
+            "self_consistency": config.get("selfConsistency", False),
+            "self_consistency_runs": config.get("selfConsistencyRuns", 5),
+            "self_consistency_top_n": config.get("selfConsistencyTopN", 5),
+            "explain_message_tokens": config.get("explainMessageTokens", 12288),
+            "random_seed": config.get("randomSeed", 42),
+            "output_file": config.get("outputFile", DEFAULT_OUTPUT),
+        }
+    else:
+        kwargs = {
+            "dataset": df,
+            "columnDesc": COLUMN_DESCRIPTIONS,
+            "target_col": TARGET_COL,
+            "class_names": CLASS_NAMES,
+            "models": [
+                {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+                {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+                {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+                {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+                {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"},
+            ],
+            "experiment_type": "without_xai",
+            "chat": True,
+            "n_samples": 20,
+            "explain_message_tokens": 12288,
+            "random_seed": 42,
+            "output_file": DEFAULT_OUTPUT,
+        }
+    
+    result = pipeline(**kwargs)
     
     print("\n" + "=" * 60)
     print("RESULTS")
     print("=" * 60)
+    
+    output_file = kwargs.get("output_file", DEFAULT_OUTPUT)
     
     for model_name, model_result in result["results"].items():
         print(f"\n{model_name}:")
         print(f"  Time: {model_result['time_formatted']}")
         print(f"  Error: {model_result['error']}")
         
-        if model_result["response"]:
+        if model_result.get("self_consistency"):
+            sc = model_result["self_consistency"]
+            print(f"  Self-Consistency: {sc.get('metadata', {}).get('valid_runs', 0)} valid runs")
+            for feat in sc.get("features", []):
+                print(f"    {feat['rank']}. {feat['name']} - {feat['percentage']*100:.1f}%")
+        elif model_result["response"]:
             response = model_result["response"]
             print(f"  Response length: {len(response)} chars")
             print(f"\n--- Response Preview (first 500 chars) ---")
@@ -126,7 +172,7 @@ def main():
         else:
             print("  Response: None")
     
-    print(f"\nFull results saved to: {OUTPUT_FILE}")
+    print(f"\nFull results saved to: {output_file}")
 
 
 if __name__ == "__main__":

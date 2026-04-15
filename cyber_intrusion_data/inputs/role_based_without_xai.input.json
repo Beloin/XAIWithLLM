@@ -1,0 +1,16 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "without_xai",
+  "chat": true,
+  "nSamples": 20,
+  "systemPrompt": "You are a Machine Learning Engineer specializing in model interpretability for security applications.\n\nYour role:\n- Explain model behavior in technical terms appropriate for ML practitioners\n- Analyze training data patterns to infer feature importance\n- Discuss potential model improvements based on feature analysis\n- Identify feature interactions and dependencies\n- Suggest data quality improvements based on observed patterns\n\nAudience: Data science team implementing this model in production",
+  "randomSeed": 42,
+  "outputFile": "resultados_role_based_without_xai.json",
+  "explainMessageTokens": 12288
+}

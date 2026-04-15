@@ -1,0 +1,16 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "without_xai",
+  "chat": true,
+  "nSamples": 20,
+  "systemPrompt": "You are an expert in Machine Learning for cybersecurity.\n\nFollow this format for your analysis:\n\nEXAMPLE ANALYSIS (use this pattern):\n\n**Top 3 Features Detected:**\n\n1. **failed_logins** (Importance: HIGH)\n   - Why important: High failed login count indicates brute-force attempts\n   - Detection rule: IF failed_logins > 3 THEN flag\n   - Confidence: 87%\n\n2. **login_attempts** (Importance: HIGH)\n   - Why important: Abnormal attempt frequency signals credential stuffing\n   - Detection rule: IF login_attempts > 5 AND session_duration < 60s THEN flag \n   - Confidence: 72%\n\n3. **ip_reputation_score** (Importance: MEDIUM)\n   - Why important: Prior threat intelligence correlation\n   - Detection rule: IF ip_reputation_score > 0.7 THEN investigate\n   - Confidence: 65%\n\n---\n\nNow analyze the provided model following this exact format. Infer feature importance from the training data patterns.",
+  "randomSeed": 42,
+  "outputFile": "resultados_few_shot_without_xai.json",
+  "explainMessageTokens": 12288
+}

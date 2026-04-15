@@ -1,0 +1,18 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "with_xai",
+  "chat": true,
+  "nSamples": 20,
+  "nShapLocal": 15,
+  "nLimeLocal": 15,
+  "systemPrompt": "You are an expert in Explainable AI for intrusion detection.\n\nThink through your analysis step by step:\n\nSTEP 1: Examine SHAP Global Importance\n- List all features with their SHAP values\n- Rank from highest to lowest\n- Identify the top 3-5 features\n\nSTEP 2: Analyze SHAP Local Values\n- For each top feature, examine local instance variations\n- Note the range and distribution of contributions\n- Identify patterns across instances\n\nSTEP 3: Cross-reference with LIME\n- Compare LIME rules with SHAP findings\n- Note agreements and contradictions\n- Determine most reliable indicators\n\nSTEP 4: Synthesize Findings\n- Combine evidence from all sources\n- Prioritize by consistency across methods\n- Quantify confidence levels\n\nSTEP 5: Provide Actionable Recommendations\n- Specific detection rules with thresholds\n- Expected precision/recall tradeoffs\n- Implementation considerations\n\nShow each step's findings before moving to the next.",
+  "randomSeed": 42,
+  "outputFile": "resultados_cot.json",
+  "explainMessageTokens": 12288
+}

@@ -448,3 +448,177 @@ Master's research project comparing LLM analysis of ML model behavior with and w
 Ground truth provided by SHAP TreeExplainer analysis of Random Forest classifier trained on network traffic logs.
 
 Key insight: XAI data corrects LLM semantic intuition — User_Agent looks important to LLMs (nmap, curl are security tools), but SHAP shows the actual model doesn't use it. This is the central thesis evidence.
+
+---
+
+## Prompt Engineering Experiments
+
+### Overview
+
+Extension of the thesis research to evaluate how different **prompt engineering techniques** affect LLM explanations of ML model behavior. Two additional datasets tested:
+
+| Dataset | Location | Classes | Features |
+|---------|----------|---------|----------|
+| `cyber_intrusion_data` | `cyber_intrusion_data/` | Normal, Attack (binary) | 9 features |
+| `NSL_KDD` | `NSL_KDD/` | Normal, Attack (binary) | 15 features |
+
+### Experimental Design
+
+Each dataset tested across 6 prompt engineering techniques:
+
+| Technique | Description |
+|-----------|-------------|
+| `system_prompt` | Persona-based instruction in system message (e.g., "SOC analyst with 15 years experience") |
+| `context_prompt` | Contextual framing of the task purpose |
+| `role_based` | Domain expert role assignment |
+| `few_shot` | Example-based prompting with sample explanations |
+| `cot` | Chain-of-thought reasoning prompts |
+| `self_consistency` | Multiple runs with aggregated feature rankings (without_xai only) |
+
+Each technique tested in both conditions:
+- **with_xai:** LLM receives SHAP global + SHAP local + LIME local explanations
+- **without_xai:** LLM receives only raw training data samples
+
+### Models Tested
+
+| Model | Size | Tier |
+|-------|------|------|
+| glm-4.7-flash | ~9B | medium |
+| qwen3:14b | 14B | medium |
+| gpt-oss:20b | 20B | medium |
+| qwen3:30b | 30B | large |
+| glm-5:cloud | cloud | large |
+
+### File Structure
+
+```
+soc_xai/
+├── pipeline.py                          # Core pipeline module
+├── self_consistency.py                  # Feature ranking aggregation
+├── run_all_experiments.sh               # Master experiment runner
+│
+├── cyber_intrusion_data/
+│   ├── with_xai.py                      # Script (accepts input JSON)
+│   ├── without_xai.py                   # Script (accepts input JSON)
+│   ├── inputs/
+│   │   ├── system_prompt.input.json
+│   │   ├── context_prompt.input.json
+│   │   ├── role_based.input.json
+│   │   ├── few_shot.input.json
+│   │   ├── cot.input.json
+│   │   └── self_consistency.input.json
+│   ├── outputs/
+│   │   └── *.log                        # Per-experiment logs
+│   └── resultados_*.json                # Output results
+│
+└── NSL_KDD/
+    ├── with_xai.py
+    ├── without_xai.py
+    ├── inputs/
+    │   └── (same structure)
+    ├── outputs/
+    │   └── *.log
+    └── resultados_*.json
+```
+
+### Input JSON Format
+
+```json
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "with_xai",
+  "chat": true,
+  "nSamples": 20,
+  "nShapLocal": 15,
+  "nLimeLocal": 15,
+  "systemPrompt": "You are a SOC analyst...",
+  "randomSeed": 42,
+  "outputFile": "resultados_system_prompt.json",
+  "explainMessageTokens": 12288
+}
+```
+
+### Running Experiments
+
+```bash
+# Run all experiments (serial, background)
+./run_all_experiments.sh
+
+# Run single experiment
+cd cyber_intrusion_data
+../venv/bin/python with_xai.py inputs/system_prompt.input.json
+```
+
+### Experiment Status (as of Apr 14, 2026)
+
+#### cyber_intrusion_data (COMPLETE: 11/11)
+
+| Experiment | with_xai | without_xai |
+|------------|----------|-------------|
+| system_prompt | ✅ | ✅ |
+| context_prompt | ✅ | ✅ |
+| role_based | ✅ | ✅ |
+| few_shot | ✅ | ✅ |
+| cot | ✅ | ✅ |
+| self_consistency | - | ✅ |
+
+#### NSL_KDD (IN PROGRESS: 3/11)
+
+| Experiment | with_xai | without_xai |
+|------------|----------|-------------|
+| system_prompt | ✅ | ⏳ |
+| context_prompt | ✅ | ⏳ |
+| role_based | 🔄 (stopped at model 1) | ⏳ |
+| few_shot | ⏳ | ⏳ |
+| cot | ⏳ | ⏳ |
+| self_consistency | - | ⏳ |
+
+### Key Findings (cyber_intrusion_data)
+
+#### Feature Importance (Ground Truth SHAP)
+
+| Rank | Feature | SHAP Value | Description |
+|------|---------|------------|-------------|
+| 1 | `failed_logins` | 0.179 | Primary attack indicator |
+| 2 | `login_attempts` | 0.125 | Session persistence proxy |
+| 3 | `ip_reputation_score` | 0.092 | External threat intel |
+
+#### glm-5:cloud With XAI Analysis
+
+Key detection rules identified:
+- `failed_logins >= 3` → Attack (LIME weight: +0.58)
+- `ip_reputation_score > 0.46` → Attack (LIME weight: +0.25 to +0.28)
+
+Low importance features (<0.02): `network_packet_size`, `unusual_time_access`
+
+#### Tracking Metrics
+
+Results capture:
+- `response`: Full LLM explanation text
+- `thinking_process`: Model reasoning (for models supporting it)
+- `token_usage`: `{prompt_tokens, completion_tokens, total_tokens}`
+- `time_ms`, `time_formatted`: Execution time
+
+### Pipeline Extensions
+
+```python
+# self_consistency.py - Aggregate feature rankings
+from self_consistency import aggregate_rankings
+
+# Run multiple times, aggregate
+results = run_self_consistency(
+    pipeline_func=pipeline,
+    n_runs=5,
+    aggregation_method="borda_count"
+)
+```
+
+### Next Steps
+
+1. Resume NSL_KDD experiments from `role_based` with_xai
+2. Complete remaining NSL_KDD experiments
+3. Cross-dataset analysis comparing prompt technique effectiveness
+4. Statistical analysis of feature ranking accuracy across techniques

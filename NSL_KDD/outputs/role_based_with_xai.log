@@ -1,0 +1,25 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+Loading configuration from: inputs/role_based.input.json
+============================================================
+WITH XAI EXPERIMENT - NSL_KDD Intrusion Detection
+============================================================
+Original shape: (25192, 43)
+After cleaning: (25192, 43)
+Final shape: (25192, 16)
+Columns: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'label']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate']
+Training RandomForestClassifier...
+Model accuracy: 0.9966
+Classes: ['Normal', 'Attack']
+Sampling 7558 instances for SHAP/LIME computation...
+Computing SHAP for 7558 instances...
+SHAP computed: 2 classes, 15 features
+Computing LIME for 15 instances...
+LIME computed: 15 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...

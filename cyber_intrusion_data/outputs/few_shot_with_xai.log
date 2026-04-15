@@ -1,0 +1,118 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+Loading configuration from: inputs/few_shot.input.json
+============================================================
+WITH XAI EXPERIMENT - Cybersecurity Intrusion Detection
+============================================================
+Original shape: (9537, 11)
+After cleaning: (7571, 10)
+Final shape: (7571, 10)
+Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
+Training RandomForestClassifier...
+Model accuracy: 0.8948
+Classes: ['Normal', 'Attack']
+Sampling 2272 instances for SHAP/LIME computation...
+Computing SHAP for 2272 instances...
+SHAP computed: 2 classes, 9 features
+Computing LIME for 15 instances...
+LIME computed: 15 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_few_shot.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 9m43s
+  Error: None
+  Response length: 4524 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the data provided in the JSON, **the explicit class labels (e.g., "malicious" vs. "benign") are not included**. Therefore, the analysis below categorizes instances based on their **Risk Probability** derived from the magnitude and sign of the SHAP weights.
+
+High positive SHAP values generally indicate a contribution to the **"High Risk"** (or "Flagged") state, while low or negative values indicate a contribution to a **"Low Risk"** (or "Normal") state.
+
+### 1. Feature Importance (Global
+...
+
+
+qwen3:14b:
+  Time: 3m20s
+  Error: None
+  Response length: 5768 chars
+
+--- Response Preview (first 500 chars) ---
+### **1. Feature Importance: Top 3 Features for Each Class**  
+The SHAP values and LIME rules indicate that the following features are most influential in distinguishing between classes, though the exact class labels are not provided in the data. Based on the magnitude of SHAP values and recurring LIME rules, we can infer the following:
+
+#### **Class A (Assumed as "Anomalous" / High-Risk):**
+1. **`login_attempts > 5.00`**  
+   - **SHAP Value:** 0.397–0.401 (instances 1014, 4330, 5909).  
+   - **
+...
+
+
+gpt-oss:20b:
+  Time: 2m25s
+  Error: None
+  Response length: 11300 chars
+
+--- Response Preview (first 500 chars) ---
+**1. Feature importance (global SHAP)**  
+
+| Class | Top 3 features (Mean | SHAP|) | Why they matter | Key numeric cue |
+|-------|-----------------------|-----------------|-----------------|
+| **0 – Malicious Login Attempts** | 1. **attack_success_rate**: 0.12 <br>2. **anomalous_behavior_score**: 0.09 <br>3. **user_badge_age**: 0.07 | • *attack_success_rate* is the closest proxy to how “successful” a credential‑oriented risk is, so it explains the largest variance in the model’s output. <br>• *a
+...
+
+
+qwen3:30b:
+  Time: 5m19s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 7m42s
+  Error: None
+  Response length: 4998 chars
+
+--- Response Preview (first 500 chars) ---
+**Top 3 Features Detected:**
+
+1. **failed_logins** (SHAP: 0.179)
+   - Why important: The strongest predictor for malicious activity. High failed login counts are indicative of brute-force or credential stuffing attacks.
+   - Detection rule: IF failed_logins > 2 THEN flag (LIME weight 0.58)
+   - Confidence: 89% (Global importance)
+
+2. **login_attempts** (SHAP: 0.125)
+   - Why important: Volume of attempts correlates with automated attack tools. High attempts with low duration is a key signal.
+   
+...
+
+
+Full results saved to: resultados_few_shot.json

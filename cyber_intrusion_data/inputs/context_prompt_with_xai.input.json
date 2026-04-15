@@ -1,0 +1,18 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "with_xai",
+  "chat": true,
+  "nSamples": 20,
+  "nShapLocal": 15,
+  "nLimeLocal": 15,
+  "systemPrompt": "You are analyzing a cybersecurity intrusion detection model for a financial services company. The model monitors network traffic to detect potential attacks.\n\nCONTEXT:\n- The company processes sensitive financial transactions\n- False positives cost significant operational time\n- The security team needs clear, actionable detection thresholds\n- Regulatory compliance requires documented detection rules\n\nCONSTRAINTS:\n1. Focus on features that minimize false positives\n2. Provide specific numerical thresholds when possible\n3. Explain the security implications of each feature",
+  "randomSeed": 42,
+  "outputFile": "resultados_context_prompt.json",
+  "explainMessageTokens": 12288
+}

@@ -1,0 +1,2072 @@
+{
+  "experiment_type": "without_xai",
+  "config": {
+    "chat": false,
+    "n_samples": 20,
+    "n_shap_local": 20,
+    "n_lime_local": 20,
+    "self_consistency": true,
+    "self_consistency_runs": 5,
+    "self_consistency_top_n": 5,
+    "explain_message_tokens": 8192,
+    "random_seed": 42
+  },
+  "model_info": {
+    "type": "RandomForestClassifier",
+    "accuracy": 0.894806338028169,
+    "features": [
+      "network_packet_size",
+      "protocol_type",
+      "login_attempts",
+      "session_duration",
+      "encryption_used",
+      "ip_reputation_score",
+      "failed_logins",
+      "browser_type",
+      "unusual_time_access"
+    ],
+    "classes": [
+      "Normal",
+      "Attack"
+    ],
+    "target_col": "attack_detected"
+  },
+  "column_description": [
+    "Network packet size in bytes (standardized, mean=0, std=1)",
+    "Network protocol type: ICMP=0, TCP=1, UDP=2",
+    "Number of login attempts in the session",
+    "Session duration in seconds (standardized, mean=0, std=1)",
+    "Encryption method used: AES=0, DES=1",
+    "IP reputation score (0.0-1.0, higher = more suspicious)",
+    "Number of failed login attempts",
+    "Browser/client type: Chrome=0, Edge=1, Firefox=2, Safari=3, Unknown=4",
+    "Whether access occurred at unusual time (0=normal, 1=unusual)"
+  ],
+  "shap_global_raw": {
+    "Normal": {
+      "network_packet_size": 0.014587,
+      "protocol_type": 0.006132,
+      "login_attempts": 0.124679,
+      "session_duration": 0.020506,
+      "encryption_used": 0.009895,
+      "ip_reputation_score": 0.091998,
+      "failed_logins": 0.179261,
+      "browser_type": 0.029066,
+      "unusual_time_access": 0.003683
+    },
+    "Attack": {
+      "network_packet_size": 0.014587,
+      "protocol_type": 0.006132,
+      "login_attempts": 0.124679,
+      "session_duration": 0.020506,
+      "encryption_used": 0.009895,
+      "ip_reputation_score": 0.091998,
+      "failed_logins": 0.179261,
+      "browser_type": 0.029066,
+      "unusual_time_access": 0.003683
+    }
+  },
+  "shap_global_percentages": {
+    "Normal": {
+      "network_packet_size": 0.0304,
+      "protocol_type": 0.0128,
+      "login_attempts": 0.2599,
+      "session_duration": 0.0427,
+      "encryption_used": 0.0206,
+      "ip_reputation_score": 0.1917,
+      "failed_logins": 0.3736,
+      "browser_type": 0.0606,
+      "unusual_time_access": 0.0077
+    },
+    "Attack": {
+      "network_packet_size": 0.0304,
+      "protocol_type": 0.0128,
+      "login_attempts": 0.2599,
+      "session_duration": 0.0427,
+      "encryption_used": 0.0206,
+      "ip_reputation_score": 0.1917,
+      "failed_logins": 0.3736,
+      "browser_type": 0.0606,
+      "unusual_time_access": 0.0077
+    }
+  },
+  "shap_local": [
+    {
+      "instance_index": 5062,
+      "features": {
+        "network_packet_size": -0.3404296334613589,
+        "protocol_type": 1.0,
+        "login_attempts": 3.0,
+        "session_duration": -0.7895647423326831,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.0984938704402075,
+        "failed_logins": 1.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.017746232561600274,
+          "protocol_type": 0.0027816995896083785,
+          "login_attempts": 0.10393428571183169,
+          "session_duration": 0.0331233759455099,
+          "encryption_used": 0.0322656068341252,
+          "ip_reputation_score": 0.05998656575276477,
+          "failed_logins": 0.14475367155753222,
+          "browser_type": 0.018347560697357684,
+          "unusual_time_access": 0.00019932933608421714
+        },
+        "Attack": {
+          "network_packet_size": -0.01774623256160032,
+          "protocol_type": -0.0027816995896082298,
+          "login_attempts": -0.10393428571183141,
+          "session_duration": -0.03312337594551026,
+          "encryption_used": -0.03226560683412538,
+          "ip_reputation_score": -0.0599865657527647,
+          "failed_logins": -0.14475367155753205,
+          "browser_type": -0.018347560697357625,
+          "unusual_time_access": -0.00019932933608418925
+        }
+      }
+    },
+    {
+      "instance_index": 7898,
+      "features": {
+        "network_packet_size": -1.3533041537022437,
+        "protocol_type": 0.0,
+        "login_attempts": 3.0,
+        "session_duration": -0.288866160588464,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.333128781580329,
+        "failed_logins": 2.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.014612330356477986,
+          "protocol_type": -0.02799199397698701,
+          "login_attempts": 0.10060586782651935,
+          "session_duration": 0.033999644574488196,
+          "encryption_used": 0.027139360624193556,
+          "ip_reputation_score": 0.07385086186073862,
+          "failed_logins": 0.12785464722487885,
+          "browser_type": 0.016779052867681183,
+          "unusual_time_access": -0.024486782658623422
+        },
+        "Attack": {
+          "network_packet_size": 0.014612330356477996,
+          "protocol_type": 0.027991993976986932,
+          "login_attempts": -0.10060586782651927,
+          "session_duration": -0.03399964457448787,
+          "encryption_used": -0.02713936062419363,
+          "ip_reputation_score": -0.07385086186073804,
+          "failed_logins": -0.12785464722488116,
+          "browser_type": -0.01677905286768116,
+          "unusual_time_access": 0.024486782658623377
+        }
+      }
+    },
+    {
+      "instance_index": 3282,
+      "features": {
+        "network_packet_size": -2.1696507819560913,
+        "protocol_type": 1.0,
+        "login_attempts": 3.0,
+        "session_duration": -0.6108299477650562,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.3657914914198872,
+        "failed_logins": 3.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.012018186525876719,
+          "protocol_type": 0.0013959616721419352,
+          "login_attempts": 0.04084503304919784,
+          "session_duration": 0.016479011509291566,
+          "encryption_used": 0.004365283345471551,
+          "ip_reputation_score": 0.02609334791949645,
+          "failed_logins": -0.640756511138945,
+          "browser_type": 0.00609934631421126,
+          "unusual_time_access": 0.0006350418414239734
+        },
+        "Attack": {
+          "network_packet_size": 0.012018186525876745,
+          "protocol_type": -0.0013959616721419172,
+          "login_attempts": -0.04084503304919836,
+          "session_duration": -0.01647901150929143,
+          "encryption_used": -0.004365283345471532,
+          "ip_reputation_score": -0.026093347919496444,
+          "failed_logins": 0.6407565111389466,
+          "browser_type": -0.006099346314211221,
+          "unusual_time_access": -0.000635041841423966
+        }
+      }
+    },
+    {
+      "instance_index": 719,
+      "features": {
+        "network_packet_size": -0.05823573727484375,
+        "protocol_type": 1.0,
+        "login_attempts": 5.0,
+        "session_duration": -0.45426959740316253,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.3251729491593369,
+        "failed_logins": 1.0,
+        "browser_type": 1.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.005495125369704868,
+          "protocol_type": 0.005702889805582027,
+          "login_attempts": 0.08560177206799577,
+          "session_duration": 0.016244173978967037,
+          "encryption_used": 0.018278963864718844,
+          "ip_reputation_score": 0.08229807399220283,
+          "failed_logins": 0.13771722212794882,
+          "browser_type": 0.029154779692715488,
+          "unusual_time_access": 0.003635577825988143
+        },
+        "Attack": {
+          "network_packet_size": 0.005495125369704967,
+          "protocol_type": -0.005702889805581872,
+          "login_attempts": -0.08560177206799646,
+          "session_duration": -0.016244173978966808,
+          "encryption_used": -0.018278963864718716,
+          "ip_reputation_score": -0.0822980739922032,
+          "failed_logins": -0.13771722212794854,
+          "browser_type": -0.029154779692715366,
+          "unusual_time_access": -0.0036355778259881894
+        }
+      }
+    },
+    {
+      "instance_index": 4004,
+      "features": {
+        "network_packet_size": -1.3785000372903253,
+        "protocol_type": 1.0,
+        "login_attempts": 5.0,
+        "session_duration": -0.7041532705016871,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.5553398124339813,
+        "failed_logins": 3.0,
+        "browser_type": 1.0,
+        "unusual_time_access": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.01142224870963422,
+          "protocol_type": 0.0013019730266779473,
+          "login_attempts": 0.027418473469537626,
+          "session_duration": 0.011631618199394792,
+          "encryption_used": 0.007671082956236056,
+          "ip_reputation_score": 0.01615292896829648,
+          "failed_logins": -0.6070817835442615,
+          "browser_type": 0.008437702564380424,
+          "unusual_time_access": -0.0009714189442139291
+        },
+        "Attack": {
+          "network_packet_size": 0.011422248709634127,
+          "protocol_type": -0.001301973026677961,
+          "login_attempts": -0.027418473469537696,
+          "session_duration": -0.011631618199394827,
+          "encryption_used": -0.00767108295623604,
+          "ip_reputation_score": -0.016152928968296475,
+          "failed_logins": 0.6070817835442647,
+          "browser_type": -0.008437702564380355,
+          "unusual_time_access": 0.0009714189442139521
+        }
+      }
+    },
+    {
+      "instance_index": 6577,
+      "features": {
+        "network_packet_size": -1.0156793136219489,
+        "protocol_type": 1.0,
+        "login_attempts": 2.0,
+        "session_duration": 0.6632906678833068,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.3606819074714544,
+        "failed_logins": 2.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.011633121815016342,
+          "protocol_type": -0.004704581377366021,
+          "login_attempts": 0.06242627562169874,
+          "session_duration": -0.056000582756062824,
+          "encryption_used": -0.0003730234772728638,
+          "ip_reputation_score": 0.03515050367727386,
+          "failed_logins": 0.12506401742741405,
+          "browser_type": 0.005456444408038606,
+          "unusual_time_access": -0.0022476037222958433
+        },
+        "Attack": {
+          "network_packet_size": 0.011633121815016407,
+          "protocol_type": 0.0047045813773659816,
+          "login_attempts": -0.06242627562169927,
+          "session_duration": 0.05600058275606285,
+          "encryption_used": 0.00037302347727284304,
+          "ip_reputation_score": -0.035150503677274104,
+          "failed_logins": -0.12506401742741446,
+          "browser_type": -0.005456444408038513,
+          "unusual_time_access": 0.0022476037222958784
+        }
+      }
+    },
+    {
+      "instance_index": 8786,
+      "features": {
+        "network_packet_size": 0.6321314730385952,
+        "protocol_type": 1.0,
+        "login_attempts": 6.0,
+        "session_duration": -0.8393887357421538,
+        "encryption_used": 1.0,
+        "ip_reputation_score": 0.2132387113156699,
+        "failed_logins": 1.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.0015240092838128168,
+          "protocol_type": 0.01001642128783192,
+          "login_attempts": 0.06591548768011109,
+          "session_duration": 0.04713903291288889,
+          "encryption_used": -0.01502209487297412,
+          "ip_reputation_score": 0.08258390137948363,
+          "failed_logins": 0.1261866500334585,
+          "browser_type": 0.02960136132815286,
+          "unusual_time_access": -0.0017584224787270573
+        },
+        "Attack": {
+          "network_packet_size": 0.001524009283812867,
+          "protocol_type": -0.010016421287831862,
+          "login_attempts": -0.06591548768011125,
+          "session_duration": -0.04713903291288908,
+          "encryption_used": 0.015022094872974049,
+          "ip_reputation_score": -0.0825839013794822,
+          "failed_logins": -0.12618665003345866,
+          "browser_type": -0.029601361328152758,
+          "unusual_time_access": 0.0017584224787270358
+        }
+      }
+    },
+    {
+      "instance_index": 1035,
+      "features": {
+        "network_packet_size": 1.5845358726680838,
+        "protocol_type": 1.0,
+        "login_attempts": 5.0,
+        "session_duration": 3.790923408588878,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.6142411780478197,
+        "failed_logins": 3.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.007674159267149246,
+          "protocol_type": 0.0015514579631301603,
+          "login_attempts": 0.02081047510994725,
+          "session_duration": -0.05186820687499498,
+          "encryption_used": 0.0017919379863876599,
+          "ip_reputation_score": -0.2565819077472713,
+          "failed_logins": -0.27513256172930073,
+          "browser_type": 0.005653786411642487,
+          "unusual_time_access": 0.004587506134022214
+        },
+        "Attack": {
+          "network_packet_size": 0.007674159267149248,
+          "protocol_type": -0.0015514579631301741,
+          "login_attempts": -0.020810475109947463,
+          "session_duration": 0.05186820687499616,
+          "encryption_used": -0.0017919379863876705,
+          "ip_reputation_score": 0.2565819077472722,
+          "failed_logins": 0.27513256172930084,
+          "browser_type": -0.005653786411642486,
+          "unusual_time_access": -0.00458750613402222
+        }
+      }
+    },
+    {
+      "instance_index": 3548,
+      "features": {
+        "network_packet_size": -1.1215020246918919,
+        "protocol_type": 1.0,
+        "login_attempts": 1.0,
+        "session_duration": -0.5347678257000127,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.0689409745964398,
+        "failed_logins": 1.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.007553485810126974,
+          "protocol_type": 0.0028852951508506917,
+          "login_attempts": 0.057941967366461955,
+          "session_duration": 0.037990722850510555,
+          "encryption_used": 0.005626902480065493,
+          "ip_reputation_score": 0.040784358103973295,
+          "failed_logins": 0.13039437502755752,
+          "browser_type": 0.016898441282283756,
+          "unusual_time_access": 0.0030627799145818545
+        },
+        "Attack": {
+          "network_packet_size": -0.007553485810126916,
+          "protocol_type": -0.002885295150850744,
+          "login_attempts": -0.05794196736646185,
+          "session_duration": -0.03799072285051085,
+          "encryption_used": -0.005626902480065384,
+          "ip_reputation_score": -0.04078435810397373,
+          "failed_logins": -0.13039437502755796,
+          "browser_type": -0.01689844128228371,
+          "unusual_time_access": -0.0030627799145818576
+        }
+      }
+    },
+    {
+      "instance_index": 3443,
+      "features": {
+        "network_packet_size": 1.5996534028209328,
+        "protocol_type": 1.0,
+        "login_attempts": 1.0,
+        "session_duration": -0.039143477220891565,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.5555071656448626,
+        "failed_logins": 2.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.023584912090146473,
+          "protocol_type": 0.0028165143735689323,
+          "login_attempts": 0.06785729373491618,
+          "session_duration": 0.00877593841603328,
+          "encryption_used": 0.014584365614920006,
+          "ip_reputation_score": 0.04065835533782207,
+          "failed_logins": 0.10493641460249184,
+          "browser_type": 0.008567947653882642,
+          "unusual_time_access": -0.0014735896570780736
+        },
+        "Attack": {
+          "network_packet_size": 0.02358491209014641,
+          "protocol_type": -0.002816514373569037,
+          "login_attempts": -0.06785729373491714,
+          "session_duration": -0.008775938416033552,
+          "encryption_used": -0.014584365614920014,
+          "ip_reputation_score": -0.040658355337821674,
+          "failed_logins": -0.104936414602492,
+          "browser_type": -0.008567947653882604,
+          "unusual_time_access": 0.0014735896570780504
+        }
+      }
+    },
+    {
+      "instance_index": 2399,
+      "features": {
+        "network_packet_size": 0.06774368066556481,
+        "protocol_type": 1.0,
+        "login_attempts": 2.0,
+        "session_duration": -0.014421041701322463,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.5634063266534013,
+        "failed_logins": 3.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.00446911909025478,
+          "protocol_type": 0.002526598722801988,
+          "login_attempts": 0.03882627424603056,
+          "session_duration": 0.009916085342416427,
+          "encryption_used": 0.004927641905973504,
+          "ip_reputation_score": 0.009176300464090584,
+          "failed_logins": -0.6227053994924943,
+          "browser_type": 0.005148842405827055,
+          "unusual_time_access": -0.00020889651797427746
+        },
+        "Attack": {
+          "network_packet_size": 0.0044691190902547496,
+          "protocol_type": -0.0025265987228020323,
+          "login_attempts": -0.038826274246030947,
+          "session_duration": -0.009916085342416427,
+          "encryption_used": -0.004927641905973536,
+          "ip_reputation_score": -0.009176300464090513,
+          "failed_logins": 0.6227053994925016,
+          "browser_type": -0.005148842405827067,
+          "unusual_time_access": 0.00020889651797426474
+        }
+      }
+    },
+    {
+      "instance_index": 5713,
+      "features": {
+        "network_packet_size": 0.4003293440282434,
+        "protocol_type": 1.0,
+        "login_attempts": 2.0,
+        "session_duration": 0.760683655685575,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.7890332841317055,
+        "failed_logins": 2.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.013649219709029487,
+          "protocol_type": 0.0002352779061322418,
+          "login_attempts": 0.04552559341309139,
+          "session_duration": -0.031163475352778497,
+          "encryption_used": -0.0008324907137509992,
+          "ip_reputation_score": -0.6395075285233768,
+          "failed_logins": 0.05912656181858918,
+          "browser_type": 0.0059538600001226676,
+          "unusual_time_access": 0.00015130972935731418
+        },
+        "Attack": {
+          "network_packet_size": -0.013649219709029454,
+          "protocol_type": -0.00023527790613223746,
+          "login_attempts": -0.04552559341309168,
+          "session_duration": 0.03116347535277841,
+          "encryption_used": 0.0008324907137510141,
+          "ip_reputation_score": 0.6395075285233804,
+          "failed_logins": -0.05912656181858875,
+          "browser_type": -0.005953860000122751,
+          "unusual_time_access": -0.0001513097293573092
+        }
+      }
+    },
+    {
+      "instance_index": 5909,
+      "features": {
+        "network_packet_size": -0.9098566025520056,
+        "protocol_type": 2.0,
+        "login_attempts": 8.0,
+        "session_duration": -0.9328204150005233,
+        "encryption_used": 1.0,
+        "ip_reputation_score": 0.4795744353203217,
+        "failed_logins": 3.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.00012833716700058699,
+          "protocol_type": -0.002813268986906421,
+          "login_attempts": -0.2879900235705187,
+          "session_duration": 0.0016133005199358184,
+          "encryption_used": -0.00479786288365478,
+          "ip_reputation_score": 0.01912495353027419,
+          "failed_logins": -0.2878197802473312,
+          "browser_type": 0.0058632010929653,
+          "unusual_time_access": -0.00017052863535389244
+        },
+        "Attack": {
+          "network_packet_size": -0.00012833716700060227,
+          "protocol_type": 0.002813268986906386,
+          "login_attempts": 0.2879900235705197,
+          "session_duration": -0.0016133005199358353,
+          "encryption_used": 0.004797862883654854,
+          "ip_reputation_score": -0.0191249535302744,
+          "failed_logins": 0.2878197802473323,
+          "browser_type": -0.005863201092965295,
+          "unusual_time_access": 0.0001705286353538944
+        }
+      }
+    },
+    {
+      "instance_index": 4330,
+      "features": {
+        "network_packet_size": 0.687562416932375,
+        "protocol_type": 1.0,
+        "login_attempts": 6.0,
+        "session_duration": 1.3232022767436422,
+        "encryption_used": 1.0,
+        "ip_reputation_score": 0.0467038289247089,
+        "failed_logins": 1.0,
+        "browser_type": 3.0,
+        "unusual_time_access": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.010681122930186112,
+          "protocol_type": 0.009306674182594019,
+          "login_attempts": 0.0723526667457497,
+          "session_duration": 0.0011429724899433506,
+          "encryption_used": 0.02386007571596718,
+          "ip_reputation_score": 0.020582358029430776,
+          "failed_logins": 0.13184344097759348,
+          "browser_type": 0.008857708253742894,
+          "unusual_time_access": -0.015488691338796273
+        },
+        "Attack": {
+          "network_packet_size": -0.010681122930186157,
+          "protocol_type": -0.009306674182593986,
+          "login_attempts": -0.07235266674575042,
+          "session_duration": -0.0011429724899430164,
+          "encryption_used": -0.023860075715967308,
+          "ip_reputation_score": -0.020582358029430904,
+          "failed_logins": -0.1318434409775947,
+          "browser_type": -0.008857708253743072,
+          "unusual_time_access": 0.015488691338796297
+        }
+      }
+    },
+    {
+      "instance_index": 642,
+      "features": {
+        "network_packet_size": -0.25980280597949745,
+        "protocol_type": 1.0,
+        "login_attempts": 3.0,
+        "session_duration": -0.8757968466097409,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.0535575835731369,
+        "failed_logins": 0.0,
+        "browser_type": 2.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.01809940142546271,
+          "protocol_type": 0.0023512584895087956,
+          "login_attempts": 0.115775129773783,
+          "session_duration": 0.02066420718372577,
+          "encryption_used": 0.01838339542089443,
+          "ip_reputation_score": 0.046374090271845574,
+          "failed_logins": 0.13556202160804076,
+          "browser_type": 0.010869309291351539,
+          "unusual_time_access": 0.005059514521802446
+        },
+        "Attack": {
+          "network_packet_size": -0.0180994014254624,
+          "protocol_type": -0.002351258489508831,
+          "login_attempts": -0.1157751297737817,
+          "session_duration": -0.020664207183725403,
+          "encryption_used": -0.01838339542089481,
+          "ip_reputation_score": -0.046374090271845074,
+          "failed_logins": -0.1355620216080402,
+          "browser_type": -0.010869309291351473,
+          "unusual_time_access": -0.005059514521802397
+        }
+      }
+    },
+    {
+      "instance_index": 7743,
+      "features": {
+        "network_packet_size": 0.6018964127328971,
+        "protocol_type": 1.0,
+        "login_attempts": 4.0,
+        "session_duration": -0.9537377107355347,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.5849997093731285,
+        "failed_logins": 1.0,
+        "browser_type": 2.0,
+        "unusual_time_access": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.002683007395098839,
+          "protocol_type": -0.0023498246296962174,
+          "login_attempts": 0.05494605755051642,
+          "session_duration": -0.004142424961901559,
+          "encryption_used": 0.011478774170450661,
+          "ip_reputation_score": -0.04230082192535151,
+          "failed_logins": 0.11551699931905722,
+          "browser_type": 0.0501583746972223,
+          "unusual_time_access": -0.007485798838787633
+        },
+        "Attack": {
+          "network_packet_size": 0.00268300739509879,
+          "protocol_type": 0.002349824629696233,
+          "login_attempts": -0.05494605755051761,
+          "session_duration": 0.004142424961901736,
+          "encryption_used": -0.011478774170450606,
+          "ip_reputation_score": 0.04230082192535155,
+          "failed_logins": -0.11551699931905737,
+          "browser_type": -0.05015837469722247,
+          "unusual_time_access": 0.007485798838787776
+        }
+      }
+    },
+    {
+      "instance_index": 3499,
+      "features": {
+        "network_packet_size": -0.3605863403318243,
+        "protocol_type": 1.0,
+        "login_attempts": 3.0,
+        "session_duration": 0.760850851953942,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.2274188022289995,
+        "failed_logins": 0.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.03050688283711685,
+          "protocol_type": -0.005151986955911712,
+          "login_attempts": 0.08006267830614333,
+          "session_duration": -0.11342249891169501,
+          "encryption_used": -0.014281358332694356,
+          "ip_reputation_score": 0.06394909899685332,
+          "failed_logins": 0.11677382500160685,
+          "browser_type": 0.0070221886499246535,
+          "unusual_time_access": -0.0023205016049273096
+        },
+        "Attack": {
+          "network_packet_size": -0.030506882837116493,
+          "protocol_type": 0.005151986955911665,
+          "login_attempts": -0.08006267830614276,
+          "session_duration": 0.11342249891169613,
+          "encryption_used": 0.014281358332694156,
+          "ip_reputation_score": -0.06394909899685325,
+          "failed_logins": -0.11677382500160677,
+          "browser_type": -0.007022188649924408,
+          "unusual_time_access": 0.002320501604927338
+        }
+      }
+    },
+    {
+      "instance_index": 6782,
+      "features": {
+        "network_packet_size": 0.057665327230332124,
+        "protocol_type": 1.0,
+        "login_attempts": 2.0,
+        "session_duration": 3.073909084499824,
+        "encryption_used": 1.0,
+        "ip_reputation_score": 0.3399307797269588,
+        "failed_logins": 0.0,
+        "browser_type": 0.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": -0.0075133765707320315,
+          "protocol_type": 0.011354480424121358,
+          "login_attempts": 0.07947996293906164,
+          "session_duration": -0.08223750663196139,
+          "encryption_used": 0.004250245219302326,
+          "ip_reputation_score": 0.08989620062751706,
+          "failed_logins": 0.1288606998130982,
+          "browser_type": 0.02962676542488873,
+          "unusual_time_access": 0.03942085674111699
+        },
+        "Attack": {
+          "network_packet_size": 0.007513376570731968,
+          "protocol_type": -0.011354480424121452,
+          "login_attempts": -0.07947996293906169,
+          "session_duration": 0.08223750663196071,
+          "encryption_used": -0.004250245219302406,
+          "ip_reputation_score": -0.08989620062751671,
+          "failed_logins": -0.1288606998130989,
+          "browser_type": -0.02962676542488879,
+          "unusual_time_access": -0.03942085674111686
+        }
+      }
+    },
+    {
+      "instance_index": 6713,
+      "features": {
+        "network_packet_size": 0.28442827952306754,
+        "protocol_type": 1.0,
+        "login_attempts": 5.0,
+        "session_duration": 1.9960889528360002,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.0988180274214989,
+        "failed_logins": 1.0,
+        "browser_type": 1.0,
+        "unusual_time_access": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.03003788479644482,
+          "protocol_type": 0.006077601365129813,
+          "login_attempts": 0.0644459192199085,
+          "session_duration": -0.025473244985884595,
+          "encryption_used": 0.00815136125484689,
+          "ip_reputation_score": 0.05158322744565091,
+          "failed_logins": 0.1419326468484982,
+          "browser_type": 0.021944503819287694,
+          "unusual_time_access": 0.004438428222529256
+        },
+        "Attack": {
+          "network_packet_size": -0.03003788479644477,
+          "protocol_type": -0.006077601365129844,
+          "login_attempts": -0.06444591921990948,
+          "session_duration": 0.025473244985884772,
+          "encryption_used": -0.008151361254847096,
+          "ip_reputation_score": -0.05158322744565125,
+          "failed_logins": -0.14193264684849738,
+          "browser_type": -0.02194450381928714,
+          "unusual_time_access": -0.004438428222529212
+        }
+      }
+    },
+    {
+      "instance_index": 405,
+      "features": {
+        "network_packet_size": 0.6270922963209788,
+        "protocol_type": 1.0,
+        "login_attempts": 4.0,
+        "session_duration": 0.3425149757323392,
+        "encryption_used": 0.0,
+        "ip_reputation_score": 0.2630026785595361,
+        "failed_logins": 2.0,
+        "browser_type": 3.0,
+        "unusual_time_access": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "network_packet_size": 0.020620830334517292,
+          "protocol_type": 0.00521708959283246,
+          "login_attempts": 0.0746379377872503,
+          "session_duration": 0.025616218928486506,
+          "encryption_used": 0.021726523507430744,
+          "ip_reputation_score": 0.09184588490103243,
+          "failed_logins": 0.12059885315031156,
+          "browser_type": 0.055959518475098946,
+          "unusual_time_access": -0.0030845286905488095
+        },
+        "Attack": {
+          "network_packet_size": -0.020620830334517157,
+          "protocol_type": -0.005217089592832523,
+          "login_attempts": -0.07463793778725106,
+          "session_duration": -0.025616218928486444,
+          "encryption_used": -0.021726523507430904,
+          "ip_reputation_score": -0.0918458849010339,
+          "failed_logins": -0.12059885315031188,
+          "browser_type": -0.055959518475099,
+          "unusual_time_access": 0.0030845286905487215
+        }
+      }
+    }
+  ],
+  "lime_local": [
+    {
+      "instance_index": 5062,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.22856352458209406
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.1752485049220429
+        },
+        {
+          "rule": "ip_reputation_score <= 0.19",
+          "weight": -0.06725385184201894
+        },
+        {
+          "rule": "-0.67 < network_packet_size <= -0.00",
+          "weight": -0.02838003986432657
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.020248193372855508
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": 0.013638939539553098
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.012818254747116236
+        },
+        {
+          "rule": "session_duration <= -0.71",
+          "weight": -0.006546829763963991
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": 0.00028287317597545497
+        }
+      ]
+    },
+    {
+      "instance_index": 7898,
+      "feature_contributions": [
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.17148292747775143
+        },
+        {
+          "rule": "1.00 < failed_logins <= 2.00",
+          "weight": -0.15320502201829836
+        },
+        {
+          "rule": "0.32 < ip_reputation_score <= 0.46",
+          "weight": -0.09067141322602723
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.032102540559644434
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.021496822377811132
+        },
+        {
+          "rule": "-0.32 < session_duration <= 0.39",
+          "weight": -0.005543065961938691
+        },
+        {
+          "rule": "unusual_time_access > 0.00",
+          "weight": -0.0031517710977001477
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.002373860329538435
+        },
+        {
+          "rule": "network_packet_size <= -0.67",
+          "weight": 0.001141717005350934
+        }
+      ]
+    },
+    {
+      "instance_index": 3282,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins > 2.00",
+          "weight": 0.5847153347463342
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.1668181452536309
+        },
+        {
+          "rule": "0.32 < ip_reputation_score <= 0.46",
+          "weight": -0.0929432692441092
+        },
+        {
+          "rule": "network_packet_size <= -0.67",
+          "weight": 0.030471500640537212
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.029861260835433768
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.022805103230757864
+        },
+        {
+          "rule": "-0.71 < session_duration <= -0.32",
+          "weight": -0.02006487035705464
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.005473244883799921
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.0005659942352072946
+        }
+      ]
+    },
+    {
+      "instance_index": 719,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.2109802669461412
+        },
+        {
+          "rule": "4.00 < login_attempts <= 5.00",
+          "weight": -0.09932144482596116
+        },
+        {
+          "rule": "0.32 < ip_reputation_score <= 0.46",
+          "weight": -0.095044448944922
+        },
+        {
+          "rule": "-0.67 < network_packet_size <= -0.00",
+          "weight": -0.016762404743856422
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.014158253433653374
+        },
+        {
+          "rule": "-0.71 < session_duration <= -0.32",
+          "weight": -0.007855709525240005
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.0075216468080564316
+        },
+        {
+          "rule": "0.00 < browser_type <= 2.00",
+          "weight": 0.007385873557462374
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.002772357202415359
+        }
+      ]
+    },
+    {
+      "instance_index": 4004,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins > 2.00",
+          "weight": 0.5813293276177375
+        },
+        {
+          "rule": "ip_reputation_score > 0.46",
+          "weight": 0.25343663500239777
+        },
+        {
+          "rule": "4.00 < login_attempts <= 5.00",
+          "weight": -0.07343394172460119
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.024675582222207507
+        },
+        {
+          "rule": "unusual_time_access > 0.00",
+          "weight": 0.01538384516392335
+        },
+        {
+          "rule": "network_packet_size <= -0.67",
+          "weight": 0.013148926988422582
+        },
+        {
+          "rule": "0.00 < browser_type <= 2.00",
+          "weight": -0.01241833815486831
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.007909567556781344
+        },
+        {
+          "rule": "-0.71 < session_duration <= -0.32",
+          "weight": -0.006779460717653117
+        }
+      ]
+    },
+    {
+      "instance_index": 6577,
+      "feature_contributions": [
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.18468326301708068
+        },
+        {
+          "rule": "1.00 < failed_logins <= 2.00",
+          "weight": -0.1430317608709224
+        },
+        {
+          "rule": "0.32 < ip_reputation_score <= 0.46",
+          "weight": -0.09535529598852834
+        },
+        {
+          "rule": "session_duration > 0.39",
+          "weight": 0.050902253756824466
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.02390237869590419
+        },
+        {
+          "rule": "network_packet_size <= -0.67",
+          "weight": 0.02100512023950935
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.017427129452321888
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.005898573459536176
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": 0.0032069145668562
+        }
+      ]
+    },
+    {
+      "instance_index": 8786,
+      "feature_contributions": [
+        {
+          "rule": "login_attempts > 5.00",
+          "weight": 0.4182818551411999
+        },
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.19382436035331427
+        },
+        {
+          "rule": "0.19 < ip_reputation_score <= 0.32",
+          "weight": -0.0982485290147308
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.030231498358132484
+        },
+        {
+          "rule": "session_duration <= -0.71",
+          "weight": -0.02657381019724048
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.021161944986321856
+        },
+        {
+          "rule": "-0.00 < network_packet_size <= 0.68",
+          "weight": -0.01688020138832063
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.009065619701675739
+        },
+        {
+          "rule": "0.00 < encryption_used <= 1.00",
+          "weight": 0.0029550153584660347
+        }
+      ]
+    },
+    {
+      "instance_index": 1035,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins > 2.00",
+          "weight": 0.5715012597024928
+        },
+        {
+          "rule": "ip_reputation_score > 0.46",
+          "weight": 0.2897696989958288
+        },
+        {
+          "rule": "4.00 < login_attempts <= 5.00",
+          "weight": -0.08470380721528982
+        },
+        {
+          "rule": "session_duration > 0.39",
+          "weight": 0.0365136863576278
+        },
+        {
+          "rule": "network_packet_size > 0.68",
+          "weight": -0.020786876550386194
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.019065876329319217
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.014859044476342604
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.008083128331741784
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -1.635582096588965e-05
+        }
+      ]
+    },
+    {
+      "instance_index": 3548,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.1973370362126834
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.16172538408864562
+        },
+        {
+          "rule": "ip_reputation_score <= 0.19",
+          "weight": -0.09173700694408524
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.029411822947941296
+        },
+        {
+          "rule": "-0.71 < session_duration <= -0.32",
+          "weight": -0.024536274967482948
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.022197727574407956
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.007505906956481449
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.006089435939605019
+        },
+        {
+          "rule": "network_packet_size <= -0.67",
+          "weight": -0.0018984068638820018
+        }
+      ]
+    },
+    {
+      "instance_index": 3443,
+      "feature_contributions": [
+        {
+          "rule": "ip_reputation_score > 0.46",
+          "weight": 0.27751912946328233
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.16764754067219265
+        },
+        {
+          "rule": "1.00 < failed_logins <= 2.00",
+          "weight": -0.1462662211910741
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.01624136483520758
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.014282139989745427
+        },
+        {
+          "rule": "network_packet_size > 0.68",
+          "weight": 0.013460762330870627
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.007176807545573561
+        },
+        {
+          "rule": "-0.32 < session_duration <= 0.39",
+          "weight": -0.005413461960511426
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.004745137949246002
+        }
+      ]
+    },
+    {
+      "instance_index": 2399,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins > 2.00",
+          "weight": 0.5872207225250735
+        },
+        {
+          "rule": "ip_reputation_score > 0.46",
+          "weight": 0.26590152422479574
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.15109125419053787
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.02985924435469169
+        },
+        {
+          "rule": "-0.32 < session_duration <= 0.39",
+          "weight": -0.027305888444960336
+        },
+        {
+          "rule": "unusual_time_access > 0.00",
+          "weight": 0.023243752104840178
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.014947058911017982
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.012543874051697879
+        },
+        {
+          "rule": "-0.00 < network_packet_size <= 0.68",
+          "weight": 0.0039889089000036395
+        }
+      ]
+    },
+    {
+      "instance_index": 5713,
+      "feature_contributions": [
+        {
+          "rule": "ip_reputation_score > 0.46",
+          "weight": 0.28186215484604327
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.17528867597186198
+        },
+        {
+          "rule": "1.00 < failed_logins <= 2.00",
+          "weight": -0.13779680181306114
+        },
+        {
+          "rule": "session_duration > 0.39",
+          "weight": 0.03878039555682329
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.031098487975303398
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.019070914775096096
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.017554197653676485
+        },
+        {
+          "rule": "-0.00 < network_packet_size <= 0.68",
+          "weight": -0.015481066583270366
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.011358582404504537
+        }
+      ]
+    },
+    {
+      "instance_index": 5909,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins > 2.00",
+          "weight": 0.5752969959359217
+        },
+        {
+          "rule": "login_attempts > 5.00",
+          "weight": 0.3982918954189683
+        },
+        {
+          "rule": "ip_reputation_score > 0.46",
+          "weight": 0.26224866212242953
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.027648420881415597
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.024968337549110604
+        },
+        {
+          "rule": "1.00 < protocol_type <= 2.00",
+          "weight": 0.02021658229945513
+        },
+        {
+          "rule": "network_packet_size <= -0.67",
+          "weight": 0.006834556569375466
+        },
+        {
+          "rule": "session_duration <= -0.71",
+          "weight": -0.004774976634590488
+        },
+        {
+          "rule": "0.00 < encryption_used <= 1.00",
+          "weight": 0.004006370260937438
+        }
+      ]
+    },
+    {
+      "instance_index": 4330,
+      "feature_contributions": [
+        {
+          "rule": "login_attempts > 5.00",
+          "weight": 0.4006978723119749
+        },
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.1964313058879672
+        },
+        {
+          "rule": "browser_type > 2.00",
+          "weight": 0.10018313750822715
+        },
+        {
+          "rule": "ip_reputation_score <= 0.19",
+          "weight": -0.08007057503618653
+        },
+        {
+          "rule": "session_duration > 0.39",
+          "weight": 0.04393657861410426
+        },
+        {
+          "rule": "unusual_time_access > 0.00",
+          "weight": 0.013379337791574205
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.008524903459227013
+        },
+        {
+          "rule": "0.00 < encryption_used <= 1.00",
+          "weight": 0.0065480955757040585
+        },
+        {
+          "rule": "network_packet_size > 0.68",
+          "weight": 0.005555587401447308
+        }
+      ]
+    },
+    {
+      "instance_index": 642,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.2365768220478133
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.16410102010835062
+        },
+        {
+          "rule": "ip_reputation_score <= 0.19",
+          "weight": -0.0555395378784315
+        },
+        {
+          "rule": "0.00 < browser_type <= 2.00",
+          "weight": -0.01479272843454969
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.014265998384076106
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.011442469735749071
+        },
+        {
+          "rule": "-0.67 < network_packet_size <= -0.00",
+          "weight": 0.0033159917727857355
+        },
+        {
+          "rule": "session_duration <= -0.71",
+          "weight": -0.0020361751234165347
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.001858558436276948
+        }
+      ]
+    },
+    {
+      "instance_index": 7743,
+      "feature_contributions": [
+        {
+          "rule": "ip_reputation_score > 0.46",
+          "weight": 0.2632323693357668
+        },
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.22210019835739178
+        },
+        {
+          "rule": "3.00 < login_attempts <= 4.00",
+          "weight": -0.08690896407212181
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.012556924781105715
+        },
+        {
+          "rule": "unusual_time_access > 0.00",
+          "weight": -0.010818388305545329
+        },
+        {
+          "rule": "session_duration <= -0.71",
+          "weight": -0.005905019312434065
+        },
+        {
+          "rule": "-0.00 < network_packet_size <= 0.68",
+          "weight": -0.005274150866950959
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.0022214644172851333
+        },
+        {
+          "rule": "0.00 < browser_type <= 2.00",
+          "weight": -0.001266542856722472
+        }
+      ]
+    },
+    {
+      "instance_index": 3499,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.1964297970951078
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.17204393665530862
+        },
+        {
+          "rule": "0.19 < ip_reputation_score <= 0.32",
+          "weight": -0.1091877800713282
+        },
+        {
+          "rule": "session_duration > 0.39",
+          "weight": 0.04769481023387886
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.026508046892434505
+        },
+        {
+          "rule": "-0.67 < network_packet_size <= -0.00",
+          "weight": -0.02355898273345512
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.0031959156179320047
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.0027415510016118544
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": 0.0020244004171047917
+        }
+      ]
+    },
+    {
+      "instance_index": 6782,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.19840743605095396
+        },
+        {
+          "rule": "login_attempts <= 3.00",
+          "weight": -0.17111310199709134
+        },
+        {
+          "rule": "0.32 < ip_reputation_score <= 0.46",
+          "weight": -0.0680150584712453
+        },
+        {
+          "rule": "session_duration > 0.39",
+          "weight": 0.055122740761057526
+        },
+        {
+          "rule": "browser_type <= 0.00",
+          "weight": -0.028251087775632566
+        },
+        {
+          "rule": "-0.00 < network_packet_size <= 0.68",
+          "weight": -0.020071214187604266
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.01891734156743147
+        },
+        {
+          "rule": "0.00 < encryption_used <= 1.00",
+          "weight": -0.009567158007523962
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -1.2255003470387284e-05
+        }
+      ]
+    },
+    {
+      "instance_index": 6713,
+      "feature_contributions": [
+        {
+          "rule": "failed_logins <= 1.00",
+          "weight": -0.21633260262350243
+        },
+        {
+          "rule": "ip_reputation_score <= 0.19",
+          "weight": -0.08846093611960963
+        },
+        {
+          "rule": "4.00 < login_attempts <= 5.00",
+          "weight": -0.07823187323350965
+        },
+        {
+          "rule": "session_duration > 0.39",
+          "weight": 0.042342602100999244
+        },
+        {
+          "rule": "-0.00 < network_packet_size <= 0.68",
+          "weight": -0.026249601801605918
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": -0.02507040751084814
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.02127849170399714
+        },
+        {
+          "rule": "0.00 < browser_type <= 2.00",
+          "weight": -0.016751818666675387
+        },
+        {
+          "rule": "unusual_time_access <= 0.00",
+          "weight": -0.012566172809350353
+        }
+      ]
+    },
+    {
+      "instance_index": 405,
+      "feature_contributions": [
+        {
+          "rule": "1.00 < failed_logins <= 2.00",
+          "weight": -0.14519341276808742
+        },
+        {
+          "rule": "browser_type > 2.00",
+          "weight": 0.12538593855563238
+        },
+        {
+          "rule": "0.19 < ip_reputation_score <= 0.32",
+          "weight": -0.10527081888847589
+        },
+        {
+          "rule": "3.00 < login_attempts <= 4.00",
+          "weight": -0.08658750946267298
+        },
+        {
+          "rule": "-0.32 < session_duration <= 0.39",
+          "weight": -0.03137671913773629
+        },
+        {
+          "rule": "-0.00 < network_packet_size <= 0.68",
+          "weight": -0.016243886663837713
+        },
+        {
+          "rule": "unusual_time_access > 0.00",
+          "weight": 0.016146118881846576
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.004450116238340802
+        },
+        {
+          "rule": "encryption_used <= 0.00",
+          "weight": 0.001056111815355007
+        }
+      ]
+    }
+  ],
+  "prompts": {
+    "prompt": "# Model Information\n\n- **Type:** RandomForestClassifier\n- **Target:** attack_detected\n- **Classes:** Normal, Attack\n- **Features:** network_packet_size, protocol_type, login_attempts, session_duration, encryption_used, ip_reputation_score, failed_logins, browser_type, unusual_time_access\n- **Accuracy:** 0.8948\n\n# Column Descriptions\n\n  - network_packet_size: Network packet size in bytes (standardized, mean=0, std=1)\n  - protocol_type: Network protocol type: ICMP=0, TCP=1, UDP=2\n  - login_attempts: Number of login attempts in the session\n  - session_duration: Session duration in seconds (standardized, mean=0, std=1)\n  - encryption_used: Encryption method used: AES=0, DES=1\n  - ip_reputation_score: IP reputation score (0.0-1.0, higher = more suspicious)\n  - failed_logins: Number of failed login attempts\n  - browser_type: Browser/client type: Chrome=0, Edge=1, Firefox=2, Safari=3, Unknown=4\n  - unusual_time_access: Whether access occurred at unusual time (0=normal, 1=unusual)\n\n# Training Samples (representative examples)\n\n[{\"network_packet_size\":0.2390756891,\"protocol_type\":2,\"login_attempts\":4,\"session_duration\":1.0055229527,\"encryption_used\":0,\"ip_reputation_score\":0.0315552521,\"failed_logins\":0,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":-0.1892543319,\"protocol_type\":2,\"login_attempts\":3,\"session_duration\":-0.6085841344,\"encryption_used\":1,\"ip_reputation_score\":0.1644887381,\"failed_logins\":2,\"browser_type\":2,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":-1.2575597961,\"protocol_type\":1,\"login_attempts\":7,\"session_duration\":-0.6898090898,\"encryption_used\":1,\"ip_reputation_score\":0.591325333,\"failed_logins\":1,\"browser_type\":0,\"unusual_time_access\":1,\"attack_detected\":1},{\"network_packet_size\":1.221715149,\"protocol_type\":1,\"login_attempts\":3,\"session_duration\":-0.7805991045,\"encryption_used\":0,\"ip_reputation_score\":0.4576635108,\"failed_logins\":1,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":-1.1618154384,\"protocol_type\":2,\"login_attempts\":4,\"session_duration\":0.5154186205,\"encryption_used\":1,\"ip_reputation_score\":0.4481692778,\"failed_logins\":2,\"browser_type\":4,\"unusual_time_access\":0,\"attack_detected\":1},{\"network_packet_size\":-1.0862277877,\"protocol_type\":1,\"login_attempts\":6,\"session_duration\":0.446711579,\"encryption_used\":0,\"ip_reputation_score\":0.1765984888,\"failed_logins\":2,\"browser_type\":1,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":1.8364947085,\"protocol_type\":1,\"login_attempts\":5,\"session_duration\":-0.4014330191,\"encryption_used\":1,\"ip_reputation_score\":0.3758581313,\"failed_logins\":3,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":1},{\"network_packet_size\":-0.3505079869,\"protocol_type\":2,\"login_attempts\":3,\"session_duration\":0.0843810271,\"encryption_used\":0,\"ip_reputation_score\":0.4368703504,\"failed_logins\":1,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":0.0627045039,\"protocol_type\":2,\"login_attempts\":4,\"session_duration\":-0.7466138968,\"encryption_used\":1,\"ip_reputation_score\":0.0391481839,\"failed_logins\":3,\"browser_type\":0,\"unusual_time_access\":1,\"attack_detected\":1},{\"network_packet_size\":-0.9300133094,\"protocol_type\":1,\"login_attempts\":5,\"session_duration\":0.7592634656,\"encryption_used\":0,\"ip_reputation_score\":0.3284703875,\"failed_logins\":1,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":1},{\"network_packet_size\":0.5061520551,\"protocol_type\":1,\"login_attempts\":7,\"session_duration\":-0.9233955201,\"encryption_used\":0,\"ip_reputation_score\":0.2921718767,\"failed_logins\":0,\"browser_type\":1,\"unusual_time_access\":0,\"attack_detected\":1},{\"network_packet_size\":-0.4109781075,\"protocol_type\":1,\"login_attempts\":2,\"session_duration\":2.0924814586,\"encryption_used\":0,\"ip_reputation_score\":0.2748824295,\"failed_logins\":3,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":1},{\"network_packet_size\":-0.65285859,\"protocol_type\":1,\"login_attempts\":6,\"session_duration\":-0.3756153211,\"encryption_used\":0,\"ip_reputation_score\":0.1452841738,\"failed_logins\":0,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":0.4104076975,\"protocol_type\":2,\"login_attempts\":1,\"session_duration\":-0.9973946044,\"encryption_used\":0,\"ip_reputation_score\":0.3613840339,\"failed_logins\":1,\"browser_type\":2,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":-2.1948466655,\"protocol_type\":1,\"login_attempts\":1,\"session_duration\":-0.6412587798,\"encryption_used\":0,\"ip_reputation_score\":0.5241996524,\"failed_logins\":1,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":0.6724448868,\"protocol_type\":1,\"login_attempts\":6,\"session_duration\":0.8929889012,\"encryption_used\":1,\"ip_reputation_score\":0.1942293851,\"failed_logins\":2,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":0.5414262921,\"protocol_type\":1,\"login_attempts\":5,\"session_duration\":-0.4306211771,\"encryption_used\":0,\"ip_reputation_score\":0.4725570398,\"failed_logins\":0,\"browser_type\":2,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":-0.6578977667,\"protocol_type\":1,\"login_attempts\":2,\"session_duration\":0.4683059875,\"encryption_used\":1,\"ip_reputation_score\":0.2087861438,\"failed_logins\":1,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":-0.4714482281,\"protocol_type\":2,\"login_attempts\":3,\"session_duration\":-0.3440024204,\"encryption_used\":0,\"ip_reputation_score\":0.2479562427,\"failed_logins\":1,\"browser_type\":2,\"unusual_time_access\":0,\"attack_detected\":0},{\"network_packet_size\":1.1259707914,\"protocol_type\":0,\"login_attempts\":4,\"session_duration\":1.2970051862,\"encryption_used\":0,\"ip_reputation_score\":0.1123252864,\"failed_logins\":1,\"browser_type\":0,\"unusual_time_access\":0,\"attack_detected\":0}]\n\n---\n\n\nBased on the model information and data provided, identify the top 5 most important features for detecting security threats.\n\nIMPORTANT: Provide your response as a valid JSON array ONLY, with no additional text.\n\nFormat:\n```json\n[\n  {\"name\": \"feature_name\", \"why\": \"Brief explanation of why this feature is important\"},\n  {\"name\": \"feature_name\", \"why\": \"Brief explanation\"},\n  ...\n]\n```\n\nExample (do not use these values, analyze the actual data):\n```json\n[\n  {\"name\": \"failed_logins\", \"why\": \"High number of failed login attempts indicates brute-force attack patterns\"},\n  {\"name\": \"ip_reputation_score\", \"why\": \"Previously flagged IP addresses correlate strongly with malicious activity\"}\n]\n```\n\nNow analyze and provide exactly 5 features in JSON format:\n",
+    "self_consistency_mode": true
+  },
+  "results": {
+    "glm-4.7-flash": {
+      "response": "Self-Consistency Results (3/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats.\n\n3. unusual_time_access - 100.0% consensus\n   Why: Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks.\n\n4. login_attempts - 100.0% consensus\n   Why: Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions.\n\n5. network_packet_size - 66.7% consensus\n   Why: Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities.\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 10040,
+        "completion_tokens": 17695,
+        "total_tokens": 27735
+      },
+      "time_ms": 1515344.53,
+      "time_formatted": "25m15s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "failed_logins",
+            "percentage": 1.0,
+            "appearances": 3,
+            "avg_position": 1.0,
+            "explanations": [
+              "A high number indicates brute force attacks or unauthorized access attempts, directly correlating with security breaches.",
+              "This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing.",
+              "A higher count of failed login attempts is a primary signature of brute-force and credential stuffing attacks, frequently appearing in the labeled attack samples."
+            ],
+            "consensus_explanation": "This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing."
+          },
+          {
+            "rank": 2,
+            "name": "ip_reputation_score",
+            "percentage": 1.0,
+            "appearances": 3,
+            "avg_position": 2.0,
+            "explanations": [
+              "Higher scores suggest known malicious IPs or low-trust sources, providing a critical external threat context.",
+              "A high score flags the source as previously malicious, allowing the system to block known threats before they establish a session.",
+              "This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats."
+            ],
+            "consensus_explanation": "This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats."
+          },
+          {
+            "rank": 3,
+            "name": "unusual_time_access",
+            "percentage": 1.0,
+            "appearances": 3,
+            "avg_position": 3.33,
+            "explanations": [
+              "Access occurring outside standard business hours is a common tactic for attackers to avoid detection.",
+              "Attacks frequently occur when legitimate traffic is low (e.g., late at night or weekends), making time-of-day a key anomaly signal.",
+              "Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks."
+            ],
+            "consensus_explanation": "Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks."
+          },
+          {
+            "rank": 4,
+            "name": "login_attempts",
+            "percentage": 1.0,
+            "appearances": 3,
+            "avg_position": 3.67,
+            "explanations": [
+              "The total volume of login attempts helps determine the intensity and scope of a security incident.",
+              "Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions.",
+              "Excessive attempts suggest automated scanning or brute-force efforts to guess credentials, which are common precursors to a successful intrusion."
+            ],
+            "consensus_explanation": "Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions."
+          },
+          {
+            "rank": 5,
+            "name": "network_packet_size",
+            "percentage": 0.6667,
+            "appearances": 2,
+            "avg_position": 5.0,
+            "explanations": [
+              "Anomalies in data packet sizes often signal denial-of-service attacks or large-scale data scanning.",
+              "Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities."
+            ],
+            "consensus_explanation": "Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities."
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 3,
+          "invalid_runs": 2
+        },
+        "summary": "Self-Consistency Results (3/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats.\n\n3. unusual_time_access - 100.0% consensus\n   Why: Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks.\n\n4. login_attempts - 100.0% consensus\n   Why: Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions.\n\n5. network_packet_size - 66.7% consensus\n   Why: Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities.\n"
+      }
+    },
+    "qwen3:14b": {
+      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources\n\n3. unusual_time_access - 100.0% consensus\n   Why: Access during abnormal hours is a common pattern in unauthorized or malicious activities\n\n4. login_attempts - 100.0% consensus\n   Why: A higher number of login attempts can signal automated attack patterns or persistent probing.\n\n5. protocol_type - 60.0% consensus\n   Why: Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks.\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 11145,
+        "completion_tokens": 8140,
+        "total_tokens": 19285
+      },
+      "time_ms": 408297.83,
+      "time_formatted": "6m48s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "failed_logins",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 1.2,
+            "explanations": [
+              "High number of failed login attempts is a strong indicator of brute-force attacks.",
+              "High number of failed login attempts is a strong indicator of brute-force or automated attack attempts",
+              "High failed login attempts indicate potential brute-force or unauthorized access attempts",
+              "High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks",
+              "Frequent failed login attempts are a common indicator of brute-force attacks"
+            ],
+            "consensus_explanation": "High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks"
+          },
+          {
+            "rank": 2,
+            "name": "ip_reputation_score",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 1.8,
+            "explanations": [
+              "Higher scores indicate more suspicious IP addresses, correlating with potential malicious activity.",
+              "Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources",
+              "Higher scores correlate with historically malicious or suspicious IP addresses",
+              "Higher scores correlate with malicious IP addresses previously associated with malicious activity",
+              "Higher scores indicate more suspicious IP addresses, strongly correlating with malicious activity"
+            ],
+            "consensus_explanation": "Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources"
+          },
+          {
+            "rank": 3,
+            "name": "unusual_time_access",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 3.4,
+            "explanations": [
+              "Access during unusual hours may indicate unauthorized or automated access attempts.",
+              "Access during abnormal hours is a common pattern in unauthorized or malicious activities",
+              "Access during non-standard hours may indicate unauthorized or malicious activity",
+              "Access during non-standard hours may indicate automated or unauthorized access attempts",
+              "Access during unusual hours is a red flag for potential unauthorized access"
+            ],
+            "consensus_explanation": "Access during abnormal hours is a common pattern in unauthorized or malicious activities"
+          },
+          {
+            "rank": 4,
+            "name": "login_attempts",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 3.6,
+            "explanations": [
+              "A higher number of login attempts can signal automated attack patterns or persistent probing.",
+              "Excessive login attempts suggest potential unauthorized access or credential stuffing attacks",
+              "Frequent login attempts suggest potential account compromise or automated attacks",
+              "Excessive login attempts often precede successful intrusion attempts",
+              "Higher login attempts may signify automated attack tools trying to compromise accounts"
+            ],
+            "consensus_explanation": "A higher number of login attempts can signal automated attack patterns or persistent probing."
+          },
+          {
+            "rank": 5,
+            "name": "protocol_type",
+            "percentage": 0.6,
+            "appearances": 3,
+            "avg_position": 5.0,
+            "explanations": [
+              "Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks.",
+              "Certain protocols (e.g., UDP) are more commonly associated with attack vectors like DDoS",
+              "Certain protocols (e.g., UDP) may be more frequently exploited in attack scenarios"
+            ],
+            "consensus_explanation": "Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks."
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 5,
+          "invalid_runs": 0
+        },
+        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources\n\n3. unusual_time_access - 100.0% consensus\n   Why: Access during abnormal hours is a common pattern in unauthorized or malicious activities\n\n4. login_attempts - 100.0% consensus\n   Why: A higher number of login attempts can signal automated attack patterns or persistent probing.\n\n5. protocol_type - 60.0% consensus\n   Why: Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks.\n"
+      }
+    },
+    "gpt-oss:20b": {
+      "response": "Self-Consistency Results (4/5 valid runs)\n\n1. login_attempts - 125.0% consensus\n   Why: Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat.\n\n3. failed_logins - 100.0% consensus\n   Why: A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks.\n\n4. unusual_time_access - 100.0% consensus\n   Why: Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity.\n\n5. protocol_type - 50.0% consensus\n   Why: Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 10050,
+        "completion_tokens": 7629,
+        "total_tokens": 17679
+      },
+      "time_ms": 178314.71,
+      "time_formatted": "2m58s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "login_attempts",
+            "percentage": 1.25,
+            "appearances": 5,
+            "avg_position": 5.0,
+            "explanations": [
+              "Excessive login attempts within a short session suggest automated or suspicious activity.",
+              "A large number of login attempts in a single session points to suspicious behavior",
+              "Elevated counts suggest attackers probing credentials or attempting enumeration",
+              "Repeated attempts often precede successful compromise; high counts are red flags",
+              "Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic."
+            ],
+            "consensus_explanation": "Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic."
+          },
+          {
+            "rank": 2,
+            "name": "ip_reputation_score",
+            "percentage": 1.0,
+            "appearances": 4,
+            "avg_position": 1.25,
+            "explanations": [
+              "Higher scores correlate strongly with known malicious IPs, making it a key indicator of threat.",
+              "Higher scores indicate IPs with past malicious activity, directly correlating with attacks",
+              "High scores flag IPs previously seen in attacks, strongly correlating with malicious sessions",
+              "IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat."
+            ],
+            "consensus_explanation": "IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat."
+          },
+          {
+            "rank": 3,
+            "name": "failed_logins",
+            "percentage": 1.0,
+            "appearances": 4,
+            "avg_position": 1.75,
+            "explanations": [
+              "A surge in failed login attempts often signals brute‑force attacks targeting user credentials.",
+              "Multiple failed login attempts are a hallmark of brute‑force or credential‑guessing attacks",
+              "Multiple failed attempts indicate brute‑force or credential stuffing activity",
+              "A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks."
+            ],
+            "consensus_explanation": "A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks."
+          },
+          {
+            "rank": 4,
+            "name": "unusual_time_access",
+            "percentage": 1.0,
+            "appearances": 4,
+            "avg_position": 3.5,
+            "explanations": [
+              "Access occurring at unexpected times (e.g., off‑peak) frequently precedes malicious operations.",
+              "Attacks often occur during off‑peak hours to avoid detection",
+              "Access outside normal business hours often signals automated or illicit operations",
+              "Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity."
+            ],
+            "consensus_explanation": "Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity."
+          },
+          {
+            "rank": 5,
+            "name": "protocol_type",
+            "percentage": 0.5,
+            "appearances": 2,
+            "avg_position": 5.0,
+            "explanations": [
+              "Certain protocols (e.g., UDP, ICMP) are more frequently exploited by attackers",
+              "Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling"
+            ],
+            "consensus_explanation": "Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling"
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 4,
+          "invalid_runs": 1
+        },
+        "summary": "Self-Consistency Results (4/5 valid runs)\n\n1. login_attempts - 125.0% consensus\n   Why: Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat.\n\n3. failed_logins - 100.0% consensus\n   Why: A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks.\n\n4. unusual_time_access - 100.0% consensus\n   Why: Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity.\n\n5. protocol_type - 50.0% consensus\n   Why: Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling\n"
+      }
+    },
+    "qwen3:30b": {
+      "response": "No consensus reached. Valid runs: 0/5",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 11145,
+        "completion_tokens": 37009,
+        "total_tokens": 48154
+      },
+      "time_ms": 2335251.1,
+      "time_formatted": "38m55s",
+      "error": null,
+      "self_consistency": {
+        "features": [],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 0,
+          "invalid_runs": 5,
+          "error": "No valid feature rankings extracted from any run"
+        },
+        "summary": "No consensus reached. Valid runs: 0/5"
+      }
+    },
+    "glm-5:cloud": {
+      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats.\n\n2. unusual_time_access - 100.0% consensus\n   Why: This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion.\n\n3. failed_logins - 100.0% consensus\n   Why: High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts.\n\n4. login_attempts - 100.0% consensus\n   Why: Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals.\n\n5. network_packet_size - 60.0% consensus\n   Why: Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits.\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 10040,
+        "completion_tokens": 21044,
+        "total_tokens": 31084
+      },
+      "time_ms": 1390318.37,
+      "time_formatted": "23m10s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "ip_reputation_score",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 1.2,
+            "explanations": [
+              "Higher scores (approaching 1.0) correlate with Attack labels (e.g., 0.59), while Normal traffic typically exhibits lower scores, effectively flagging known malicious IPs.",
+              "Higher reputation scores strongly correlate with attacks; sample data shows values like 0.591 and 0.448 associated with malicious activity, making this a primary threat indicator",
+              "In the training samples, attacks frequently correlate with higher reputation scores (e.g., 0.59, 0.45) whereas normal traffic clusters at lower values, providing a strong signal for threat intelligence.",
+              "This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats.",
+              "Higher IP reputation scores (0.3-0.6 range) correlate strongly with attack detection, as they indicate previously flagged or suspicious IP addresses"
+            ],
+            "consensus_explanation": "This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats."
+          },
+          {
+            "rank": 2,
+            "name": "unusual_time_access",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 2.8,
+            "explanations": [
+              "This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion.",
+              "Binary feature with perfect correlation to attacks in the data when value=1; all samples with unusual_time_access=1 are classified as attacks",
+              "This binary feature perfectly correlates with the 'Attack' class in the provided samples (1 = Attack), making it a highly effective splitter for detecting anomalous activity times.",
+              "In the provided training data, every instance where unusual_time_access is 1 corresponds to an attack, making it a high-purity splitting feature for the Random Forest model.",
+              "Access at unusual times is exclusive to attack samples in training data, indicating anomalous behavioral patterns"
+            ],
+            "consensus_explanation": "This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion."
+          },
+          {
+            "rank": 3,
+            "name": "failed_logins",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 3.0,
+            "explanations": [
+              "High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts.",
+              "Elevated failed login attempts correlate with authentication-based attacks, showing higher mean values in attack samples (1.86 vs 1.08 normal)",
+              "Specific high values, notably '3', appear exclusively in attack samples within this dataset, serving as a direct indicator of brute-force or credential stuffing attempts.",
+              "A higher rate of failed logins is a classic behavioral anomaly for detecting credential stuffing or brute-force attacks, contributing significantly to the classification logic.",
+              "Multiple failed login attempts (2-3 attempts) indicate credential stuffing or brute-force attack patterns"
+            ],
+            "consensus_explanation": "High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts."
+          },
+          {
+            "rank": 4,
+            "name": "login_attempts",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 3.0,
+            "explanations": [
+              "Elevated attempt counts (5, 6, 7) are frequently observed in Attack samples, distinguishing automated threat behavior from typical user sessions.",
+              "Higher login attempt counts (particularly values of 7) appear exclusively in attack samples, indicating potential brute-force attack patterns",
+              "Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals.",
+              "Attack samples frequently exhibit higher login attempts (e.g., values of 7), which is a primary signal for brute-force intrusion attempts, whereas normal samples trend lower.",
+              "Elevated login attempts (especially 5-7 attempts) are common in brute-force attacks and appear frequently in attack samples"
+            ],
+            "consensus_explanation": "Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals."
+          },
+          {
+            "rank": 5,
+            "name": "network_packet_size",
+            "percentage": 0.6,
+            "appearances": 3,
+            "avg_position": 5.0,
+            "explanations": [
+              "Significant deviations in packet size (standardized values) help identify anomalous traffic patterns often associated with payload delivery or network scanning.",
+              "Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits.",
+              "Attack samples demonstrate more extreme or anomalous packet size values (e.g., 1.84 or negative standardized values), allowing the model to detect network-level irregularities."
+            ],
+            "consensus_explanation": "Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits."
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 5,
+          "invalid_runs": 0
+        },
+        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats.\n\n2. unusual_time_access - 100.0% consensus\n   Why: This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion.\n\n3. failed_logins - 100.0% consensus\n   Why: High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts.\n\n4. login_attempts - 100.0% consensus\n   Why: Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals.\n\n5. network_packet_size - 60.0% consensus\n   Why: Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits.\n"
+      }
+    }
+  }
+}

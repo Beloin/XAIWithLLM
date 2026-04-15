@@ -1,0 +1,118 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+Loading configuration from: inputs/system_prompt.input.json
+============================================================
+WITH XAI EXPERIMENT - NSL_KDD Intrusion Detection
+============================================================
+Original shape: (25192, 43)
+After cleaning: (25192, 43)
+Final shape: (25192, 16)
+Columns: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'label']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate']
+Training RandomForestClassifier...
+Model accuracy: 0.9966
+Classes: ['Normal', 'Attack']
+Sampling 7558 instances for SHAP/LIME computation...
+Computing SHAP for 7558 instances...
+SHAP computed: 2 classes, 15 features
+Computing LIME for 15 instances...
+LIME computed: 15 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_system_prompt.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 23m51s
+  Error: None
+  Response length: 3679 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the provided Global SHAP summary and the LIME local explanations for specific instances, here is the analysis of Feature Importance, Class Patterns, Convergence, and Security Implications.
+
+### 1. Feature Importance (Global SHAP)
+The Global SHAP values indicate the absolute contribution of each feature to the model's output. The features with the highest values are the primary drivers of the predictions.
+
+**Top 3 Features:**
+1.  **`dst_bytes`** (0.003027) – Represents the total data sen
+...
+
+
+qwen3:14b:
+  Time: 3m57s
+  Error: None
+  Response length: 5248 chars
+
+--- Response Preview (first 500 chars) ---
+### 1. **Feature Importance**  
+The SHAP values provided are per-instance local explanations, but we can aggregate them to estimate global feature importance. **Top 3 features** for each class (assuming two classes, e.g., *malicious* and *benign*, based on common cybersecurity context) are:  
+
+#### **Malicious Class (Based on Negative SHAP Values):**  
+- **`src_bytes <= 0.00` (SHAP: 0.236, 0.234, 0.236)**  
+  - High impact in instances 0, 3, and 6. Zero-byte packets may indicate malicious traffi
+...
+
+
+gpt-oss:20b:
+  Time: 1m14s
+  Error: None
+  Response length: 6878 chars
+
+--- Response Preview (first 500 chars) ---
+**1. Feature Importance**
+
+| Class | Top‑3 features (sorted by mean |SHAP|) | Why they matter |
+|-------|----------------------------------------|-----------------|
+| 0 | 1) *src_bytes* (4.10)  <br> 2) *rerror_rate* (3.73)  <br> 3) *duration* (3.00) | **src_bytes** is the most influential because its mean absolute SHAP value (4.10) is the largest—each change of a single‑byte count moves the classifier’s probability for class 0 by ~4 units in SHAP space. This reflects that the model strongly pena
+...
+
+
+qwen3:30b:
+  Time: 17m17s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 2m51s
+  Error: None
+  Response length: 6819 chars
+
+--- Response Preview (first 500 chars) ---
+Here is the analysis of the network intrusion detection model based on the provided XAI data.
+
+### 1. Feature Importance Analysis
+
+Based on the **SHAP Global Importance** (mean absolute SHAP values), the top 3 features driving the model's decisions are:
+
+1.  **`src_bytes` (0.148652)**:
+    This is the dominant feature. In a network context, the volume of data sent from the source is a primary indicator of the connection's nature.
+    *   *Evidence:* In SHAP local explanations for Attack instance
+...
+
+
+Full results saved to: resultados_system_prompt.json

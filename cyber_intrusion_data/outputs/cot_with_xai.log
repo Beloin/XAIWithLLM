@@ -1,0 +1,120 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+Loading configuration from: inputs/cot.input.json
+============================================================
+WITH XAI EXPERIMENT - Cybersecurity Intrusion Detection
+============================================================
+Original shape: (9537, 11)
+After cleaning: (7571, 10)
+Final shape: (7571, 10)
+Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
+Training RandomForestClassifier...
+Model accuracy: 0.8948
+Classes: ['Normal', 'Attack']
+Sampling 2272 instances for SHAP/LIME computation...
+Computing SHAP for 2272 instances...
+SHAP computed: 2 classes, 9 features
+Computing LIME for 15 instances...
+LIME computed: 15 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_cot.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 7m35s
+  Error: None
+  Response length: 5263 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the provided JSON data (likely from the **UNSW-NB15** dataset which shares these feature names: `failed_logins`, `ip_reputation_score`, `browser_type`, `protocol_type`, `encryption_used`, `session_duration`, and `network_packet_size`), here is the detailed analysis.
+
+### 1. Global Feature Importance
+Based on the frequency of features appearing in the top three positions with high absolute SHAP values and dominant Lime rules, the **Global Feature Importance** is ranked as follows:
+
+1.  *
+...
+
+
+qwen3:14b:
+  Time: 3m2s
+  Error: None
+  Response length: 3738 chars
+
+--- Response Preview (first 500 chars) ---
+### **1. Feature Importance: Top 3 Features for Each Class**
+
+**Assumption:** The model classifies events into two classes:  
+- **Class A (Malicious):** Likely high-risk activities (e.g., brute force attacks, DDoS).  
+- **Class B (Benign):** Normal or low-risk behaviors.  
+
+#### **Class A (Malicious) – Top Features:**  
+1. **`login_attempts > 5.00` (SHAP: +0.4 in instances 8983, 2294, 5909)**  
+   - High login attempts are a strong indicator of brute-force attacks. SHAP values show this feature 
+...
+
+
+gpt-oss:20b:
+  Time: 1m28s
+  Error: None
+  Response length: 8304 chars
+
+--- Response Preview (first 500 chars) ---
+**1. Feature Importance**
+
+| Class | 1st | 2nd | 3rd | Why these SHAP values dominate |
+|-------|-----|-----|-----|--------------------------------|
+| **0** | `ip_reputation_score` (0.39) | `login_attempts` (0.20) | `failed_logins` (0.04) | A high *ip_reputation_score* (> 0.46) explains a positive jump of ≈ 0.39 in the SHAP impact, showing the model highly trusts a bad‑IP label for class 0.  `login_attempts` > 5 drives a further 0.20 increase, while even a small number of failed logins (≈ 0.04) 
+...
+
+
+qwen3:30b:
+  Time: 6m22s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 3m52s
+  Error: None
+  Response length: 6870 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the provided SHAP and LIME explanations, here is the step-by-step analysis of the intrusion detection model.
+
+### STEP 1: Examine SHAP Global Importance
+
+The global importance values calculate the mean absolute contribution of each feature across the dataset. Since this is a binary classification task, the magnitude of importance is identical for both "Normal" and "Attack" classes (the directionality differs).
+
+**Ranked Feature Importance:**
+1.  **failed_logins**: 0.179261
+2.  **login_a
+...
+
+
+Full results saved to: resultados_cot.json

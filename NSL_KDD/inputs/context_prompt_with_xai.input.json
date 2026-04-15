@@ -1,0 +1,18 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "with_xai",
+  "chat": true,
+  "nSamples": 20,
+  "nShapLocal": 15,
+  "nLimeLocal": 15,
+  "systemPrompt": "You are analyzing a network intrusion detection model deployed in a military network environment. The model monitors TCP/IP traffic to detect various attack patterns including DoS, Probe, R2L, and U2R attacks.\n\nCONTEXT:\n- Network supports critical military operations\n- Zero false negative tolerance for certain attack categories\n- Detection delay must be minimized\n- Attack patterns evolve rapidly\n\nCONSTRAINTS:\n1. Prioritize features that detect stealthy attacks\n2. Explain time-based feature implications\n3. Reference specific attack signatures when relevant",
+  "randomSeed": 42,
+  "outputFile": "resultados_context_prompt.json",
+  "explainMessageTokens": 12288
+}

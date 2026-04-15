@@ -1,0 +1,127 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+Loading configuration from: inputs/role_based.input.json
+============================================================
+WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
+============================================================
+Original shape: (9537, 11)
+After cleaning: (7571, 10)
+Final shape: (7571, 10)
+Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
+Training RandomForestClassifier...
+Model accuracy: 0.8948
+Classes: ['Normal', 'Attack']
+Sampling 2272 instances for SHAP/LIME computation...
+Computing SHAP for 2272 instances...
+SHAP computed: 2 classes, 9 features
+Computing LIME for 20 instances...
+LIME computed: 20 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_role_based.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 13m59s
+  Error: None
+  Response length: 2883 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the analysis of the feature values provided, here is an interpretation of the global trends, feature importance, and derived rules.
+
+### 🏆 Global Feature Importance Trend
+The most significant features driving the model's predictions are:
+1.  **IP Reputation Score (`ips`):** The highest individual contributor. The model heavily relies on the reputation of the originating IP address.
+2.  **Failed Logins (`fal`):** A very strong indicator, driving predictions strongly toward one direction 
+...
+
+
+qwen3:14b:
+  Time: 5m59s
+  Error: None
+  Response length: 2826 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the provided feature importances from the model, here's a structured analysis:
+
+### **Key Features and their Importance**
+1. **Failed Logins (2.94)**  
+   - **Role**: High importance indicates a strong correlation with the target variable (e.g., fraud detection or login success). Frequent failed attempts often signal suspicious activity.
+   - **Interpretation**: A critical indicator for detecting potential security threats or account compromise.
+
+2. **IP Reputation Score (2.43)**  
+   -
+...
+
+
+gpt-oss:20b:
+  Time: 3m17s
+  Error: None
+  Response length: 5238 chars
+
+--- Response Preview (first 500 chars) ---
+**Model Interpretation (LIME)**  
+
+The LIME output shows which input attributes the classifier relies on most to decide “benign” versus “malicious”.  
+The list of non‑zero weights (taken from the most recent model run) is:
+
+| LIME‑indexed feature | Weight |
+|-----------------------|--------|
+| **4**                 | 0.02   |
+| **5**                 | 0.009  |
+| **1**                 | 0.04   |
+| **2**                 | 0.018  |
+| **6**                 | 0.0123 |
+| **3**                 | 0.0116
+...
+
+
+qwen3:30b:
+  Time: 6m42s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 4m15s
+  Error: None
+  Response length: 6510 chars
+
+--- Response Preview (first 500 chars) ---
+# Model Interpretability Analysis: Network Intrusion Detection
+
+## 1. Feature Importance Analysis
+
+Based on the SHAP global importance values (mean absolute SHAP), the top features driving model predictions are **identical in magnitude for both classes**, which is expected for binary classification where features push probabilities in opposite directions. The top three features are:
+
+1.  **`failed_logins`** (Mean |SHAP|: **0.179**)
+    *   **Why:** This is the dominant predictor. In security con
+...
+
+
+Full results saved to: resultados_role_based.json

@@ -1,0 +1,16 @@
+{
+  "models": [
+    {"name": "glm-4.7-flash", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:14b", "api": "http://localhost:11434/v1"},
+    {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+    {"name": "qwen3:30b", "api": "http://localhost:11434/v1"},
+    {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "without_xai",
+  "chat": true,
+  "nSamples": 20,
+  "systemPrompt": "You are an expert in Machine Learning for cybersecurity.\n\nFollow this format for your analysis:\n\nEXAMPLE ANALYSIS (use this pattern):\n\n**Top 3 Features Detected:**\n\n1. **src_bytes** (Importance: HIGH)\n   - Why important: Large source bytes indicate data exfiltration or DoS floods\n   - Detection rule: IF src_bytes > 10000 THEN investigate\n   - Confidence: 82%\n\n2. **dst_bytes** (Importance: MEDIUM)\n   - Why important: Destination bytes reveal attack response patterns\n   - Detection rule: IF dst_bytes = 0 AND flag = 'S0' THEN flag SYN attack\n   - Confidence: 75%\n\n3. **logged_in** (Importance: MEDIUM)\n   - Why important: Successful logins from attack sources indicate compromise\n   - Detection rule: IF logged_in = 1 AND service = 'telnet' THEN investigate\n   - Confidence: 68%\n\n---\n\nNow analyze the provided model following this exact format. Infer feature importance from the training data patterns.",
+  "randomSeed": 42,
+  "outputFile": "resultados_few_shot_without_xai.json",
+  "explainMessageTokens": 12288
+}

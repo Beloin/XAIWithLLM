@@ -1,0 +1,120 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+Loading configuration from: inputs/cot.input.json
+============================================================
+WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
+============================================================
+Original shape: (9537, 11)
+After cleaning: (7571, 10)
+Final shape: (7571, 10)
+Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
+Training RandomForestClassifier...
+Model accuracy: 0.8948
+Classes: ['Normal', 'Attack']
+Sampling 2272 instances for SHAP/LIME computation...
+Computing SHAP for 2272 instances...
+SHAP computed: 2 classes, 9 features
+Computing LIME for 20 instances...
+LIME computed: 20 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_cot.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 9m29s
+  Error: None
+  Response length: 3369 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the analysis of the provided dataset snippets, the global feature importance and class-specific patterns are as follows:
+
+### 1. Global Feature Importance
+Ranking the features based on the magnitude of their SHAP (SHapley Additive exPlanations) values (Sum of Absolute Values):
+
+1.  **`failed_logins`** (Dominant Driver)
+    *   **Sum:** ~1.66
+    *   **Insight:** This is the feature with the highest impact on the model's predictions. High absolute scores here indicate that whether a user
+...
+
+
+qwen3:14b:
+  Time: 7m24s
+  Error: None
+  Response length: 2816 chars
+
+--- Response Preview (first 500 chars) ---
+To determine the most influential features based on the provided SHAP (SHapley Additive exPlanations) values, we analyze the absolute contributions of each feature across the 13 instances. Here's the breakdown and ranking:
+
+### **Top Influential Features (Sorted by Total Absolute SHAP Contributions):**
+
+1. **`failed_logins`**  
+   - **Total Contribution**: 2.552  
+   - **Interpretation**: This feature has the largest impact on the model's predictions, likely due to its frequent occurrence (e.g.,
+...
+
+
+gpt-oss:20b:
+  Time: 1m16s
+  Error: None
+  Response length: 7463 chars
+
+--- Response Preview (first 500 chars) ---
+**1. Feature Importance**
+
+| Class | Top‑3 SHAP features (global mean |SHAP|) | Reasoning |
+|-------|----------------------------------------|-----------|
+| **0 – Malware** | 1. `session_duration` (|0.1235|) <br>2. `ip_reputation_score` (|0.1167|) <br>3. `failed_logins` (|0.1035|) | The model learned that **malware execution** is strongly tied to **extended sessions** and to **troublesome source IPs**.  A `session_duration` > 0.39 s pushes the SHAP value for class 0 up by ≈ 0.12, while an **IP r
+...
+
+
+qwen3:30b:
+  Time: 14m20s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 6m5s
+  Error: None
+  Response length: 8085 chars
+
+--- Response Preview (first 500 chars) ---
+Here is the step-by-step analysis of the network intrusion detection model based on the provided XAI data.
+
+### STEP 1: Examine SHAP Global Importance
+
+I have analyzed the mean absolute SHAP values provided for both classes. Since the values are identical for "Normal" and "Attack" (indicating the magnitude of impact is consistent, just opposite in direction), we can establish a single global ranking of feature influence.
+
+**Feature Ranking (Highest to Lowest):**
+
+1.  **`failed_logins`**: 0.17926
+...
+
+
+Full results saved to: resultados_cot.json
