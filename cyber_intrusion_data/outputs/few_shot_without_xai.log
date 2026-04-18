@@ -1,6 +1,6 @@
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
-Loading configuration from: inputs/few_shot.input.json
+Loading configuration from: inputs/few_shot_without_xai.input.json
 ============================================================
 WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
 ============================================================
@@ -8,7 +8,7 @@ Original shape: (9537, 11)
 After cleaning: (7571, 10)
 Final shape: (7571, 10)
 Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
-=== Starting pipeline: experiment_type=with_xai ===
+=== Starting pipeline: experiment_type=without_xai ===
 Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
 Using provided DataFrame...
 Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
@@ -39,7 +39,7 @@ LIME computed: 20 instances
 
 [5/5] Querying glm-5:cloud...
 
-Saving results to resultados_few_shot.json...
+Saving results to resultados_few_shot_without_xai.json...
 
 === Pipeline complete ===
 
@@ -48,72 +48,81 @@ RESULTS
 ============================================================
 
 glm-4.7-flash:
-  Time: 11m4s
+  Time: 9m54s
   Error: None
-  Response length: 4312 chars
+  Response length: 4696 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the analysis of the `shap_values` and `feature_contributions` provided in your JSON data (which appears to be an Intrusion Detection or User Behavior Analytics scenario), here is the structured breakdown of feature importance, class patterns, and actionable security rules.
+Based on the analysis of the provided dataset, here are the findings regarding feature importance, class patterns, misclassification risks, and security implications.
 
-### 1. Feature Importance (Top 3)
-The following features were found to be the primary drivers in distinguishing classes, based on their thresholds and the consistency of their impact across samples.
+### 1. Feature Importance Ranking (Top 3-5)
 
-1.  **`failed_lo
+Based on the correlation between features and the `attack_detected` binary target (1 for Attack, 0 for Normal) in the provided data:
+
+**1. `unusual_time_access`** (Highest Importance)
+*   **Rank:** 1
+*   **Analysis:** This feature provides the strongest immediate signal for an attack.
+ 
 ...
 
 
 qwen3:14b:
-  Time: 4m24s
+  Time: 2m35s
   Error: None
-  Response length: 4006 chars
+  Response length: 3572 chars
 
 --- Response Preview (first 500 chars) ---
-### **1. Feature Importance (SHAP Global Values)**  
-Based on the SHAP values provided in the examples, the top features contributing to model predictions are:  
+**Feature Importance:**  
+1. **login_attempts** (Importance: HIGH for Class 1, MEDIUM for Class 0)  
+   - Why important: High login attempts (>5) are common in attack samples (e.g., login_attempts=7 in samples 3, 5, 11). This suggests brute-force or automated attacks.  
+   - Detection rule: IF login_attempts > 5 THEN flag (Confidence: 92%)  
 
-- **`failed_logins`**: Frequently appears with high absolute SHAP values (e.g., -0.145, -0.196).  
-- **`ip_reputation_score`**: Often has high negative SHAP values (e.g., -0.105, -0.109).  
-- **`login_attempts`**: Consistently has high negative SHAP values (e.g., -0.087, -0.172).  
-- **`session_duration`**: Mixed signs but notable in a
+2. **ip_reputation_score** (Importance: HIGH for Class 1, LOW for Class 0)  
+   - Why important: Attack samples (e.g., sample 3 with ip_reputation=0.59, sa
 ...
 
 
 gpt-oss:20b:
-  Time: 2m25s
+  Time: 57.7s
   Error: None
-  Response length: 13207 chars
+  Response length: 6554 chars
 
 --- Response Preview (first 500 chars) ---
-**1.  SHAP‑based top‑3 features per class**
+**Top 3-5 Features by Importance (per class)**  
 
-| Class | Feature | Mean absolute SHAP | Why it dominates the model |
-|-------|---------|--------------------|---------------------------|
-| **0** | `failed_logins` | **0.214** | The number of consecutive / recent login failures is the most potent indicator of a suspicious or malicious login event. A high value raises the probability of class 0 for any event. |
-| | `ip_reputation_score` | **0.203** | A risky IP (higher reputation value) amplifies the 
+*The importance ratings below are inferred from how consistently the feature values separate attack from normal in the supplied training and prediction samples.  “HIGH” means the feature almost always flips the model’s vote for that class; “MEDIUM” means the feature frequently but not uniformly influences the decision.*
+
+---
+
+### **Attack‑Class (label = 1)**  
+
+1. **ip_reputation_score** (Importance: **HIGH**)  
+   - **Why important:** Attack sam
 ...
 
 
 qwen3:30b:
-  Time: 7m23s
+  Time: 14m19s
   Error: None
   Response: None
 
 glm-5:cloud:
-  Time: 4m21s
+  Time: 4m24s
   Error: None
-  Response length: 4782 chars
+  Response length: 5732 chars
 
 --- Response Preview (first 500 chars) ---
+Based on the training samples and prediction results provided, here is the analysis of the Network Intrusion Detection model.
+
 **Top 3 Features Detected:**
 
-1. **failed_logins** (SHAP: 0.179)
-   - Why important: The strongest predictor for intrusion detection. High counts of failed logins provide a direct signal of brute-force password guessing or credential stuffing attacks.
-   - Detection rule: IF failed_logins > 2 THEN flag
-   - Confidence: High
+1. **login_attempts** (Importance: HIGH)
+   - Why important: High login attempt counts are the strongest differentiator between normal traffic and attacks in this dataset. Attack samples frequently show counts of 5, 6, or 7, whereas normal traffic rarely exceeds 4.
+   - Detection rule: IF login_attempts > 5 THEN flag
+   - Confidence: 85%
 
-2. **login_attempts** (SHAP: 0.125)
-   - Why important: Abnormal volume of attempts indicates automated scripts or persistent attackers attempting to bypass authentication t
+2.
 ...
 
 
-Full results saved to: resultados_few_shot.json
+Full results saved to: resultados_few_shot_without_xai.json

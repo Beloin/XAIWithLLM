@@ -1,6 +1,6 @@
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
-Loading configuration from: inputs/system_prompt.input.json
+Loading configuration from: inputs/system_prompt_without_xai.input.json
 ============================================================
 WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
 ============================================================
@@ -8,7 +8,7 @@ Original shape: (9537, 11)
 After cleaning: (7571, 10)
 Final shape: (7571, 10)
 Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
-=== Starting pipeline: experiment_type=with_xai ===
+=== Starting pipeline: experiment_type=without_xai ===
 Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
 Using provided DataFrame...
 Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
@@ -39,7 +39,7 @@ LIME computed: 20 instances
 
 [5/5] Querying glm-5:cloud...
 
-Saving results to resultados_system_prompt.json...
+Saving results to resultados_system_prompt_without_xai.json...
 
 === Pipeline complete ===
 
@@ -48,67 +48,84 @@ RESULTS
 ============================================================
 
 glm-4.7-flash:
-  Time: 15m1s
+  Time: 5m46s
   Error: None
-  Response length: 870 chars
+  Response length: 5488 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the analysis of the provided JSON logs, here are the dominant behavioral rules for the model:
+Based on the data samples provided, here is the analysis of your model’s behavior, structured for a SOC analyst to implement or refine detection strategies.
 
-1.  **Instance 3499**
-    *   **Dominant Feature:** Failed Logins
-    *   **Rule:** `1.00 < failed_logins <= 4.00`
+### 1. Feature Importance Ranking
+Based on the separation between Class 0 (Normal) and Class 1 (Attack) in the dataset, the top features are ranked by their predictive power:
 
-2.  **Instance 416**
-    *   **Dominant Feature:** IP Reputation
-    *   **Rule:** `0.00 <= ip_reputation_score <= 0.46`
-
-3.  **Instance 525**
-    *   **Dominant Feature:** IP Reputation
-    *   **Rule:** `ip_reputation_score > 0.46`
-
-4.  **Instance 6782**
-    *   **Dominant Feat
+1.  **`ip_reputation_score`** (Highest Importance)
+    *   **Evidence:** The model relies heavily on this metric. Every Attack sample has a score ≥ 0.19 (e.g., 0.59, 
 ...
 
 
 qwen3:14b:
-  Time: 4m25s
+  Time: 3m17s
   Error: None
-  Response length: 4750 chars
+  Response length: 5432 chars
 
 --- Response Preview (first 500 chars) ---
-### 1. **Feature Importance (Top 3 Features per Class)**  
-The provided SHAP and LIME explanations are **local** (per-instance) and **not explicitly class-labeled**. However, the features with the **highest absolute SHAP values across all instances are repeated frequently**, suggesting **global importance** for the following features (assuming a binary classification task, e.g., "malicious" vs. "benign"):  
+### 1. **Feature Importance**  
+The model relies on the following features for classification, ranked by importance:
 
-#### **Top 3 Features for "Malicious" Class**  
-1. **Login Attempts Threshold ("login_at
+#### **Top Features for Attack Class (1):**  
+1. **`failed_logins`**  
+   - **Why Important:** Attacks with `failed_logins ≥ 2` are overrepresented in the training samples (e.g., sample 7: `failed_logins = 3`, sample 9: `failed_logins = 3`). High failed login attempts correlate with brute-force or credential stuffing attacks.  
+2. **`ip_reputation_score`**  
+   - **Why Important:
 ...
 
 
 gpt-oss:20b:
-  Time: 2m28s
+  Time: 1m31s
   Error: None
-  Response length: 9901 chars
+  Response length: 9188 chars
 
 --- Response Preview (first 500 chars) ---
-**Feature‑Importance (SHAP)**  
-_For every class the mean absolute SHAP value is the proxy of influence: the larger the value, the more consistently that feature pushes the model toward the class (in either direction). The top‑three contributors per class are summarised below (rounded to two decimals)._
+**1. Feature Importance (based on the 32 training examples and the 20 prediction‑outcomes you sent)**  
 
-| **Class** | **Rank 1** | SHAP value | **Rank 2** | SHAP value | **Rank 3** | SHAP value |
-|-----------|------------|------------|------------|------------|------------|------------|
-| **0** | 
+| Rank | Feature | Why it matters for *Attack* | Why it matters for *Normal* |
+|------|---------|-----------------------------|-----------------------------|
+| 1 | **ip_reputation_score** | 24 of 26 attack samples have a score ≥ 0.30; 2 attack samples (scores 0.04 & 0.09) break the pattern but are still classified correctly because of other cues. In the normal class the score is ≤ 0.35 in 21/
 ...
 
 
 qwen3:30b:
-  Time: 11m45s
+  Time: 5m5s
   Error: None
-  Response: None
+  Response length: 6049 chars
+
+--- Response Preview (first 500 chars) ---
+### Analysis of Model Performance (Based STRICTLY on Provided Data)
+
+---
+
+#### **1. Feature Importance** (Ranked by observed correlation with `attack_detected=1` in training samples)
+| Rank | Feature               | Importance Rationale (from data)                                                                 |
+|------|-----------------------|----------------------------------------------------------------------------------------------|
+| 1    | `failed_logins`       | **All 7 attack samples (
+...
+
 
 glm-5:cloud:
-  Time: 4m31s
+  Time: 5m36s
   Error: None
-  Response: None
+  Response length: 6441 chars
 
-Full results saved to: resultados_system_prompt.json
+--- Response Preview (first 500 chars) ---
+Based on the provided training samples and prediction logs, I have analyzed the model's decision boundaries and behavioral patterns. Below is the operational assessment.
+
+### 1. Feature Importance Analysis
+
+Based on the variance between classes and the specific errors in the prediction log, the features are ranked as follows:
+
+1.  **`login_attempts` (Primary Driver):**
+    *   **Evidence:** In the training data, the "Attack" class shows a higher concentration of login attempts (ranging 4–7, with
+...
+
+
+Full results saved to: resultados_system_prompt_without_xai.json

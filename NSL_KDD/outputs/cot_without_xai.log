@@ -1,0 +1,126 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+Loading configuration from: inputs/cot_without_xai.input.json
+============================================================
+WITHOUT XAI EXPERIMENT - NSL_KDD Intrusion Detection
+============================================================
+Original shape: (25192, 43)
+After cleaning: (25192, 43)
+Final shape: (25192, 16)
+Columns: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'label']
+=== Starting pipeline: experiment_type=without_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate']
+Training RandomForestClassifier...
+Model accuracy: 0.9966
+Classes: ['Normal', 'Attack']
+Sampling 7558 instances for SHAP/LIME computation...
+Computing SHAP for 7558 instances...
+SHAP computed: 2 classes, 15 features
+Computing LIME for 20 instances...
+LIME computed: 20 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_cot_without_xai.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 5m49s
+  Error: None
+  Response length: 5079 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the data samples provided and the model's characteristics, here is the analysis of the feature importance, patterns, risks, and security implications.
+
+### 1. Feature Importance by Class
+
+The model appears to treat the feature space as a series of decision trees. It sorts samples primarily by anomaly flags, error rates, and network activity levels. Here are the top discriminators:
+
+**For Attack Class (Label 1):**
+*   **`serror_rate` (Synchronous Error Rate):** This is the most powerful 
+...
+
+
+qwen3:14b:
+  Time: 4m18s
+  Error: None
+  Response length: 4377 chars
+
+--- Response Preview (first 500 chars) ---
+### 1. **Feature Importance**  
+#### **Attack Class (Label 1):**  
+1. **`num_compromised`:** High values (e.g., 38 in the sample with `duration=718`, `dst_bytes=25260`) indicate significant system compromise, a strong signal for attacks.  
+2. **`hot`:** Elevated values (e.g., 28 in the sample with `src_bytes=1238`, `dst_bytes=2451`) suggest anomalous activity in network traffic.  
+3. **`rerror_rate`:** Critical when set to **1.0** (e.g., in the sample with `duration=0`, `src_bytes=0`, `dst_bytes
+...
+
+
+gpt-oss:20b:
+  Time: 1m5s
+  Error: None
+  Response length: 7764 chars
+
+--- Response Preview (first 500 chars) ---
+**Analysis Overview**
+
+The RandomForest operates on 15 integer/float attributes plus the categorical fields (`protocol_type`, `service`, `flag`).  
+All training examples have *duration = 0* (the dataset was pre‑processed that way), so the model never uses duration to separate the classes.  
+Below I dissect the evidence that emerges from the supplied samples and predictions.
+
+---
+
+## STEP 1 – Feature Importance (by class)
+
+| Class | Top 5 Features (in order of importance) | Why the model cares ab
+...
+
+
+qwen3:30b:
+  Time: 13m5s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 4m24s
+  Error: None
+  Response length: 6453 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the training samples and predictions provided, here is the analysis following the requested steps.
+
+### STEP 1: Examine Feature Distributions
+
+I compared the feature values between the 10 Normal instances and 10 Attack instances provided in the training samples.
+
+**Key Separations Observed:**
+
+*   **serror_rate & srv_serror_rate:**
+    *   **Normal:** Consistently `0.0` across all samples.
+    *   **Attack:** Contains values of `1.0` (Samples 4, 8). However, some attacks also show `0.0`
+...
+
+
+Full results saved to: resultados_cot_without_xai.json

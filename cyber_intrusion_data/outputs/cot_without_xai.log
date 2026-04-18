@@ -1,6 +1,6 @@
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
-Loading configuration from: inputs/cot.input.json
+Loading configuration from: inputs/cot_without_xai.input.json
 ============================================================
 WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
 ============================================================
@@ -8,7 +8,7 @@ Original shape: (9537, 11)
 After cleaning: (7571, 10)
 Final shape: (7571, 10)
 Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
-=== Starting pipeline: experiment_type=with_xai ===
+=== Starting pipeline: experiment_type=without_xai ===
 Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
 Using provided DataFrame...
 Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
@@ -39,7 +39,7 @@ LIME computed: 20 instances
 
 [5/5] Querying glm-5:cloud...
 
-Saving results to resultados_cot.json...
+Saving results to resultados_cot_without_xai.json...
 
 === Pipeline complete ===
 
@@ -48,73 +48,78 @@ RESULTS
 ============================================================
 
 glm-4.7-flash:
-  Time: 9m29s
+  Time: 8m1s
   Error: None
-  Response length: 3369 chars
+  Response length: 4626 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the analysis of the provided dataset snippets, the global feature importance and class-specific patterns are as follows:
+Based on the data provided, here is an analysis of the model's behavior regarding threat detection.
 
-### 1. Global Feature Importance
-Ranking the features based on the magnitude of their SHAP (SHapley Additive exPlanations) values (Sum of Absolute Values):
+### 1. Feature Importance Ranking
 
-1.  **`failed_logins`** (Dominant Driver)
-    *   **Sum:** ~1.66
-    *   **Insight:** This is the feature with the highest impact on the model's predictions. High absolute scores here indicate that whether a user
+**1. `ip_reputation_score` (Most Important)**
+The IP reputation score acts as the primary weight for legitimacy. There is a distinct visual clustering where "Attack" classes consistently score higher (0.1–0.25+) than "Normal" classes (1 is low, 11–12 are mid, but 20 is high—wait, looking at the numeric data in the text: ID 4, 12 are Attack with IP 0.1; ID 1, 20 
 ...
 
 
 qwen3:14b:
-  Time: 7m24s
+  Time: 2m2s
   Error: None
-  Response length: 2816 chars
+  Response length: 4738 chars
 
 --- Response Preview (first 500 chars) ---
-To determine the most influential features based on the provided SHAP (SHapley Additive exPlanations) values, we analyze the absolute contributions of each feature across the 13 instances. Here's the breakdown and ranking:
-
-### **Top Influential Features (Sorted by Total Absolute SHAP Contributions):**
-
-1. **`failed_logins`**  
-   - **Total Contribution**: 2.552  
-   - **Interpretation**: This feature has the largest impact on the model's predictions, likely due to its frequent occurrence (e.g.,
+### 1. **Feature Importance**  
+#### **Top 3-5 Features by Importance**  
+- **ip_reputation_score (Attack: 0.78, Normal: 0.32)**: Strong separation. Attack instances show significantly higher scores (e.g., 0.59 in attack sample 3, 0.52 in attack sample 15), while normal instances cluster below 0.4. This metric is critical for detecting suspicious IPs.  
+- **unusual_time_access (Attack: 0.65, Normal: 0.35)**: Attacks frequently occur at unusual times (11 of 14 attack samples have this flag). Norm
 ...
 
 
 gpt-oss:20b:
-  Time: 1m16s
+  Time: 3m18s
   Error: None
-  Response length: 7463 chars
+  Response length: 9400 chars
 
 --- Response Preview (first 500 chars) ---
-**1. Feature Importance**
+# Machine‑Learning Assessment Report  
+**Project:** Predictive Classification of Network Attacks  
+**Date:** 23 Oct 2023  
 
-| Class | Top‑3 SHAP features (global mean |SHAP|) | Reasoning |
-|-------|----------------------------------------|-----------|
-| **0 – Malware** | 1. `session_duration` (|0.1235|) <br>2. `ip_reputation_score` (|0.1167|) <br>3. `failed_logins` (|0.1035|) | The model learned that **malware execution** is strongly tied to **extended sessions** and to **troublesome source IPs**.  A `session_duration` > 0.39 s pushes the SHAP value for class 0 up by ≈ 0.12, while an **IP r
+---
+
+## 1. Executive Summary  
+
+- **Dataset size**: 20 observations with 8 engineered features (numeric or categorical), split into a short training‑like set and a 20‑sample test set.  
+- **Model**: Gradient‑Boosted Decision Trees (GDBDT) trained on all 20 observations.  
+- **Overall accuracy**: 16 / 20 = **80 %**.  
+- **Class‑level performance**  
+  - **Normal traffic** (1
 ...
 
 
 qwen3:30b:
-  Time: 14m20s
+  Time: 13m4s
   Error: None
   Response: None
 
 glm-5:cloud:
-  Time: 6m5s
+  Time: 6m50s
   Error: None
-  Response length: 8085 chars
+  Response length: 6023 chars
 
 --- Response Preview (first 500 chars) ---
-Here is the step-by-step analysis of the network intrusion detection model based on the provided XAI data.
+Based on the provided training samples and prediction results, here is the step-by-step analysis.
 
-### STEP 1: Examine SHAP Global Importance
+### STEP 1: Examine Feature Distributions
 
-I have analyzed the mean absolute SHAP values provided for both classes. Since the values are identical for "Normal" and "Attack" (indicating the magnitude of impact is consistent, just opposite in direction), we can establish a single global ranking of feature influence.
+Comparing the feature values between the 13 Normal instances and the 7 Attack instances in the training data.
 
-**Feature Ranking (Highest to Lowest):**
+**Normal Instances (Label 0):**
+*   **login_attempts:** Range 1–6. Mean ≈ 3.5.
+*   **failed_logins:** Range 0–2. Most values are 0 or 1.
+*   **ip_reputation_score:** Range 0.03 – 0.52. Generally lower, though instance #15 has a high score (0.52).
 
-1.  **`failed_logins`**: 0.17926
 ...
 
 
-Full results saved to: resultados_cot.json
+Full results saved to: resultados_cot_without_xai.json

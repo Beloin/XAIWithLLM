@@ -1680,15 +1680,15 @@
   },
   "results": {
     "glm-4.7-flash": {
-      "response": "Self-Consistency Results (3/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats.\n\n3. unusual_time_access - 100.0% consensus\n   Why: Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks.\n\n4. login_attempts - 100.0% consensus\n   Why: Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions.\n\n5. network_packet_size - 66.7% consensus\n   Why: Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities.\n",
+      "response": "Self-Consistency Results (1/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: A high incidence of failed login attempts is observed across multiple attack examples, serving as a clear indicator of brute force or unauthorized access attempts.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Suspicious or lower reputation scores (e.g., scores above 0.4) for the source IP address frequently correlate with attacks in the provided dataset.\n\n3. login_attempts - 100.0% consensus\n   Why: The attack samples frequently exhibit a high volume of login attempts, suggesting compromised credentials or automated credential stuffing attacks.\n\n4. unusual_time_access - 100.0% consensus\n   Why: Occurrences during unusual times are noted in specific attack cases, highlighting that temporal anomalies are a key factor in threat detection.\n\n5. network_packet_size - 100.0% consensus\n   Why: Significant variations from the standard packet size (z-scores) appear in the attack classification examples, pointing to abnormal traffic patterns.\n",
       "thinking_process": null,
       "token_usage": {
         "prompt_tokens": 10040,
-        "completion_tokens": 17695,
-        "total_tokens": 27735
+        "completion_tokens": 24115,
+        "total_tokens": 34155
       },
-      "time_ms": 1515344.53,
-      "time_formatted": "25m15s",
+      "time_ms": 2046911.72,
+      "time_formatted": "34m6s",
       "error": null,
       "self_consistency": {
         "features": [
@@ -1696,85 +1696,76 @@
             "rank": 1,
             "name": "failed_logins",
             "percentage": 1.0,
-            "appearances": 3,
+            "appearances": 1,
             "avg_position": 1.0,
             "explanations": [
-              "A high number indicates brute force attacks or unauthorized access attempts, directly correlating with security breaches.",
-              "This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing.",
-              "A higher count of failed login attempts is a primary signature of brute-force and credential stuffing attacks, frequently appearing in the labeled attack samples."
+              "A high incidence of failed login attempts is observed across multiple attack examples, serving as a clear indicator of brute force or unauthorized access attempts."
             ],
-            "consensus_explanation": "This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing."
+            "consensus_explanation": "A high incidence of failed login attempts is observed across multiple attack examples, serving as a clear indicator of brute force or unauthorized access attempts."
           },
           {
             "rank": 2,
             "name": "ip_reputation_score",
             "percentage": 1.0,
-            "appearances": 3,
+            "appearances": 1,
             "avg_position": 2.0,
             "explanations": [
-              "Higher scores suggest known malicious IPs or low-trust sources, providing a critical external threat context.",
-              "A high score flags the source as previously malicious, allowing the system to block known threats before they establish a session.",
-              "This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats."
+              "Suspicious or lower reputation scores (e.g., scores above 0.4) for the source IP address frequently correlate with attacks in the provided dataset."
             ],
-            "consensus_explanation": "This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats."
+            "consensus_explanation": "Suspicious or lower reputation scores (e.g., scores above 0.4) for the source IP address frequently correlate with attacks in the provided dataset."
           },
           {
             "rank": 3,
-            "name": "unusual_time_access",
+            "name": "login_attempts",
             "percentage": 1.0,
-            "appearances": 3,
-            "avg_position": 3.33,
+            "appearances": 1,
+            "avg_position": 3.0,
             "explanations": [
-              "Access occurring outside standard business hours is a common tactic for attackers to avoid detection.",
-              "Attacks frequently occur when legitimate traffic is low (e.g., late at night or weekends), making time-of-day a key anomaly signal.",
-              "Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks."
+              "The attack samples frequently exhibit a high volume of login attempts, suggesting compromised credentials or automated credential stuffing attacks."
             ],
-            "consensus_explanation": "Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks."
+            "consensus_explanation": "The attack samples frequently exhibit a high volume of login attempts, suggesting compromised credentials or automated credential stuffing attacks."
           },
           {
             "rank": 4,
-            "name": "login_attempts",
+            "name": "unusual_time_access",
             "percentage": 1.0,
-            "appearances": 3,
-            "avg_position": 3.67,
+            "appearances": 1,
+            "avg_position": 4.0,
             "explanations": [
-              "The total volume of login attempts helps determine the intensity and scope of a security incident.",
-              "Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions.",
-              "Excessive attempts suggest automated scanning or brute-force efforts to guess credentials, which are common precursors to a successful intrusion."
+              "Occurrences during unusual times are noted in specific attack cases, highlighting that temporal anomalies are a key factor in threat detection."
             ],
-            "consensus_explanation": "Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions."
+            "consensus_explanation": "Occurrences during unusual times are noted in specific attack cases, highlighting that temporal anomalies are a key factor in threat detection."
           },
           {
             "rank": 5,
             "name": "network_packet_size",
-            "percentage": 0.6667,
-            "appearances": 2,
+            "percentage": 1.0,
+            "appearances": 1,
             "avg_position": 5.0,
             "explanations": [
-              "Anomalies in data packet sizes often signal denial-of-service attacks or large-scale data scanning.",
-              "Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities."
+              "Significant variations from the standard packet size (z-scores) appear in the attack classification examples, pointing to abnormal traffic patterns."
             ],
-            "consensus_explanation": "Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities."
+            "consensus_explanation": "Significant variations from the standard packet size (z-scores) appear in the attack classification examples, pointing to abnormal traffic patterns."
           }
         ],
         "metadata": {
           "total_runs": 5,
-          "valid_runs": 3,
-          "invalid_runs": 2
+          "valid_runs": 1,
+          "invalid_runs": 4
         },
-        "summary": "Self-Consistency Results (3/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: This is the strongest indicator of security threats, as a high number of failed login attempts is a distinct early warning sign of brute force attacks or credential stuffing.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: This feature aggregates external intelligence; a high score indicates a known malicious origin, providing immediate context for potential threats.\n\n3. unusual_time_access - 100.0% consensus\n   Why: Accessing systems at unconventional hours reduces the probability of legitimate activity and is a classic heuristic for stealthy cyber attacks.\n\n4. login_attempts - 100.0% consensus\n   Why: Frequent login attempts often represent a scanning phase or an automated attack trying multiple credentials, distinguishing suspicious activity from standard user sessions.\n\n5. network_packet_size - 66.7% consensus\n   Why: Significant deviations in packet size can indicate activities like Denial of Service (DoS) attacks or large data exfiltration activities.\n"
+        "summary": "Self-Consistency Results (1/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: A high incidence of failed login attempts is observed across multiple attack examples, serving as a clear indicator of brute force or unauthorized access attempts.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Suspicious or lower reputation scores (e.g., scores above 0.4) for the source IP address frequently correlate with attacks in the provided dataset.\n\n3. login_attempts - 100.0% consensus\n   Why: The attack samples frequently exhibit a high volume of login attempts, suggesting compromised credentials or automated credential stuffing attacks.\n\n4. unusual_time_access - 100.0% consensus\n   Why: Occurrences during unusual times are noted in specific attack cases, highlighting that temporal anomalies are a key factor in threat detection.\n\n5. network_packet_size - 100.0% consensus\n   Why: Significant variations from the standard packet size (z-scores) appear in the attack classification examples, pointing to abnormal traffic patterns.\n"
       }
     },
     "qwen3:14b": {
-      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources\n\n3. unusual_time_access - 100.0% consensus\n   Why: Access during abnormal hours is a common pattern in unauthorized or malicious activities\n\n4. login_attempts - 100.0% consensus\n   Why: A higher number of login attempts can signal automated attack patterns or persistent probing.\n\n5. protocol_type - 60.0% consensus\n   Why: Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks.\n",
+      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: High number of failed login attempts is a strong indicator of brute-force or unauthorized access attempts\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Higher scores indicate previously flagged or suspicious IP addresses associated with malicious activity\n\n3. login_attempts - 100.0% consensus\n   Why: Increased login attempts are a common precursor to brute-force or unauthorized access attempts\n\n4. unusual_time_access - 100.0% consensus\n   Why: Access during non-business hours or unusual patterns may signal automated or malicious activity\n\n5. protocol_type - 60.0% consensus\n   Why: Certain protocols (e.g., TCP) are more commonly exploited in network-based attacks compared to others\n",
       "thinking_process": null,
       "token_usage": {
         "prompt_tokens": 11145,
-        "completion_tokens": 8140,
-        "total_tokens": 19285
+        "completion_tokens": 8816,
+        "total_tokens": 19961
       },
-      "time_ms": 408297.83,
-      "time_formatted": "6m48s",
+      "time_ms": 441943.54,
+      "time_formatted": "7m21s",
       "error": null,
       "self_consistency": {
         "features": [
@@ -1783,15 +1774,15 @@
             "name": "failed_logins",
             "percentage": 1.0,
             "appearances": 5,
-            "avg_position": 1.2,
+            "avg_position": 1.4,
             "explanations": [
-              "High number of failed login attempts is a strong indicator of brute-force attacks.",
+              "High failed login attempts strongly correlate with brute-force attack patterns",
+              "High number of failed login attempts is a strong indicator of brute-force attack attempts",
+              "Multiple failed login attempts signal potential brute-force or credential stuffing attacks",
               "High number of failed login attempts is a strong indicator of brute-force or automated attack attempts",
-              "High failed login attempts indicate potential brute-force or unauthorized access attempts",
-              "High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks",
-              "Frequent failed login attempts are a common indicator of brute-force attacks"
+              "High number of failed login attempts is a strong indicator of brute-force or unauthorized access attempts"
             ],
-            "consensus_explanation": "High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks"
+            "consensus_explanation": "High number of failed login attempts is a strong indicator of brute-force or unauthorized access attempts"
           },
           {
             "rank": 2,
@@ -1800,43 +1791,43 @@
             "appearances": 5,
             "avg_position": 1.8,
             "explanations": [
-              "Higher scores indicate more suspicious IP addresses, correlating with potential malicious activity.",
-              "Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources",
-              "Higher scores correlate with historically malicious or suspicious IP addresses",
-              "Higher scores correlate with malicious IP addresses previously associated with malicious activity",
-              "Higher scores indicate more suspicious IP addresses, strongly correlating with malicious activity"
+              "Higher scores indicate suspicious IP addresses linked to malicious activity",
+              "Higher scores indicate previously flagged or suspicious IP addresses associated with malicious activity",
+              "Higher scores indicate more suspicious IP addresses, strongly correlating with attack presence",
+              "Higher scores correlate with IPs known for malicious activity, directly linking to potential threats",
+              "Higher scores correlate with known malicious IP addresses, indicating potential threats"
             ],
-            "consensus_explanation": "Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources"
+            "consensus_explanation": "Higher scores indicate previously flagged or suspicious IP addresses associated with malicious activity"
           },
           {
             "rank": 3,
-            "name": "unusual_time_access",
+            "name": "login_attempts",
             "percentage": 1.0,
             "appearances": 5,
-            "avg_position": 3.4,
+            "avg_position": 3.2,
             "explanations": [
-              "Access during unusual hours may indicate unauthorized or automated access attempts.",
-              "Access during abnormal hours is a common pattern in unauthorized or malicious activities",
-              "Access during non-standard hours may indicate unauthorized or malicious activity",
-              "Access during non-standard hours may indicate automated or unauthorized access attempts",
-              "Access during unusual hours is a red flag for potential unauthorized access"
+              "Excessive login attempts suggest potential targeted attacks or credential stuffing",
+              "Excessive login attempts correlate with potential account compromise or attack patterns",
+              "Increased login attempts are a common precursor to brute-force or unauthorized access attempts",
+              "Excessive login attempts (both successful and failed) suggest potential exploitation attempts",
+              "Excessive login attempts may suggest automated attacks or persistent access attempts"
             ],
-            "consensus_explanation": "Access during abnormal hours is a common pattern in unauthorized or malicious activities"
+            "consensus_explanation": "Increased login attempts are a common precursor to brute-force or unauthorized access attempts"
           },
           {
             "rank": 4,
-            "name": "login_attempts",
+            "name": "unusual_time_access",
             "percentage": 1.0,
             "appearances": 5,
             "avg_position": 3.6,
             "explanations": [
-              "A higher number of login attempts can signal automated attack patterns or persistent probing.",
-              "Excessive login attempts suggest potential unauthorized access or credential stuffing attacks",
-              "Frequent login attempts suggest potential account compromise or automated attacks",
-              "Excessive login attempts often precede successful intrusion attempts",
-              "Higher login attempts may signify automated attack tools trying to compromise accounts"
+              "Access during unusual hours is a common indicator of unauthorized activity",
+              "Access during non-business hours or unusual patterns may signal automated or malicious activity",
+              "Access during unusual hours is a behavioral red flag for unauthorized activity",
+              "Access during unusual hours is a common indicator of unauthorized or malicious behavior",
+              "Access during non-business hours is often associated with suspicious or unauthorized activity"
             ],
-            "consensus_explanation": "A higher number of login attempts can signal automated attack patterns or persistent probing."
+            "consensus_explanation": "Access during non-business hours or unusual patterns may signal automated or malicious activity"
           },
           {
             "rank": 5,
@@ -1845,11 +1836,11 @@
             "appearances": 3,
             "avg_position": 5.0,
             "explanations": [
-              "Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks.",
-              "Certain protocols (e.g., UDP) are more commonly associated with attack vectors like DDoS",
-              "Certain protocols (e.g., UDP) may be more frequently exploited in attack scenarios"
+              "Certain protocols (e.g., TCP) are more commonly exploited in network-based attacks compared to others",
+              "Certain protocols (e.g., UDP) may be more frequently exploited in attack scenarios",
+              "Certain protocols (e.g., TCP/UDP) may be more commonly exploited in attacks based on sample patterns"
             ],
-            "consensus_explanation": "Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks."
+            "consensus_explanation": "Certain protocols (e.g., TCP) are more commonly exploited in network-based attacks compared to others"
           }
         ],
         "metadata": {
@@ -1857,90 +1848,88 @@
           "valid_runs": 5,
           "invalid_runs": 0
         },
-        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: High number of failed login attempts is a strong indicator of brute-force or credential stuffing attacks\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Higher scores correlate with malicious IP activity, aiding in identifying compromised or suspicious sources\n\n3. unusual_time_access - 100.0% consensus\n   Why: Access during abnormal hours is a common pattern in unauthorized or malicious activities\n\n4. login_attempts - 100.0% consensus\n   Why: A higher number of login attempts can signal automated attack patterns or persistent probing.\n\n5. protocol_type - 60.0% consensus\n   Why: Certain protocols (e.g., UDP) may be more susceptible to specific types of network attacks.\n"
+        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. failed_logins - 100.0% consensus\n   Why: High number of failed login attempts is a strong indicator of brute-force or unauthorized access attempts\n\n2. ip_reputation_score - 100.0% consensus\n   Why: Higher scores indicate previously flagged or suspicious IP addresses associated with malicious activity\n\n3. login_attempts - 100.0% consensus\n   Why: Increased login attempts are a common precursor to brute-force or unauthorized access attempts\n\n4. unusual_time_access - 100.0% consensus\n   Why: Access during non-business hours or unusual patterns may signal automated or malicious activity\n\n5. protocol_type - 60.0% consensus\n   Why: Certain protocols (e.g., TCP) are more commonly exploited in network-based attacks compared to others\n"
       }
     },
     "gpt-oss:20b": {
-      "response": "Self-Consistency Results (4/5 valid runs)\n\n1. login_attempts - 125.0% consensus\n   Why: Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat.\n\n3. failed_logins - 100.0% consensus\n   Why: A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks.\n\n4. unusual_time_access - 100.0% consensus\n   Why: Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity.\n\n5. protocol_type - 50.0% consensus\n   Why: Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling\n",
+      "response": "Self-Consistency Results (4/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: Higher values often correlate with known malicious hosts, making it a strong signal of potential intrusion\n\n2. failed_logins - 100.0% consensus\n   Why: Large number of failed authentication attempts signals brute‑force or credential‑guessing attacks\n\n3. unusual_time_access - 100.0% consensus\n   Why: Access outside normal business hours can trigger alerts and correlates with many attack events\n\n4. login_attempts - 100.0% consensus\n   Why: Frequent login attempts per session can reveal password‑guessing or session‑taking attempts\n\n5. protocol_type - 25.0% consensus\n   Why: TCP (1) is most common in attacks; UDP and ICMP less so, making protocol choice a key indicator\n",
       "thinking_process": null,
       "token_usage": {
         "prompt_tokens": 10050,
-        "completion_tokens": 7629,
-        "total_tokens": 17679
+        "completion_tokens": 5666,
+        "total_tokens": 15716
       },
-      "time_ms": 178314.71,
-      "time_formatted": "2m58s",
+      "time_ms": 132864.9,
+      "time_formatted": "2m12s",
       "error": null,
       "self_consistency": {
         "features": [
           {
             "rank": 1,
-            "name": "login_attempts",
-            "percentage": 1.25,
-            "appearances": 5,
-            "avg_position": 5.0,
-            "explanations": [
-              "Excessive login attempts within a short session suggest automated or suspicious activity.",
-              "A large number of login attempts in a single session points to suspicious behavior",
-              "Elevated counts suggest attackers probing credentials or attempting enumeration",
-              "Repeated attempts often precede successful compromise; high counts are red flags",
-              "Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic."
-            ],
-            "consensus_explanation": "Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic."
-          },
-          {
-            "rank": 2,
             "name": "ip_reputation_score",
             "percentage": 1.0,
             "appearances": 4,
-            "avg_position": 1.25,
+            "avg_position": 1.0,
             "explanations": [
-              "Higher scores correlate strongly with known malicious IPs, making it a key indicator of threat.",
-              "Higher scores indicate IPs with past malicious activity, directly correlating with attacks",
-              "High scores flag IPs previously seen in attacks, strongly correlating with malicious sessions",
-              "IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat."
+              "Higher values often correlate with known malicious hosts, making it a strong signal of potential intrusion",
+              "Higher scores indicate IPs previously flagged for malicious activity, strongly predicting attacks",
+              "Numerical score directly indicates how suspicious an IP is, strongly correlating with known threats",
+              "High IP reputation scores correlate strongly with known malicious actors and drive model splits"
             ],
-            "consensus_explanation": "IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat."
+            "consensus_explanation": "Higher values often correlate with known malicious hosts, making it a strong signal of potential intrusion"
           },
           {
-            "rank": 3,
+            "rank": 2,
             "name": "failed_logins",
             "percentage": 1.0,
             "appearances": 4,
-            "avg_position": 1.75,
+            "avg_position": 2.0,
             "explanations": [
-              "A surge in failed login attempts often signals brute‑force attacks targeting user credentials.",
-              "Multiple failed login attempts are a hallmark of brute‑force or credential‑guessing attacks",
-              "Multiple failed attempts indicate brute‑force or credential stuffing activity",
-              "A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks."
+              "A large number of failed attempts typically indicates brute‑force or credential‑guessing attacks",
+              "An elevated count of failed attempts signals brute-forcing or credential stuffing",
+              "High counts of failed attempts point to brute‑force or credential‑stuffing attacks",
+              "Large number of failed authentication attempts signals brute‑force or credential‑guessing attacks"
             ],
-            "consensus_explanation": "A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks."
+            "consensus_explanation": "Large number of failed authentication attempts signals brute‑force or credential‑guessing attacks"
           },
           {
-            "rank": 4,
+            "rank": 3,
             "name": "unusual_time_access",
             "percentage": 1.0,
             "appearances": 4,
             "avg_position": 3.5,
             "explanations": [
-              "Access occurring at unexpected times (e.g., off‑peak) frequently precedes malicious operations.",
-              "Attacks often occur during off‑peak hours to avoid detection",
-              "Access outside normal business hours often signals automated or illicit operations",
-              "Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity."
+              "Access during off‑peak or odd hours is a common characteristic of automated attack scripts",
+              "Access outside normal business hours can trigger alerts and correlates with many attack events",
+              "Access outside normal business hours often signals automated or covert attacks",
+              "Access at atypical hours often indicates automated scans or night‑time compromises"
             ],
-            "consensus_explanation": "Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity."
+            "consensus_explanation": "Access outside normal business hours can trigger alerts and correlates with many attack events"
+          },
+          {
+            "rank": 4,
+            "name": "login_attempts",
+            "percentage": 1.0,
+            "appearances": 4,
+            "avg_position": 4.0,
+            "explanations": [
+              "Multiple attempts in a single session strongly suggest credential exploitation behavior",
+              "Multiple attempts in a single session often precede successful intrusion attempts",
+              "Frequent attempts can reveal automated probing and scanning behavior",
+              "Frequent login attempts per session can reveal password‑guessing or session‑taking attempts"
+            ],
+            "consensus_explanation": "Frequent login attempts per session can reveal password‑guessing or session‑taking attempts"
           },
           {
             "rank": 5,
             "name": "protocol_type",
-            "percentage": 0.5,
-            "appearances": 2,
-            "avg_position": 5.0,
+            "percentage": 0.25,
+            "appearances": 1,
+            "avg_position": 3.0,
             "explanations": [
-              "Certain protocols (e.g., UDP, ICMP) are more frequently exploited by attackers",
-              "Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling"
+              "TCP (1) is most common in attacks; UDP and ICMP less so, making protocol choice a key indicator"
             ],
-            "consensus_explanation": "Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling"
+            "consensus_explanation": "TCP (1) is most common in attacks; UDP and ICMP less so, making protocol choice a key indicator"
           }
         ],
         "metadata": {
@@ -1948,7 +1937,7 @@
           "valid_runs": 4,
           "invalid_runs": 1
         },
-        "summary": "Self-Consistency Results (4/5 valid runs)\n\n1. login_attempts - 125.0% consensus\n   Why: Sessions with an unusually large number of login attempts within a short timeframe raise suspicion and aid in separating attack traffic.\n\n2. ip_reputation_score - 100.0% consensus\n   Why: IP addresses with a high reputation score are frequently associated with malicious actors, making this a strong indicator of threat.\n\n3. failed_logins - 100.0% consensus\n   Why: A high number of failed login attempts is a classic sign of brute‑force or credential‑guessing attacks.\n\n4. unusual_time_access - 100.0% consensus\n   Why: Attacks often occur during off‑hours or unusual periods; flagging these times helps isolate suspicious activity.\n\n5. protocol_type - 50.0% consensus\n   Why: Certain protocols (e.g., UDP, ICMP) are more frequently used for reconnaissance or tunneling\n"
+        "summary": "Self-Consistency Results (4/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: Higher values often correlate with known malicious hosts, making it a strong signal of potential intrusion\n\n2. failed_logins - 100.0% consensus\n   Why: Large number of failed authentication attempts signals brute‑force or credential‑guessing attacks\n\n3. unusual_time_access - 100.0% consensus\n   Why: Access outside normal business hours can trigger alerts and correlates with many attack events\n\n4. login_attempts - 100.0% consensus\n   Why: Frequent login attempts per session can reveal password‑guessing or session‑taking attempts\n\n5. protocol_type - 25.0% consensus\n   Why: TCP (1) is most common in attacks; UDP and ICMP less so, making protocol choice a key indicator\n"
       }
     },
     "qwen3:30b": {
@@ -1956,11 +1945,11 @@
       "thinking_process": null,
       "token_usage": {
         "prompt_tokens": 11145,
-        "completion_tokens": 37009,
-        "total_tokens": 48154
+        "completion_tokens": 31098,
+        "total_tokens": 42243
       },
-      "time_ms": 2335251.1,
-      "time_formatted": "38m55s",
+      "time_ms": 1961830.71,
+      "time_formatted": "32m41s",
       "error": null,
       "self_consistency": {
         "features": [],
@@ -1974,15 +1963,15 @@
       }
     },
     "glm-5:cloud": {
-      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats.\n\n2. unusual_time_access - 100.0% consensus\n   Why: This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion.\n\n3. failed_logins - 100.0% consensus\n   Why: High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts.\n\n4. login_attempts - 100.0% consensus\n   Why: Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals.\n\n5. network_packet_size - 60.0% consensus\n   Why: Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits.\n",
+      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: Attack samples in the training data frequently exhibited higher reputation scores (e.g., 0.59, 0.52), contrasting with lower scores in normal traffic, indicating strong predictive power for known malicious IPs.\n\n2. failed_logins - 100.0% consensus\n   Why: Elevated counts of failed logins (values of 3 or more) appeared exclusively in attack samples, serving as a clear indicator of brute-force or credential stuffing attempts.\n\n3. unusual_time_access - 100.0% consensus\n   Why: In the provided dataset, this feature was strictly present in attack samples and absent in all normal samples, making it a perfect discriminator for anomalous access timing.\n\n4. login_attempts - 100.0% consensus\n   Why: High login attempt counts (e.g., 7) were observed in attack samples, distinguishing automated or aggressive access behavior from typical user sessions.\n\n5. encryption_used - 60.0% consensus\n   Why: Attack samples displayed a higher frequency of weaker encryption protocols (DES, value 1), identifying insecure connections as a potential vulnerability indicator.\n",
       "thinking_process": null,
       "token_usage": {
         "prompt_tokens": 10040,
-        "completion_tokens": 21044,
-        "total_tokens": 31084
+        "completion_tokens": 18971,
+        "total_tokens": 29011
       },
-      "time_ms": 1390318.37,
-      "time_formatted": "23m10s",
+      "time_ms": 738074.47,
+      "time_formatted": "12m18s",
       "error": null,
       "self_consistency": {
         "features": [
@@ -1991,45 +1980,45 @@
             "name": "ip_reputation_score",
             "percentage": 1.0,
             "appearances": 5,
-            "avg_position": 1.2,
+            "avg_position": 1.8,
             "explanations": [
-              "Higher scores (approaching 1.0) correlate with Attack labels (e.g., 0.59), while Normal traffic typically exhibits lower scores, effectively flagging known malicious IPs.",
-              "Higher reputation scores strongly correlate with attacks; sample data shows values like 0.591 and 0.448 associated with malicious activity, making this a primary threat indicator",
-              "In the training samples, attacks frequently correlate with higher reputation scores (e.g., 0.59, 0.45) whereas normal traffic clusters at lower values, providing a strong signal for threat intelligence.",
-              "This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats.",
-              "Higher IP reputation scores (0.3-0.6 range) correlate strongly with attack detection, as they indicate previously flagged or suspicious IP addresses"
+              "Historical threat intelligence is often the strongest predictor; higher scores indicate suspicious or malicious IP origins, frequently observed in the attack samples.",
+              "Attacks in the training data often correlate with higher reputation scores (e.g., 0.59), indicating a strong relationship between suspicious IP history and detected threats.",
+              "Higher reputation scores (more suspicious IPs) correlate strongly with attack detection; attack samples average ~0.34 vs normal ~0.27",
+              "Attack samples in the training data frequently exhibited higher reputation scores (e.g., 0.59, 0.52), contrasting with lower scores in normal traffic, indicating strong predictive power for known malicious IPs.",
+              "Higher reputation scores correlate with attack instances in the dataset, reflecting the importance of historical IP context in identifying threats."
             ],
-            "consensus_explanation": "This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats."
+            "consensus_explanation": "Attack samples in the training data frequently exhibited higher reputation scores (e.g., 0.59, 0.52), contrasting with lower scores in normal traffic, indicating strong predictive power for known malicious IPs."
           },
           {
             "rank": 2,
+            "name": "failed_logins",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 2.6,
+            "explanations": [
+              "A high number of failed login attempts is a direct indicator of brute-force or credential stuffing attacks.",
+              "A higher number of failed logins in attack samples (values 1-3) serves as a primary indicator of credential stuffing or password guessing attacks.",
+              "Failed login attempts are notably higher in attack samples (avg ~1.9) vs normal (avg ~1.0), a key indicator of credential stuffing or brute-force attacks",
+              "Elevated counts of failed logins (values of 3 or more) appeared exclusively in attack samples, serving as a clear indicator of brute-force or credential stuffing attempts.",
+              "A high number of failed logins (specifically 3) appears only in attack samples, distinguishing brute-force attempts from legitimate user errors."
+            ],
+            "consensus_explanation": "Elevated counts of failed logins (values of 3 or more) appeared exclusively in attack samples, serving as a clear indicator of brute-force or credential stuffing attempts."
+          },
+          {
+            "rank": 3,
             "name": "unusual_time_access",
             "percentage": 1.0,
             "appearances": 5,
             "avg_position": 2.8,
             "explanations": [
-              "This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion.",
-              "Binary feature with perfect correlation to attacks in the data when value=1; all samples with unusual_time_access=1 are classified as attacks",
-              "This binary feature perfectly correlates with the 'Attack' class in the provided samples (1 = Attack), making it a highly effective splitter for detecting anomalous activity times.",
-              "In the provided training data, every instance where unusual_time_access is 1 corresponds to an attack, making it a high-purity splitting feature for the Random Forest model.",
-              "Access at unusual times is exclusive to attack samples in training data, indicating anomalous behavioral patterns"
+              "Access during odd hours is a strong behavioral anomaly; in the provided samples, every instance where this feature was 1 corresponded to a detected attack.",
+              "In the provided samples, this binary feature is exclusively associated with the 'Attack' class when active (1), making it a high-specificity predictor.",
+              "Unusual time access appears exclusively in attack samples (28.6% of attacks vs 0% in normal), signaling anomalous behavior patterns",
+              "In the provided dataset, this feature was strictly present in attack samples and absent in all normal samples, making it a perfect discriminator for anomalous access timing.",
+              "In the provided samples, access at unusual times (value=1) occurs exclusively in attack cases, making it a high-confidence predictor for malicious activity."
             ],
-            "consensus_explanation": "This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion."
-          },
-          {
-            "rank": 3,
-            "name": "failed_logins",
-            "percentage": 1.0,
-            "appearances": 5,
-            "avg_position": 3.0,
-            "explanations": [
-              "High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts.",
-              "Elevated failed login attempts correlate with authentication-based attacks, showing higher mean values in attack samples (1.86 vs 1.08 normal)",
-              "Specific high values, notably '3', appear exclusively in attack samples within this dataset, serving as a direct indicator of brute-force or credential stuffing attempts.",
-              "A higher rate of failed logins is a classic behavioral anomaly for detecting credential stuffing or brute-force attacks, contributing significantly to the classification logic.",
-              "Multiple failed login attempts (2-3 attempts) indicate credential stuffing or brute-force attack patterns"
-            ],
-            "consensus_explanation": "High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts."
+            "consensus_explanation": "In the provided dataset, this feature was strictly present in attack samples and absent in all normal samples, making it a perfect discriminator for anomalous access timing."
           },
           {
             "rank": 4,
@@ -2038,26 +2027,26 @@
             "appearances": 5,
             "avg_position": 3.0,
             "explanations": [
-              "Elevated attempt counts (5, 6, 7) are frequently observed in Attack samples, distinguishing automated threat behavior from typical user sessions.",
-              "Higher login attempt counts (particularly values of 7) appear exclusively in attack samples, indicating potential brute-force attack patterns",
-              "Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals.",
-              "Attack samples frequently exhibit higher login attempts (e.g., values of 7), which is a primary signal for brute-force intrusion attempts, whereas normal samples trend lower.",
-              "Elevated login attempts (especially 5-7 attempts) are common in brute-force attacks and appear frequently in attack samples"
+              "Elevated login attempt counts, particularly the higher values seen in the attack samples, suggest automated intrusion attempts.",
+              "Attack samples frequently exhibit high login attempt counts (e.g., 7 attempts), distinguishing brute-force patterns from normal user behavior.",
+              "Attack samples show higher average login attempts (~4.9) compared to normal traffic (~3.6), indicating potential brute-force patterns",
+              "High login attempt counts (e.g., 7) were observed in attack samples, distinguishing automated or aggressive access behavior from typical user sessions.",
+              "High login attempt counts (e.g., 7) are strongly correlated with attack labels, indicating session persistence typical of automated attacks."
             ],
-            "consensus_explanation": "Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals."
+            "consensus_explanation": "High login attempt counts (e.g., 7) were observed in attack samples, distinguishing automated or aggressive access behavior from typical user sessions."
           },
           {
             "rank": 5,
-            "name": "network_packet_size",
+            "name": "encryption_used",
             "percentage": 0.6,
             "appearances": 3,
-            "avg_position": 5.0,
+            "avg_position": 4.67,
             "explanations": [
-              "Significant deviations in packet size (standardized values) help identify anomalous traffic patterns often associated with payload delivery or network scanning.",
-              "Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits.",
-              "Attack samples demonstrate more extreme or anomalous packet size values (e.g., 1.84 or negative standardized values), allowing the model to detect network-level irregularities."
+              "Attack samples show higher usage of weaker encryption (DES=1 at 57% vs 15% in normal), suggesting attackers may exploit older protocols",
+              "Attack samples displayed a higher frequency of weaker encryption protocols (DES, value 1), identifying insecure connections as a potential vulnerability indicator.",
+              "The use of DES encryption (value=1) is significantly more frequent in attack samples compared to normal samples, suggesting a vulnerability pattern."
             ],
-            "consensus_explanation": "Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits."
+            "consensus_explanation": "Attack samples displayed a higher frequency of weaker encryption protocols (DES, value 1), identifying insecure connections as a potential vulnerability indicator."
           }
         ],
         "metadata": {
@@ -2065,7 +2054,7 @@
           "valid_runs": 5,
           "invalid_runs": 0
         },
-        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: This feature shows a strong correlation with attacks in the samples, where higher scores (e.g., 0.59) appear in attack instances, aligning with domain knowledge that suspicious IPs are top indicators of threats.\n\n2. unusual_time_access - 100.0% consensus\n   Why: This binary feature demonstrates perfect conditional purity in the training data; every instance with value 1 corresponds to an Attack, making it a high-confidence split criterion.\n\n3. failed_logins - 100.0% consensus\n   Why: High counts of failed logins (e.g., counts of 3 or more) appear in Attack samples but are absent in the Normal samples provided, serving as a strong indicator of brute-force attempts.\n\n4. login_attempts - 100.0% consensus\n   Why: Attack samples contain the highest counts in the dataset (e.g., 7 attempts), distinguishing high-volume automated threats from normal user behavior which peaks at lower totals.\n\n5. network_packet_size - 60.0% consensus\n   Why: Attack samples exhibit larger deviations and extreme standardized values (both positive and negative outliers), allowing the model to identify anomalous payload sizes often associated with exploits.\n"
+        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. ip_reputation_score - 100.0% consensus\n   Why: Attack samples in the training data frequently exhibited higher reputation scores (e.g., 0.59, 0.52), contrasting with lower scores in normal traffic, indicating strong predictive power for known malicious IPs.\n\n2. failed_logins - 100.0% consensus\n   Why: Elevated counts of failed logins (values of 3 or more) appeared exclusively in attack samples, serving as a clear indicator of brute-force or credential stuffing attempts.\n\n3. unusual_time_access - 100.0% consensus\n   Why: In the provided dataset, this feature was strictly present in attack samples and absent in all normal samples, making it a perfect discriminator for anomalous access timing.\n\n4. login_attempts - 100.0% consensus\n   Why: High login attempt counts (e.g., 7) were observed in attack samples, distinguishing automated or aggressive access behavior from typical user sessions.\n\n5. encryption_used - 60.0% consensus\n   Why: Attack samples displayed a higher frequency of weaker encryption protocols (DES, value 1), identifying insecure connections as a potential vulnerability indicator.\n"
       }
     }
   }

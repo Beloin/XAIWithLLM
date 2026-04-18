@@ -1,0 +1,124 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+Loading configuration from: inputs/context_prompt_without_xai.input.json
+============================================================
+WITHOUT XAI EXPERIMENT - NSL_KDD Intrusion Detection
+============================================================
+Original shape: (25192, 43)
+After cleaning: (25192, 43)
+Final shape: (25192, 16)
+Columns: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'label']
+=== Starting pipeline: experiment_type=without_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate']
+Training RandomForestClassifier...
+Model accuracy: 0.9966
+Classes: ['Normal', 'Attack']
+Sampling 7558 instances for SHAP/LIME computation...
+Computing SHAP for 7558 instances...
+SHAP computed: 2 classes, 15 features
+Computing LIME for 20 instances...
+LIME computed: 20 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_context_prompt_without_xai.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 6m43s
+  Error: None
+  Response length: 4410 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the training samples, the predictions, and the specific feature set provided, here is the analysis of the model's behavior and logic.
+
+### 1. Feature Importance
+Ranking features by their ability to separate "Normal" from "Attack" classes based on variance and specificity found in the data samples:
+
+1.  **srv_serror_rate**
+    *   **Reasoning:** In the provided samples, `srv_serror_rate` is the strongest discriminator. Sample 4 (labeled Attack) has a value of **1.0**, whereas all other s
+...
+
+
+qwen3:14b:
+  Time: 2m54s
+  Error: None
+  Response length: 4778 chars
+
+--- Response Preview (first 500 chars) ---
+### **1. Feature Importance**  
+Based on the data samples and the model's task, the following features are likely to be most important for distinguishing between normal and attack traffic:  
+
+#### **Top Features (Ranked by Importance):**  
+**a. `hot` (Suspicious access patterns):**  
+- A non-zero value (e.g., 2 in sample 6 or 15 in sample 20) strongly correlates with attacks. This feature likely flags anomalous file access (e.g., U2R attacks) or unauthorized commands.  
+
+**b. `num_compromised` (
+...
+
+
+gpt-oss:20b:
+  Time: 1m24s
+  Error: None
+  Response length: 12157 chars
+
+--- Response Preview (first 500 chars) ---
+Below is a focused, data‑driven walk‑through of the RandomForest model that was trained on the supplied log samples.  
+All statements are grounded in the concrete values that appear in the examples – no numbers were invented.
+
+---
+
+## 1. Feature Importance (top 3–5 per class)
+
+| Feature | Why it is salient for **Normal** | Why it is salient for **Attack** |
+|---------|----------------------------------|----------------------------------|
+| **count** | Normal traffic tends to have a *small* `coun
+...
+
+
+qwen3:30b:
+  Time: 13m5s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 3m6s
+  Error: None
+  Response length: 7234 chars
+
+--- Response Preview (first 500 chars) ---
+Based on the provided training samples and model information, here is the analysis of the RandomForestClassifier.
+
+### 1. Feature Importance
+
+Given the military context's requirement to detect stealthy attacks and minimize false negatives, the following features are ranked by their discriminative power across the provided samples:
+
+**1. `flag` (Connection Status)**
+*   **Importance:** This is the most critical feature for distinguishing Denial of Service (DoS) and Probe attacks from normal traff
+...
+
+
+Full results saved to: resultados_context_prompt_without_xai.json

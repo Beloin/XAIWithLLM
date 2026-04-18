@@ -1,6 +1,6 @@
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
-Loading configuration from: inputs/role_based_with_xai.input.json
+Loading configuration from: inputs/few_shot_with_xai.input.json
 ============================================================
 WITH XAI EXPERIMENT - NSL_KDD Intrusion Detection
 ============================================================
@@ -39,7 +39,7 @@ LIME computed: 15 instances
 
 [5/5] Querying glm-5:cloud...
 
-Saving results to resultados_role_based.json...
+Saving results to resultados_few_shot.json...
 
 === Pipeline complete ===
 
@@ -48,72 +48,64 @@ RESULTS
 ============================================================
 
 glm-4.7-flash:
-  Time: 10m22s
+  Time: 9m25s
   Error: None
-  Response length: 2455 chars
+  Response length: 4408 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the provided global SHAP (SHapley Additive exPlanations) values, here is the analysis of the model's behavior in the context of **Network Security/Intrusion Detection**.
+Based on the analysis of the provided JSON data, which appears to be explanation outputs for a machine learning model trained on network traffic (likely a KDD-Cup style dataset), here is the evaluation.
 
-### 1. Global Feature Importance
-The model relies on the following features to distinguish between classes. The magnitude indicates how much each feature influences the model's prediction.
-
-| Feature Name | SHAP Value | Contribution Direction |
-| :--- | :--- | :--- |
-| **Source Bytes (`src_bytes`)** | **+0.2346** | **S
+**Note:** As the data does not explicitly state the class labels, I have inferred the classes based on the inverse relationship between traffic volume and the model's prediction scores in the SHAP values: **Class 1 represents "Malicious/Anomalous"** (triggered by high activity) and **Class 0 rep
 ...
 
 
 qwen3:14b:
-  Time: 5m38s
+  Time: 3m31s
   Error: None
-  Response length: 4829 chars
+  Response length: 5435 chars
 
 --- Response Preview (first 500 chars) ---
-### 1. **Feature Importance (Per Class)**  
-The provided SHAP values are **instance-level** contributions rather than **global** SHAP values, making it challenging to definitively rank features per class. However, by analyzing the **frequent and high-magnitude SHAP features** across the given instances, we can infer **likely top contributors** and their potential roles in classification (e.g., network traffic anomaly detection). Here are **candidate top features** (assuming a binary classificati
+### **1. Feature Importance (SHAP Global Values)**  
+**Note:** The model is assumed to be a multi-class classifier (e.g., "normal" vs "malicious", or subclasses like "DoS", "PortScan", etc.), but class labels are not explicitly provided. We analyze feature importance based on the magnitude of SHAP values across all instances. The top 3 features with highest global impact are:  
+
+1. **`src_bytes <= 0.00` (SHAP values: +0.23–+0.23)**  
+   - **Impact:** Positive SHAP values suggest this condition s
 ...
 
 
 gpt-oss:20b:
-  Time: 4m3s
+  Time: 2m24s
   Error: None
-  Response length: 7630 chars
+  Response length: 13062 chars
 
 --- Response Preview (first 500 chars) ---
-**1.   Feature contributions (SHAP) – what drives the model**
+**1.  Global SHAP importance – top 3 features for each class**
 
-| Feature          | Class 0 | Class 1 | Class 2 | Class 3 |
-|------------------|---------|---------|---------|---------|
-| `src_bytes`      | **0.1848** | **0.1990** | **0.1848** | **0.1990** |
-| `rerror_rate`    | **0.1293** | 0.1345  | 0.1518  | 0.1042 |
-| `count`          | 0.1043  | **0.1120** | 0.1390  | **0.1145** |
-| `logged_in`      | **0.1047** | 0.1212  | 0.1227  | 0.1296 |
-| `hot` (out‑bytes) | 0.1184  | 0.1184  | 0.1184 
+| Class | Top‑3 (by |SHAP|) | SHAP value (abs.) | Why the feature matters |
+|-------|-------------|-------------------|------------------------|
+| **1** | `src_bytes` | 0.234 | 0.234 > 0.089… | 1️⃣ Large `src_bytes` (≤ 0) is the single most influential predictor – it reflects the volume of traffic that reaches the target and is positively correlated with the probability of being a “high‑impact” or “successful‑attack” class.  2️⃣ `at
 ...
 
 
 qwen3:30b:
-  Time: 17m52s
+  Time: 13m38s
   Error: None
   Response: None
 
 glm-5:cloud:
-  Time: 4m54s
+  Time: 2m42s
   Error: None
-  Response length: 7735 chars
+  Response length: 6402 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the provided SHAP and LIME explanations, here is the analysis of the RandomForest intrusion detection model.
+Based on the provided SHAP and LIME explanations, here is the analysis of the network intrusion detection model.
 
-### 1. Feature Importance (Global Analysis)
+**Top 3 Features Detected:**
 
-Analyzing the mean absolute SHAP values provides a ranking of feature influence across the entire dataset. Note that the provided global SHAP values are identical for both classes; this indicates the magnitude of impact, separating signal from noise, rather than directional polarity.
-
-**Top 3 Features:**
-
-1.  **`src_bytes` (Importance
+1. **src_bytes** (SHAP: 0.149)
+   - Why important: In this specific model, zero source bytes act as the primary indicator of probing or Denial of Service (DoS) attacks where no payload is sent. Conversely, non-zero bytes often indicate established, legitimate data transfers.
+   - Detection rule: IF src_bytes = 0 AND count > 100 THEN investigate for DoS/P
 ...
 
 
-Full results saved to: resultados_role_based.json
+Full results saved to: resultados_few_shot.json

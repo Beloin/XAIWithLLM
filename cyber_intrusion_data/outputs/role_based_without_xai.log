@@ -1,6 +1,6 @@
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
-Loading configuration from: inputs/role_based.input.json
+Loading configuration from: inputs/role_based_without_xai.input.json
 ============================================================
 WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
 ============================================================
@@ -8,7 +8,7 @@ Original shape: (9537, 11)
 After cleaning: (7571, 10)
 Final shape: (7571, 10)
 Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
-=== Starting pipeline: experiment_type=with_xai ===
+=== Starting pipeline: experiment_type=without_xai ===
 Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
 Using provided DataFrame...
 Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
@@ -39,7 +39,7 @@ LIME computed: 20 instances
 
 [5/5] Querying glm-5:cloud...
 
-Saving results to resultados_role_based.json...
+Saving results to resultados_role_based_without_xai.json...
 
 === Pipeline complete ===
 
@@ -48,80 +48,71 @@ RESULTS
 ============================================================
 
 glm-4.7-flash:
-  Time: 13m59s
+  Time: 8m14s
   Error: None
-  Response length: 2883 chars
+  Response length: 4881 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the analysis of the feature values provided, here is an interpretation of the global trends, feature importance, and derived rules.
+Based on the provided data samples and model predictions, here is an analysis of the feature importance, observed patterns, failure cases, and security implications.
 
-### 🏆 Global Feature Importance Trend
-The most significant features driving the model's predictions are:
-1.  **IP Reputation Score (`ips`):** The highest individual contributor. The model heavily relies on the reputation of the originating IP address.
-2.  **Failed Logins (`fal`):** A very strong indicator, driving predictions strongly toward one direction 
+### 1. Feature Importance Ranking (Qualitative)
+In a Random Forest or Decision Tree model, features that create the clearest separation between classes are usually most important. Based on the provided 20 samples, the ranking from strongest to weakest discriminator is:
+
+1.  **`failed_logins` (Highest Importance)**
+    *   **Reasoni
 ...
 
 
 qwen3:14b:
-  Time: 5m59s
+  Time: 2m12s
   Error: None
-  Response length: 2826 chars
+  Response length: 5150 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the provided feature importances from the model, here's a structured analysis:
+### **1. Feature Importance**  
+Based on the data samples, the **top features** influencing the model’s predictions (for both classes) are:  
 
-### **Key Features and their Importance**
-1. **Failed Logins (2.94)**  
-   - **Role**: High importance indicates a strong correlation with the target variable (e.g., fraud detection or login success). Frequent failed attempts often signal suspicious activity.
-   - **Interpretation**: A critical indicator for detecting potential security threats or account compromise.
-
-2. **IP Reputation Score (2.43)**  
-   -
+#### **For Attack Class (1):**  
+1. **`ip_reputation_score`**  
+   - **Why**: Attack samples have **significantly higher** scores (e.g., 0.59, 0.45, 0.45) compared to non-attack samples. Higher scores correlate with suspicious IPs, which the model likely treats as a strong indicator of attacks.  
+   - **Example**: Sample 3 (`ip_reputation_score=0.59`) is 
 ...
 
 
 gpt-oss:20b:
-  Time: 3m17s
+  Time: 1m35s
   Error: None
-  Response length: 5238 chars
+  Response length: 8881 chars
 
 --- Response Preview (first 500 chars) ---
-**Model Interpretation (LIME)**  
+**1. Feature‑Importance Insight (top 3‑5 per class)**  
 
-The LIME output shows which input attributes the classifier relies on most to decide “benign” versus “malicious”.  
-The list of non‑zero weights (taken from the most recent model run) is:
-
-| LIME‑indexed feature | Weight |
-|-----------------------|--------|
-| **4**                 | 0.02   |
-| **5**                 | 0.009  |
-| **1**                 | 0.04   |
-| **2**                 | 0.018  |
-| **6**                 | 0.0123 |
-| **3**                 | 0.0116
+| Feature | Why it matters for *Normal* (class 0) | Why it matters for *Attack* (class 1) |
+|---------|---------------------------------------|--------------------------------------|
+| **ip_reputation_score** | A low score (≈ 0 – 0.3) is the primary “signature” of benign traffic. Almost every normal sample in the list has a score \< 0.4 (e.g., 0.239, 0.0627, 0.194). | A high score (> 0.5) is a strong “negative signal” that the Random‑Fores
 ...
 
 
 qwen3:30b:
-  Time: 6m42s
+  Time: 13m4s
   Error: None
   Response: None
 
 glm-5:cloud:
-  Time: 4m15s
+  Time: 6m15s
   Error: None
-  Response length: 6510 chars
+  Response length: 6171 chars
 
 --- Response Preview (first 500 chars) ---
-# Model Interpretability Analysis: Network Intrusion Detection
+Based on the provided training samples and predictions, here is the technical analysis of the RandomForestClassifier model behavior.
 
 ## 1. Feature Importance Analysis
 
-Based on the SHAP global importance values (mean absolute SHAP), the top features driving model predictions are **identical in magnitude for both classes**, which is expected for binary classification where features push probabilities in opposite directions. The top three features are:
+Based on the distribution of values in the training data, the following features demonstrate the strongest discriminative power:
 
-1.  **`failed_logins`** (Mean |SHAP|: **0.179**)
-    *   **Why:** This is the dominant predictor. In security con
+1.  **`ip_reputation_score`** (Primary Driver):
+    *   **Observation:** There is a distinct threshold behavior in this feature. Normal samples predominantly cluster at the lower end (e.g., 0.03, 0.16,
 ...
 
 
-Full results saved to: resultados_role_based.json
+Full results saved to: resultados_role_based_without_xai.json

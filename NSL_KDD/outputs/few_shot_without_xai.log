@@ -1,0 +1,124 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+Loading configuration from: inputs/few_shot_without_xai.input.json
+============================================================
+WITHOUT XAI EXPERIMENT - NSL_KDD Intrusion Detection
+============================================================
+Original shape: (25192, 43)
+After cleaning: (25192, 43)
+Final shape: (25192, 16)
+Columns: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'label']
+=== Starting pipeline: experiment_type=without_xai ===
+Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
+Using provided DataFrame...
+Features: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate']
+Training RandomForestClassifier...
+Model accuracy: 0.9966
+Classes: ['Normal', 'Attack']
+Sampling 7558 instances for SHAP/LIME computation...
+Computing SHAP for 7558 instances...
+SHAP computed: 2 classes, 15 features
+Computing LIME for 20 instances...
+LIME computed: 20 instances
+
+[1/5] Querying glm-4.7-flash...
+  Starting model: glm-4.7-flash...
+  Stopping model: glm-4.7-flash...
+
+[2/5] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+[3/5] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+[4/5] Querying qwen3:30b...
+  Starting model: qwen3:30b...
+  Stopping model: qwen3:30b...
+
+[5/5] Querying glm-5:cloud...
+
+Saving results to resultados_few_shot_without_xai.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-4.7-flash:
+  Time: 8m11s
+  Error: None
+  Response length: 4364 chars
+
+--- Response Preview (first 500 chars) ---
+### Feature Importance
+
+**Top 3 Features for Classification:**
+
+1.  **`dst_bytes` (High Volume):**
+    *   **Why:** The Attack class (`label=1`) in Samples 1, 6, and 20 consistently demonstrates significantly higher outbound traffic volumes (ranging from 8,314 to 52,260 bytes compared to expected lower volumes in typical clean traffic). This indicates the model prioritizes data exfiltration patterns.
+
+2.  **`num_compromised` (Direct Exploit Indicator):**
+    *   **Why:** This is a binary/categor
+...
+
+
+qwen3:14b:
+  Time: 2m40s
+  Error: None
+  Response length: 3890 chars
+
+--- Response Preview (first 500 chars) ---
+**1. Feature Importance (Ranked by Importance Across Classes):**
+
+**Top 3 Features:**
+
+1. **src_bytes** (Importance: HIGH)
+   - **Attack (1)**: High values (e.g., 54,540) strongly correlate with data exfiltration or DoS attacks (as seen in sample 6: src_bytes=54540, label=1).
+   - **Normal (0)**: Low values (e.g., 170) are typical of benign traffic (sample 1: src_bytes=170, label=0).
+   - **Why important**: Directly indicates volumetric anomalies (e.g., large outgoing payloads).
+
+2. **flag** (Im
+...
+
+
+gpt-oss:20b:
+  Time: 54.9s
+  Error: None
+  Response length: 6094 chars
+
+--- Response Preview (first 500 chars) ---
+**1. Feature Importance**
+
+| Rank | Feature | Why it matters (Normal vs. Attack) | Typical Decision Rule | Confidence |
+|------|---------|------------------------------------|-----------------------|------------|
+| **1** | **src_bytes** | Normal connections have modest payloads (e.g., 170‑550 bytes). Attack entries often carry either a *very* small number of bytes (0 bytes for SYN floods) or a *very* large number when data exfiltration or denial‑of‑service floods are involved. The model splits o
+...
+
+
+qwen3:30b:
+  Time: 16m25s
+  Error: None
+  Response: None
+
+glm-5:cloud:
+  Time: 3m33s
+  Error: None
+  Response length: 4438 chars
+
+--- Response Preview (first 500 chars) ---
+**Top 3 Features Detected:**
+
+1. **flag** (Importance: HIGH)
+   - Why important: The 'flag' feature distinctly separates normal traffic (SF/9) from attack patterns like SYN floods (S0/5) or rejected connections (REJ/1).
+   - Detection rule: IF flag != 9 THEN investigate for potential DoS or probing attacks.
+   - Confidence: 90%
+
+2. **serror_rate** (Importance: HIGH)
+   - Why important: A rate of 1.0 indicates a "SYN" error storm, a strong signature of Denial of Service (DoS) attacks in the train
+...
+
+
+Full results saved to: resultados_few_shot_without_xai.json

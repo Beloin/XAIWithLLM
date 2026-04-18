@@ -1,0 +1,2997 @@
+{
+  "experiment_type": "without_xai",
+  "config": {
+    "chat": false,
+    "n_samples": 20,
+    "n_shap_local": 20,
+    "n_lime_local": 20,
+    "self_consistency": true,
+    "self_consistency_runs": 5,
+    "self_consistency_top_n": 5,
+    "explain_message_tokens": 8192,
+    "random_seed": 42
+  },
+  "model_info": {
+    "type": "RandomForestClassifier",
+    "accuracy": 0.9965599364911352,
+    "features": [
+      "duration",
+      "protocol_type",
+      "service",
+      "flag",
+      "src_bytes",
+      "dst_bytes",
+      "wrong_fragment",
+      "hot",
+      "logged_in",
+      "num_compromised",
+      "count",
+      "srv_count",
+      "serror_rate",
+      "srv_serror_rate",
+      "rerror_rate"
+    ],
+    "classes": [
+      "Normal",
+      "Attack"
+    ],
+    "target_col": "label"
+  },
+  "column_description": [
+    "Connection duration in seconds",
+    "Protocol type: ICMP=0, TCP=1, UDP=2",
+    "Network service accessed (encoded, e.g., http=22, ftp_data=19, private=46)",
+    "Connection flag/status: SF=9 (success), S0=5 (syn attack), REJ=1 (rejected), etc.",
+    "Source bytes sent by origin host",
+    "Destination bytes sent by target host",
+    "Number of wrong fragments",
+    "Number of hot indicators (suspicious access patterns)",
+    "Whether user logged in: 0=no, 1=yes",
+    "Number of compromised files",
+    "Number of same-type connections in time window",
+    "Number of same-service connections in time window",
+    "TCP error rate (0.0-1.0)",
+    "Same-service TCP error rate (0.0-1.0)",
+    "Protocol error rate (0.0-1.0)"
+  ],
+  "shap_global_raw": {
+    "Normal": {
+      "duration": 0.0024,
+      "protocol_type": 0.026932,
+      "service": 0.0364,
+      "flag": 0.055013,
+      "src_bytes": 0.148652,
+      "dst_bytes": 0.088247,
+      "wrong_fragment": 0.002025,
+      "hot": 0.008156,
+      "logged_in": 0.05795,
+      "num_compromised": 0.00272,
+      "count": 0.056549,
+      "srv_count": 0.009732,
+      "serror_rate": 0.036346,
+      "srv_serror_rate": 0.029087,
+      "rerror_rate": 0.020992
+    },
+    "Attack": {
+      "duration": 0.0024,
+      "protocol_type": 0.026932,
+      "service": 0.0364,
+      "flag": 0.055013,
+      "src_bytes": 0.148652,
+      "dst_bytes": 0.088247,
+      "wrong_fragment": 0.002025,
+      "hot": 0.008156,
+      "logged_in": 0.05795,
+      "num_compromised": 0.00272,
+      "count": 0.056549,
+      "srv_count": 0.009732,
+      "serror_rate": 0.036346,
+      "srv_serror_rate": 0.029087,
+      "rerror_rate": 0.020992
+    }
+  },
+  "shap_global_percentages": {
+    "Normal": {
+      "duration": 0.0041,
+      "protocol_type": 0.0463,
+      "service": 0.0626,
+      "flag": 0.0947,
+      "src_bytes": 0.2558,
+      "dst_bytes": 0.1518,
+      "wrong_fragment": 0.0035,
+      "hot": 0.014,
+      "logged_in": 0.0997,
+      "num_compromised": 0.0047,
+      "count": 0.0973,
+      "srv_count": 0.0167,
+      "serror_rate": 0.0625,
+      "srv_serror_rate": 0.05,
+      "rerror_rate": 0.0361
+    },
+    "Attack": {
+      "duration": 0.0041,
+      "protocol_type": 0.0463,
+      "service": 0.0626,
+      "flag": 0.0947,
+      "src_bytes": 0.2558,
+      "dst_bytes": 0.1518,
+      "wrong_fragment": 0.0035,
+      "hot": 0.014,
+      "logged_in": 0.0997,
+      "num_compromised": 0.0047,
+      "count": 0.0973,
+      "srv_count": 0.0167,
+      "serror_rate": 0.0625,
+      "srv_serror_rate": 0.05,
+      "rerror_rate": 0.0361
+    }
+  },
+  "shap_local": [
+    {
+      "instance_index": 10359,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 26.0,
+        "flag": 1.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 237.0,
+        "srv_count": 14.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": -0.0004002173322823634,
+          "protocol_type": 0.00809274666233673,
+          "service": -0.02701986586135972,
+          "flag": -0.07066950924144706,
+          "src_bytes": -0.17419675763368267,
+          "dst_bytes": -0.07093957707364999,
+          "wrong_fragment": 0.0006149363087583951,
+          "hot": 0.004353258114653012,
+          "logged_in": -0.05659660799364155,
+          "num_compromised": 0.0006848483424572132,
+          "count": -0.10960910830275108,
+          "srv_count": 0.006011781291539197,
+          "serror_rate": 0.013613131617924932,
+          "srv_serror_rate": 0.020870319056305434,
+          "rerror_rate": -0.07858447152440219
+        },
+        "Attack": {
+          "duration": 0.0004002173322823642,
+          "protocol_type": -0.008092746662336723,
+          "service": 0.027019865861359765,
+          "flag": 0.07066950924144716,
+          "src_bytes": 0.17419675763368206,
+          "dst_bytes": 0.07093957707364998,
+          "wrong_fragment": -0.0006149363087583935,
+          "hot": -0.004353258114653007,
+          "logged_in": 0.05659660799364173,
+          "num_compromised": -0.000684848342457212,
+          "count": 0.10960910830275121,
+          "srv_count": -0.006011781291539155,
+          "serror_rate": -0.013613131617924929,
+          "srv_serror_rate": -0.02087031905630546,
+          "rerror_rate": 0.07858447152440189
+        }
+      }
+    },
+    {
+      "instance_index": 5609,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 25.0,
+        "flag": 1.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 236.0,
+        "srv_count": 5.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": -0.00045759933288136765,
+          "protocol_type": 0.008730123987028335,
+          "service": -0.0274609128083331,
+          "flag": -0.06471288782431386,
+          "src_bytes": -0.1782591867204787,
+          "dst_bytes": -0.06480823848172253,
+          "wrong_fragment": 0.0005447817674377401,
+          "hot": 0.0045757536786889584,
+          "logged_in": -0.055996989812454594,
+          "num_compromised": 0.0008025411617748561,
+          "count": -0.11142733369675457,
+          "srv_count": 0.0018111650466727807,
+          "serror_rate": 0.013258010780243168,
+          "srv_serror_rate": 0.020886803810000493,
+          "rerror_rate": -0.08126112512414921
+        },
+        "Attack": {
+          "duration": 0.0004575993328813688,
+          "protocol_type": -0.008730123987028339,
+          "service": 0.02746091280833312,
+          "flag": 0.06471288782431411,
+          "src_bytes": 0.17825918672047827,
+          "dst_bytes": 0.06480823848172251,
+          "wrong_fragment": -0.000544781767437739,
+          "hot": -0.004575753678688957,
+          "logged_in": 0.05599698981245477,
+          "num_compromised": -0.0008025411617748548,
+          "count": 0.11142733369675482,
+          "srv_count": -0.0018111650466727679,
+          "serror_rate": -0.013258010780243175,
+          "srv_serror_rate": -0.02088680381000053,
+          "rerror_rate": 0.08126112512414889
+        }
+      }
+    },
+    {
+      "instance_index": 262,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 22.0,
+        "flag": 9.0,
+        "src_bytes": 198.0,
+        "dst_bytes": 6924.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 0.0,
+        "count": 12.0,
+        "srv_count": 12.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.000368184924740774,
+          "protocol_type": 0.014046704177943596,
+          "service": 0.03141546823074952,
+          "flag": 0.045288663476019106,
+          "src_bytes": 0.12224084700439328,
+          "dst_bytes": 0.0712000274276649,
+          "wrong_fragment": 0.001192221788707834,
+          "hot": 0.005739112149520024,
+          "logged_in": 0.07042837024807054,
+          "num_compromised": 0.0019482459944536003,
+          "count": 0.030954468929377525,
+          "srv_count": 0.004477463137484385,
+          "serror_rate": 0.026664380200716965,
+          "srv_serror_rate": 0.027201182946947348,
+          "rerror_rate": 0.013059565793969349
+        },
+        "Attack": {
+          "duration": -0.0003681849247407698,
+          "protocol_type": -0.014046704177943663,
+          "service": -0.03141546823074957,
+          "flag": -0.04528866347601913,
+          "src_bytes": -0.12224084700439361,
+          "dst_bytes": -0.07120002742766461,
+          "wrong_fragment": -0.0011922217887078337,
+          "hot": -0.00573911214952002,
+          "logged_in": -0.07042837024807057,
+          "num_compromised": -0.001948245994453601,
+          "count": -0.030954468929377463,
+          "srv_count": -0.0044774631374843695,
+          "serror_rate": -0.02666438020071699,
+          "srv_serror_rate": -0.027201182946947403,
+          "rerror_rate": -0.013059565793969346
+        }
+      }
+    },
+    {
+      "instance_index": 2929,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 15.0,
+        "flag": 5.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 117.0,
+        "srv_count": 19.0,
+        "serror_rate": 1.0,
+        "srv_serror_rate": 1.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.00010985333764853582,
+          "protocol_type": 0.0078156686371403,
+          "service": -0.008549547584092746,
+          "flag": -0.0756628002196289,
+          "src_bytes": -0.17421475219373445,
+          "dst_bytes": -0.0836117054143594,
+          "wrong_fragment": 0.0008392152310171411,
+          "hot": 0.0027093493193780923,
+          "logged_in": -0.06111077575344575,
+          "num_compromised": 0.0006673208857776256,
+          "count": -0.05052738841023117,
+          "srv_count": 0.003374069942155068,
+          "serror_rate": -0.07027070026323305,
+          "srv_serror_rate": -0.03792738522430204,
+          "rerror_rate": 0.012584484140668524
+        },
+        "Attack": {
+          "duration": -0.00010985333764853448,
+          "protocol_type": -0.007815668637140314,
+          "service": 0.008549547584092735,
+          "flag": 0.07566280021962885,
+          "src_bytes": 0.17421475219373317,
+          "dst_bytes": 0.08361170541435929,
+          "wrong_fragment": -0.0008392152310171399,
+          "hot": -0.002709349319378092,
+          "logged_in": 0.06111077575344578,
+          "num_compromised": -0.0006673208857776246,
+          "count": 0.050527388410231196,
+          "srv_count": -0.003374069942155071,
+          "serror_rate": 0.07027070026323329,
+          "srv_serror_rate": 0.03792738522430209,
+          "rerror_rate": -0.012584484140668517
+        }
+      }
+    },
+    {
+      "instance_index": 20075,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 22.0,
+        "flag": 9.0,
+        "src_bytes": 307.0,
+        "dst_bytes": 20165.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 0.0,
+        "count": 2.0,
+        "srv_count": 2.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.0009784639172728746,
+          "protocol_type": 0.012850619803242204,
+          "service": 0.03185772635337635,
+          "flag": 0.040583327286909186,
+          "src_bytes": 0.11352647086852577,
+          "dst_bytes": 0.08303003491381683,
+          "wrong_fragment": 0.0012448926773940946,
+          "hot": 0.006013962931198299,
+          "logged_in": 0.05676990615680801,
+          "num_compromised": 0.0027113706832773052,
+          "count": 0.04560309014098182,
+          "srv_count": 0.012223998641557935,
+          "serror_rate": 0.023811391171145533,
+          "srv_serror_rate": 0.023456932268024,
+          "rerror_rate": 0.011562718617228369
+        },
+        "Attack": {
+          "duration": -0.0009784639172729257,
+          "protocol_type": -0.01285061980324228,
+          "service": -0.03185772635337651,
+          "flag": -0.04058332728690909,
+          "src_bytes": -0.11352647086852592,
+          "dst_bytes": -0.08303003491381646,
+          "wrong_fragment": -0.0012448926773941,
+          "hot": -0.006013962931198322,
+          "logged_in": -0.05676990615680808,
+          "num_compromised": -0.0027113706832773044,
+          "count": -0.04560309014098184,
+          "srv_count": -0.012223998641557954,
+          "serror_rate": -0.023811391171145575,
+          "srv_serror_rate": -0.023456932268024,
+          "rerror_rate": -0.011562718617228365
+        }
+      }
+    },
+    {
+      "instance_index": 17786,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 22.0,
+        "flag": 5.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 39.0,
+        "srv_count": 12.0,
+        "serror_rate": 1.0,
+        "srv_serror_rate": 1.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.0004218763590438722,
+          "protocol_type": 0.008538413220563926,
+          "service": 0.036565201845095374,
+          "flag": -0.09349870916392627,
+          "src_bytes": -0.19108508200001875,
+          "dst_bytes": -0.07560724001243811,
+          "wrong_fragment": 0.0008772598377048959,
+          "hot": 0.0027466161529017146,
+          "logged_in": -0.06141340026435157,
+          "num_compromised": 0.0007535325767768201,
+          "count": -0.024738351356516423,
+          "srv_count": 0.002292279857603919,
+          "serror_rate": -0.09773632301439811,
+          "srv_serror_rate": -0.050039347568887435,
+          "rerror_rate": 0.008148179961604593
+        },
+        "Attack": {
+          "duration": -0.0004218763590438705,
+          "protocol_type": -0.008538413220563921,
+          "service": -0.036565201845095235,
+          "flag": 0.09349870916392629,
+          "src_bytes": 0.19108508200001809,
+          "dst_bytes": 0.07560724001243771,
+          "wrong_fragment": -0.0008772598377048934,
+          "hot": -0.0027466161529017073,
+          "logged_in": 0.06141340026435168,
+          "num_compromised": -0.0007535325767768193,
+          "count": 0.024738351356516433,
+          "srv_count": -0.002292279857603902,
+          "serror_rate": 0.09773632301439808,
+          "srv_serror_rate": 0.05003934756888761,
+          "rerror_rate": -0.008148179961604593
+        }
+      }
+    },
+    {
+      "instance_index": 17255,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 62.0,
+        "flag": 5.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 105.0,
+        "srv_count": 3.0,
+        "serror_rate": 1.0,
+        "srv_serror_rate": 1.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 6.843719349230862e-05,
+          "protocol_type": 0.006611712773661218,
+          "service": -0.02336236385892286,
+          "flag": -0.0753084874649795,
+          "src_bytes": -0.16994880829532194,
+          "dst_bytes": -0.08345802343758482,
+          "wrong_fragment": 0.0006784671677771265,
+          "hot": 0.0026384117161082363,
+          "logged_in": -0.059488291563553605,
+          "num_compromised": 0.0006546326907905686,
+          "count": -0.04963690582067737,
+          "srv_count": 0.00340544359562056,
+          "serror_rate": -0.06286659369513016,
+          "srv_serror_rate": -0.036200781298108775,
+          "rerror_rate": 0.012438056727587058
+        },
+        "Attack": {
+          "duration": -6.843719349230917e-05,
+          "protocol_type": -0.0066117127736611886,
+          "service": 0.02336236385892295,
+          "flag": 0.07530848746497924,
+          "src_bytes": 0.16994880829532205,
+          "dst_bytes": 0.08345802343758464,
+          "wrong_fragment": -0.0006784671677771253,
+          "hot": -0.002638411716108237,
+          "logged_in": 0.05948829156355361,
+          "num_compromised": -0.0006546326907905681,
+          "count": 0.04963690582067716,
+          "srv_count": -0.003405443595620544,
+          "serror_rate": 0.06286659369513009,
+          "srv_serror_rate": 0.0362007812981088,
+          "rerror_rate": -0.012438056727587004
+        }
+      }
+    },
+    {
+      "instance_index": 1939,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 46.0,
+        "flag": 5.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 116.0,
+        "srv_count": 3.0,
+        "serror_rate": 1.0,
+        "srv_serror_rate": 1.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": -0.00010259702638443726,
+          "protocol_type": 0.006623281441923929,
+          "service": -0.028759511774111863,
+          "flag": -0.07362018624869848,
+          "src_bytes": -0.17300573950972073,
+          "dst_bytes": -0.08124229801904646,
+          "wrong_fragment": 0.0006760345153088719,
+          "hot": 0.0026527698690495425,
+          "logged_in": -0.06132045582879963,
+          "num_compromised": 0.0006435373671802024,
+          "count": -0.04611097188001287,
+          "srv_count": 0.0031526146650753192,
+          "serror_rate": -0.06211914968363174,
+          "srv_serror_rate": -0.033457184207353205,
+          "rerror_rate": 0.012214762749979794
+        },
+        "Attack": {
+          "duration": 0.00010259702638443639,
+          "protocol_type": -0.00662328144192392,
+          "service": 0.028759511774111905,
+          "flag": 0.07362018624869814,
+          "src_bytes": 0.1730057395097208,
+          "dst_bytes": 0.08124229801904632,
+          "wrong_fragment": -0.0006760345153088711,
+          "hot": -0.0026527698690495464,
+          "logged_in": 0.06132045582879961,
+          "num_compromised": -0.0006435373671802024,
+          "count": 0.04611097188001253,
+          "srv_count": -0.0031526146650753166,
+          "serror_rate": 0.06211914968363161,
+          "srv_serror_rate": 0.033457184207353205,
+          "rerror_rate": -0.012214762749979758
+        }
+      }
+    },
+    {
+      "instance_index": 18406,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 18.0,
+        "flag": 2.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 279.0,
+        "srv_count": 10.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 1.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": -0.00018944811006802966,
+          "protocol_type": 0.009473164158839729,
+          "service": 0.0005081756706870954,
+          "flag": -0.057192920263009144,
+          "src_bytes": -0.18339166944441446,
+          "dst_bytes": -0.07194678777343566,
+          "wrong_fragment": 0.0005780400117240452,
+          "hot": 0.004360917163644196,
+          "logged_in": -0.05915621121642999,
+          "num_compromised": 0.0006515894206363489,
+          "count": -0.13299112770401003,
+          "srv_count": 0.006984026289190428,
+          "serror_rate": 0.012361837057381,
+          "srv_serror_rate": 0.022501692739618915,
+          "rerror_rate": -0.08632637156959566
+        },
+        "Attack": {
+          "duration": 0.00018944811006802722,
+          "protocol_type": -0.009473164158839757,
+          "service": -0.0005081756706871038,
+          "flag": 0.05719292026300939,
+          "src_bytes": 0.18339166944441362,
+          "dst_bytes": 0.0719467877734355,
+          "wrong_fragment": -0.0005780400117240435,
+          "hot": -0.004360917163644191,
+          "logged_in": 0.0591562112164299,
+          "num_compromised": -0.0006515894206363475,
+          "count": 0.13299112770401042,
+          "srv_count": -0.006984026289190392,
+          "serror_rate": -0.012361837057380995,
+          "srv_serror_rate": -0.022501692739618984,
+          "rerror_rate": 0.08632637156959555
+        }
+      }
+    },
+    {
+      "instance_index": 5696,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 22.0,
+        "flag": 9.0,
+        "src_bytes": 235.0,
+        "dst_bytes": 1075.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 0.0,
+        "count": 7.0,
+        "srv_count": 7.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.000791856536277031,
+          "protocol_type": 0.011823077579639537,
+          "service": 0.030564874213378945,
+          "flag": 0.04459514259642317,
+          "src_bytes": 0.1162944465643998,
+          "dst_bytes": 0.07388736885044334,
+          "wrong_fragment": 0.0012693699011522663,
+          "hot": 0.0056228117188664856,
+          "logged_in": 0.0722558864294708,
+          "num_compromised": 0.0018769327392221358,
+          "count": 0.03320124855420027,
+          "srv_count": 0.005499686060297744,
+          "serror_rate": 0.026672696832986346,
+          "srv_serror_rate": 0.02789459085177859,
+          "rerror_rate": 0.013974917002222347
+        },
+        "Attack": {
+          "duration": -0.0007918565362770296,
+          "protocol_type": -0.01182307757963954,
+          "service": -0.030564874213379015,
+          "flag": -0.04459514259642324,
+          "src_bytes": -0.11629444656440008,
+          "dst_bytes": -0.07388736885044309,
+          "wrong_fragment": -0.0012693699011522646,
+          "hot": -0.00562281171886648,
+          "logged_in": -0.0722558864294707,
+          "num_compromised": -0.0018769327392221368,
+          "count": -0.033201248554200105,
+          "srv_count": -0.005499686060297735,
+          "serror_rate": -0.026672696832986353,
+          "srv_serror_rate": -0.02789459085177866,
+          "rerror_rate": -0.013974917002222345
+        }
+      }
+    },
+    {
+      "instance_index": 22562,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 38.0,
+        "flag": 5.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 113.0,
+        "srv_count": 20.0,
+        "serror_rate": 1.0,
+        "srv_serror_rate": 1.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.00011553186154924098,
+          "protocol_type": 0.006536591739699996,
+          "service": -0.013730250781951274,
+          "flag": -0.07840332970236669,
+          "src_bytes": -0.17792313960353168,
+          "dst_bytes": -0.08104439349014203,
+          "wrong_fragment": 0.0007070959735838763,
+          "hot": 0.002497110399057071,
+          "logged_in": -0.05990846547948727,
+          "num_compromised": 0.0006367827017660318,
+          "count": -0.046102334696446104,
+          "srv_count": 0.003737929957867773,
+          "serror_rate": -0.06775801986849075,
+          "srv_serror_rate": -0.035319336142988794,
+          "rerror_rate": 0.012183133562639274
+        },
+        "Attack": {
+          "duration": -0.00011553186154923987,
+          "protocol_type": -0.006536591739699987,
+          "service": 0.013730250781951257,
+          "flag": 0.07840332970236695,
+          "src_bytes": 0.17792313960353115,
+          "dst_bytes": 0.08104439349014166,
+          "wrong_fragment": -0.0007070959735838743,
+          "hot": -0.0024971103990570746,
+          "logged_in": 0.059908465479487305,
+          "num_compromised": -0.0006367827017660315,
+          "count": 0.046102334696445965,
+          "srv_count": -0.0037379299578677644,
+          "serror_rate": 0.06775801986849085,
+          "srv_serror_rate": 0.03531933614298888,
+          "rerror_rate": -0.012183133562639262
+        }
+      }
+    },
+    {
+      "instance_index": 13073,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 19.0,
+        "flag": 9.0,
+        "src_bytes": 16787.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 11.0,
+        "srv_count": 11.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.0041663139376137475,
+          "protocol_type": 0.058187921469180295,
+          "service": 0.05104271490513318,
+          "flag": 0.05525718259116018,
+          "src_bytes": 0.18583888737634957,
+          "dst_bytes": -0.06203734758248062,
+          "wrong_fragment": 0.003043783173016726,
+          "hot": 0.006445985732715658,
+          "logged_in": -0.03618463331445421,
+          "num_compromised": 0.001985503007722037,
+          "count": 0.0749305196178651,
+          "srv_count": 0.015125723344756703,
+          "serror_rate": 0.03907046342302355,
+          "srv_serror_rate": 0.04354942708093045,
+          "rerror_rate": 0.025802461668226195
+        },
+        "Attack": {
+          "duration": -0.0041663139376137545,
+          "protocol_type": -0.058187921469180184,
+          "service": -0.05104271490513326,
+          "flag": -0.0552571825911602,
+          "src_bytes": -0.18583888737635,
+          "dst_bytes": 0.06203734758248067,
+          "wrong_fragment": -0.0030437831730167272,
+          "hot": -0.006445985732715654,
+          "logged_in": 0.03618463331445407,
+          "num_compromised": -0.0019855030077220366,
+          "count": -0.07493051961786502,
+          "srv_count": -0.015125723344756762,
+          "serror_rate": -0.03907046342302369,
+          "srv_serror_rate": -0.0435494270809305,
+          "rerror_rate": -0.025802461668226192
+        }
+      }
+    },
+    {
+      "instance_index": 1240,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 19.0,
+        "flag": 9.0,
+        "src_bytes": 74.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 0.0,
+        "count": 2.0,
+        "srv_count": 4.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.004234663833877768,
+          "protocol_type": 0.02387475606047367,
+          "service": 0.02421859540926497,
+          "flag": 0.046617330068993774,
+          "src_bytes": 0.15730850690691203,
+          "dst_bytes": -0.05041087491613923,
+          "wrong_fragment": 0.0024229095127432263,
+          "hot": 0.007617118361817593,
+          "logged_in": 0.07651329693470432,
+          "num_compromised": 0.001534217878084286,
+          "count": 0.0722989849426142,
+          "srv_count": 0.017251247317674086,
+          "serror_rate": 0.029008308026947194,
+          "srv_serror_rate": 0.03468282008895178,
+          "rerror_rate": 0.019053026003839388
+        },
+        "Attack": {
+          "duration": -0.004234663833877777,
+          "protocol_type": -0.02387475606047363,
+          "service": -0.02421859540926504,
+          "flag": -0.04661733006899377,
+          "src_bytes": -0.1573085069069123,
+          "dst_bytes": 0.05041087491613923,
+          "wrong_fragment": -0.002422909512743231,
+          "hot": -0.007617118361817611,
+          "logged_in": -0.0765132969347042,
+          "num_compromised": -0.0015342178780842874,
+          "count": -0.07229898494261405,
+          "srv_count": -0.017251247317674117,
+          "serror_rate": -0.02900830802694726,
+          "srv_serror_rate": -0.03468282008895179,
+          "rerror_rate": -0.01905302600383941
+        }
+      }
+    },
+    {
+      "instance_index": 5929,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 22.0,
+        "flag": 9.0,
+        "src_bytes": 200.0,
+        "dst_bytes": 293.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 0.0,
+        "count": 10.0,
+        "srv_count": 12.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.0005552294130154052,
+          "protocol_type": 0.01260602222900942,
+          "service": 0.030436527892774262,
+          "flag": 0.0448356450525399,
+          "src_bytes": 0.11957573872249276,
+          "dst_bytes": 0.07311075698747173,
+          "wrong_fragment": 0.0012273778507889727,
+          "hot": 0.00590848933703173,
+          "logged_in": 0.07287422565009898,
+          "num_compromised": 0.0018710627488321887,
+          "count": 0.03138458694293638,
+          "srv_count": 0.0028807875145430467,
+          "serror_rate": 0.027028423100338,
+          "srv_serror_rate": 0.028170786526208483,
+          "rerror_rate": 0.013759246462677696
+        },
+        "Attack": {
+          "duration": -0.0005552294130153997,
+          "protocol_type": -0.012606022229009466,
+          "service": -0.03043652789277432,
+          "flag": -0.04483564505253994,
+          "src_bytes": -0.11957573872249301,
+          "dst_bytes": -0.07311075698747134,
+          "wrong_fragment": -0.0012273778507889718,
+          "hot": -0.005908489337031723,
+          "logged_in": -0.07287422565009873,
+          "num_compromised": -0.001871062748832188,
+          "count": -0.031384586942936256,
+          "srv_count": -0.0028807875145430363,
+          "serror_rate": -0.027028423100338015,
+          "srv_serror_rate": -0.028170786526208563,
+          "rerror_rate": -0.013759246462677696
+        }
+      }
+    },
+    {
+      "instance_index": 3816,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 46.0,
+        "flag": 1.0,
+        "src_bytes": 0.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 255.0,
+        "srv_count": 1.0,
+        "serror_rate": 0.08,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.87
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": -0.001493788191785087,
+          "protocol_type": 0.007442536334294208,
+          "service": -0.06097060628900462,
+          "flag": -0.06611907024530857,
+          "src_bytes": -0.16980712161514316,
+          "dst_bytes": -0.0681893857059971,
+          "wrong_fragment": 0.000553959294721797,
+          "hot": 0.003971813883311633,
+          "logged_in": -0.04852691237627176,
+          "num_compromised": 0.0006991465707048974,
+          "count": -0.074650575669185,
+          "srv_count": -0.00578226797897739,
+          "serror_rate": 0.008626774568749152,
+          "srv_serror_rate": 0.02058333113149953,
+          "rerror_rate": -0.08011292728084983
+        },
+        "Attack": {
+          "duration": 0.0014937881917850846,
+          "protocol_type": -0.007442536334294204,
+          "service": 0.060970606289004727,
+          "flag": 0.06611907024530857,
+          "src_bytes": 0.16980712161514347,
+          "dst_bytes": 0.06818938570599697,
+          "wrong_fragment": -0.0005539592947217963,
+          "hot": -0.0039718138833116316,
+          "logged_in": 0.04852691237627164,
+          "num_compromised": -0.0006991465707048963,
+          "count": 0.07465057566918501,
+          "srv_count": 0.00578226797897742,
+          "serror_rate": -0.008626774568749137,
+          "srv_serror_rate": -0.020583331131499544,
+          "rerror_rate": 0.08011292728084984
+        }
+      }
+    },
+    {
+      "instance_index": 1377,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 2.0,
+        "service": 11.0,
+        "flag": 9.0,
+        "src_bytes": 46.0,
+        "dst_bytes": 77.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 254.0,
+        "srv_count": 254.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 1.8654046440839e-05,
+          "protocol_type": 0.052281358301106126,
+          "service": 0.03760990195098707,
+          "flag": 0.059551362806392234,
+          "src_bytes": 0.13427812374096038,
+          "dst_bytes": 0.13711892165093414,
+          "wrong_fragment": 0.0017258036434661729,
+          "hot": 0.005889974293036756,
+          "logged_in": -0.027005425182222653,
+          "num_compromised": 0.0012210421078531844,
+          "count": -0.04220654644576175,
+          "srv_count": 0.007233695656571808,
+          "serror_rate": 0.04447811357008037,
+          "srv_serror_rate": 0.03231337300670059,
+          "rerror_rate": 0.021716553284212976
+        },
+        "Attack": {
+          "duration": -1.865404644083316e-05,
+          "protocol_type": -0.05228135830110595,
+          "service": -0.03760990195098713,
+          "flag": -0.05955136280639248,
+          "src_bytes": -0.13427812374096043,
+          "dst_bytes": -0.13711892165093462,
+          "wrong_fragment": -0.0017258036434661735,
+          "hot": -0.005889974293036744,
+          "logged_in": 0.027005425182222733,
+          "num_compromised": -0.0012210421078531844,
+          "count": 0.04220654644576169,
+          "srv_count": -0.0072336956565718135,
+          "serror_rate": -0.04447811357008038,
+          "srv_serror_rate": -0.03231337300670071,
+          "rerror_rate": -0.021716553284213024
+        }
+      }
+    },
+    {
+      "instance_index": 9395,
+      "features": {
+        "duration": 129.0,
+        "protocol_type": 1.0,
+        "service": 57.0,
+        "flag": 9.0,
+        "src_bytes": 204.0,
+        "dst_bytes": 30066.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 1.0,
+        "count": 1.0,
+        "srv_count": 1.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": -0.008696135759729008,
+          "protocol_type": 0.01119164968841678,
+          "service": -0.007432596234273566,
+          "flag": 0.04143607707616488,
+          "src_bytes": 0.15884640934720973,
+          "dst_bytes": 0.1128290533900841,
+          "wrong_fragment": 0.00108196354476486,
+          "hot": 0.01926910542374935,
+          "logged_in": 0.05704331973114597,
+          "num_compromised": -0.04159505614452251,
+          "count": 0.05133245067020347,
+          "srv_count": 0.017284681010391646,
+          "serror_rate": 0.01673837760159305,
+          "srv_serror_rate": 0.015388956646961834,
+          "rerror_rate": 0.011506650438597959
+        },
+        "Attack": {
+          "duration": 0.00869613575972906,
+          "protocol_type": -0.011191649688416802,
+          "service": 0.007432596234273537,
+          "flag": -0.041436077076164805,
+          "src_bytes": -0.1588464093472105,
+          "dst_bytes": -0.11282905339008444,
+          "wrong_fragment": -0.0010819635447648591,
+          "hot": -0.01926910542374929,
+          "logged_in": -0.057043319731145695,
+          "num_compromised": 0.04159505614452247,
+          "count": -0.05133245067020336,
+          "srv_count": -0.017284681010391625,
+          "serror_rate": -0.01673837760159305,
+          "srv_serror_rate": -0.015388956646961853,
+          "rerror_rate": -0.011506650438597919
+        }
+      }
+    },
+    {
+      "instance_index": 17795,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 2.0,
+        "service": 46.0,
+        "flag": 9.0,
+        "src_bytes": 28.0,
+        "dst_bytes": 0.0,
+        "wrong_fragment": 3.0,
+        "hot": 0.0,
+        "logged_in": 0.0,
+        "num_compromised": 0.0,
+        "count": 64.0,
+        "srv_count": 63.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.02
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": -0.00013775674101100427,
+          "protocol_type": -0.01862887373163439,
+          "service": -0.0917236803165639,
+          "flag": 0.013805330660266893,
+          "src_bytes": -0.14614948997870167,
+          "dst_bytes": -0.15462844480501262,
+          "wrong_fragment": -0.05680919329255949,
+          "hot": 0.0017727909119594526,
+          "logged_in": -0.06718455212400375,
+          "num_compromised": 0.0008754912623766965,
+          "count": -0.050874531820470234,
+          "srv_count": -0.005601950191363112,
+          "serror_rate": 0.01701988331489736,
+          "srv_serror_rate": 0.019531252188132658,
+          "rerror_rate": 0.0049586310944443055
+        },
+        "Attack": {
+          "duration": 0.00013775674101100419,
+          "protocol_type": 0.018628873731634337,
+          "service": 0.09172368031656354,
+          "flag": -0.013805330660266884,
+          "src_bytes": 0.14614948997870075,
+          "dst_bytes": 0.15462844480501203,
+          "wrong_fragment": 0.0568091932925596,
+          "hot": -0.001772790911959456,
+          "logged_in": 0.067184552124004,
+          "num_compromised": -0.0008754912623766968,
+          "count": 0.05087453182047027,
+          "srv_count": 0.0056019501913631,
+          "serror_rate": -0.017019883314897333,
+          "srv_serror_rate": -0.019531252188132682,
+          "rerror_rate": -0.004958631094444306
+        }
+      }
+    },
+    {
+      "instance_index": 6255,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 22.0,
+        "flag": 9.0,
+        "src_bytes": 216.0,
+        "dst_bytes": 4591.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 0.0,
+        "count": 13.0,
+        "srv_count": 16.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.00037060417021804015,
+          "protocol_type": 0.01446550996232185,
+          "service": 0.03159742890026684,
+          "flag": 0.0452252160288618,
+          "src_bytes": 0.11947174432187341,
+          "dst_bytes": 0.07412929730469205,
+          "wrong_fragment": 0.0011805566905046196,
+          "hot": 0.00548210517461947,
+          "logged_in": 0.07051845854788781,
+          "num_compromised": 0.0018886234752881405,
+          "count": 0.031094445395034996,
+          "srv_count": 0.0040822501170637415,
+          "serror_rate": 0.0264557535969247,
+          "srv_serror_rate": 0.02715387811954113,
+          "rerror_rate": 0.01310903462566007
+        },
+        "Attack": {
+          "duration": -0.00037060417021803684,
+          "protocol_type": -0.014465509962321925,
+          "service": -0.03159742890026689,
+          "flag": -0.04522521602886188,
+          "src_bytes": -0.1194717443218735,
+          "dst_bytes": -0.07412929730469191,
+          "wrong_fragment": -0.0011805566905046193,
+          "hot": -0.005482105174619465,
+          "logged_in": -0.07051845854788791,
+          "num_compromised": -0.0018886234752881403,
+          "count": -0.031094445395034913,
+          "srv_count": -0.004082250117063741,
+          "serror_rate": -0.02645575359692472,
+          "srv_serror_rate": -0.02715387811954117,
+          "rerror_rate": -0.013109034625660064
+        }
+      }
+    },
+    {
+      "instance_index": 5132,
+      "features": {
+        "duration": 0.0,
+        "protocol_type": 1.0,
+        "service": 22.0,
+        "flag": 9.0,
+        "src_bytes": 221.0,
+        "dst_bytes": 5286.0,
+        "wrong_fragment": 0.0,
+        "hot": 0.0,
+        "logged_in": 1.0,
+        "num_compromised": 0.0,
+        "count": 6.0,
+        "srv_count": 6.0,
+        "serror_rate": 0.0,
+        "srv_serror_rate": 0.0,
+        "rerror_rate": 0.0
+      },
+      "shap_values_per_class": {
+        "Normal": {
+          "duration": 0.0006543014744755475,
+          "protocol_type": 0.012275698427667138,
+          "service": 0.03200810893570996,
+          "flag": 0.04594440220145575,
+          "src_bytes": 0.11935971311599468,
+          "dst_bytes": 0.07157212395942401,
+          "wrong_fragment": 0.0012770829447338696,
+          "hot": 0.006388603680031707,
+          "logged_in": 0.06896408669784233,
+          "num_compromised": 0.002065083677512081,
+          "count": 0.03477232901693955,
+          "srv_count": 0.0048310783289779256,
+          "serror_rate": 0.02554815860177137,
+          "srv_serror_rate": 0.027239312981010413,
+          "rerror_rate": 0.013324822387212597
+        },
+        "Attack": {
+          "duration": -0.0006543014744755529,
+          "protocol_type": -0.012275698427667152,
+          "service": -0.03200810893571008,
+          "flag": -0.04594440220145583,
+          "src_bytes": -0.11935971311599482,
+          "dst_bytes": -0.07157212395942374,
+          "wrong_fragment": -0.0012770829447338683,
+          "hot": -0.006388603680031704,
+          "logged_in": -0.06896408669784236,
+          "num_compromised": -0.0020650836775120787,
+          "count": -0.03477232901693939,
+          "srv_count": -0.004831078328977897,
+          "serror_rate": -0.02554815860177139,
+          "srv_serror_rate": -0.02723931298101047,
+          "rerror_rate": -0.013324822387212614
+        }
+      }
+    }
+  ],
+  "lime_local": [
+    {
+      "instance_index": 10359,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.23723069756439796
+        },
+        {
+          "rule": "rerror_rate > 0.00",
+          "weight": 0.10990374682473553
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.10932086163202025
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09958533584778395
+        },
+        {
+          "rule": "count > 144.00",
+          "weight": 0.0895124542412306
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.0806900398566658
+        },
+        {
+          "rule": "22.00 < service <= 46.00",
+          "weight": 0.06768130850447993
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.061799078588774356
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.061740501686838124
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.05712325006512392
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.04525506421048285
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04349753251089947
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.035045010195096586
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.019840362670588262
+        },
+        {
+          "rule": "8.00 < srv_count <= 18.00",
+          "weight": -0.014633884745422661
+        }
+      ]
+    },
+    {
+      "instance_index": 5609,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.22225629663606042
+        },
+        {
+          "rule": "rerror_rate > 0.00",
+          "weight": 0.10701490237967126
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.10402083847145319
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09853474802884722
+        },
+        {
+          "rule": "count > 144.00",
+          "weight": 0.08358352626041958
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.07660141135059474
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.06775483618727567
+        },
+        {
+          "rule": "22.00 < service <= 46.00",
+          "weight": 0.06200715828012358
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.05921720583915905
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.056018195597345256
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.04486884988058631
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.03469080406225314
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.012274542936417093
+        },
+        {
+          "rule": "2.00 < srv_count <= 8.00",
+          "weight": -0.009939574644288218
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": 0.002267841940348143
+        }
+      ]
+    },
+    {
+      "instance_index": 262,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.20911856695064537
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.10066471063337105
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.09328288607164395
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.08579149259430573
+        },
+        {
+          "rule": "dst_bytes > 544.00",
+          "weight": -0.07299459447153478
+        },
+        {
+          "rule": "19.00 < service <= 22.00",
+          "weight": -0.06922887041087643
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.06654589381427431
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06298044957778755
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04297470732127441
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.04120991554277125
+        },
+        {
+          "rule": "2.00 < count <= 14.00",
+          "weight": -0.035150877610156346
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": 0.026229477432822026
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.02519627862626934
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.023318591358254898
+        },
+        {
+          "rule": "8.00 < srv_count <= 18.00",
+          "weight": -0.00989738976238891
+        }
+      ]
+    },
+    {
+      "instance_index": 2929,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.22796996963844218
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.11395914400522578
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.1041302749043585
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09811643215781628
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.08604086499363633
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.07438343123642915
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.07147471402405133
+        },
+        {
+          "rule": "14.00 < count <= 144.00",
+          "weight": 0.0627534881802021
+        },
+        {
+          "rule": "0.00 < srv_serror_rate <= 1.00",
+          "weight": 0.06275152661772582
+        },
+        {
+          "rule": "0.00 < serror_rate <= 1.00",
+          "weight": 0.0624336526500787
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.03917186328430997
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.03110790500032223
+        },
+        {
+          "rule": "service <= 19.00",
+          "weight": -0.017511472298399854
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.010755350324795293
+        },
+        {
+          "rule": "srv_count > 18.00",
+          "weight": -0.004921093849937902
+        }
+      ]
+    },
+    {
+      "instance_index": 20075,
+      "feature_contributions": [
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.1049561408722463
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.1013028013389233
+        },
+        {
+          "rule": "src_bytes > 277.00",
+          "weight": -0.09203050645693625
+        },
+        {
+          "rule": "count <= 2.00",
+          "weight": -0.09041905515384482
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.07153876946746437
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.07113735658734517
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06346870559118577
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.06272726069277498
+        },
+        {
+          "rule": "19.00 < service <= 22.00",
+          "weight": -0.06191012984370571
+        },
+        {
+          "rule": "dst_bytes > 544.00",
+          "weight": -0.06155570428300016
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04394085304357774
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.02923849503888188
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.0282971271045519
+        },
+        {
+          "rule": "srv_count <= 2.00",
+          "weight": 0.024525123504312147
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.010348207231775519
+        }
+      ]
+    },
+    {
+      "instance_index": 17786,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.2265292519117346
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.11062673730363293
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10892704606827003
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.10215988944192778
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.08704222852065387
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.07050086635409625
+        },
+        {
+          "rule": "19.00 < service <= 22.00",
+          "weight": -0.0674850258348764
+        },
+        {
+          "rule": "14.00 < count <= 144.00",
+          "weight": 0.06584804974730489
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.06286984664141755
+        },
+        {
+          "rule": "0.00 < srv_serror_rate <= 1.00",
+          "weight": 0.058945306790850076
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": 0.04742102350758426
+        },
+        {
+          "rule": "0.00 < serror_rate <= 1.00",
+          "weight": 0.04741098242818057
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.03991975355737803
+        },
+        {
+          "rule": "8.00 < srv_count <= 18.00",
+          "weight": -0.021439840484035255
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.01664819653284735
+        }
+      ]
+    },
+    {
+      "instance_index": 17255,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.22199437260040794
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.1130260333870845
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.1024237847642302
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.1010748652229335
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.07675852083744888
+        },
+        {
+          "rule": "0.00 < srv_serror_rate <= 1.00",
+          "weight": 0.06443728044177163
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.06377014333144462
+        },
+        {
+          "rule": "14.00 < count <= 144.00",
+          "weight": 0.060300258319567694
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.059861041981566054
+        },
+        {
+          "rule": "service > 46.00",
+          "weight": 0.05973846210334185
+        },
+        {
+          "rule": "0.00 < serror_rate <= 1.00",
+          "weight": 0.05858626111080238
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.030359985367774157
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.01039935888904649
+        },
+        {
+          "rule": "2.00 < srv_count <= 8.00",
+          "weight": -0.0027772769644399346
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.0018599633324222079
+        }
+      ]
+    },
+    {
+      "instance_index": 1939,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.228448293786316
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.11118545891652593
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.0988814609639446
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09188785039395658
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.08314270900784546
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.07387556991390284
+        },
+        {
+          "rule": "22.00 < service <= 46.00",
+          "weight": 0.06626508307394283
+        },
+        {
+          "rule": "0.00 < srv_serror_rate <= 1.00",
+          "weight": 0.061559587515074794
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.06028065090765249
+        },
+        {
+          "rule": "14.00 < count <= 144.00",
+          "weight": 0.059034727766056755
+        },
+        {
+          "rule": "0.00 < serror_rate <= 1.00",
+          "weight": 0.0513917968303455
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.040501350186976606
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.014741064776763865
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": 0.012481622168870873
+        },
+        {
+          "rule": "2.00 < srv_count <= 8.00",
+          "weight": 0.002337281208512178
+        }
+      ]
+    },
+    {
+      "instance_index": 18406,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.23223298365197484
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.11564116961605632
+        },
+        {
+          "rule": "rerror_rate > 0.00",
+          "weight": 0.10653836857938877
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09768242797642111
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.08380666888636852
+        },
+        {
+          "rule": "count > 144.00",
+          "weight": 0.07787345260471332
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.07197791533741285
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.06299308758121856
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.056929181197660654
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.05314900332315918
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04668670387288815
+        },
+        {
+          "rule": "service <= 19.00",
+          "weight": -0.022811984751010334
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.018323795887936447
+        },
+        {
+          "rule": "8.00 < srv_count <= 18.00",
+          "weight": -0.012727554781928855
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": 0.005269747293287075
+        }
+      ]
+    },
+    {
+      "instance_index": 5696,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.20771472524944787
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.11200647792823734
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.11048057384297051
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.10037299606683318
+        },
+        {
+          "rule": "dst_bytes > 544.00",
+          "weight": -0.07470216876234294
+        },
+        {
+          "rule": "19.00 < service <= 22.00",
+          "weight": -0.07265747044824492
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.06505307274975197
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06095495186248323
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.05402568453359931
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.044100508286202586
+        },
+        {
+          "rule": "2.00 < count <= 14.00",
+          "weight": -0.040919669453004924
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.039184592299111774
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.0320194191938779
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.0291427524352131
+        },
+        {
+          "rule": "2.00 < srv_count <= 8.00",
+          "weight": -0.006430429205183586
+        }
+      ]
+    },
+    {
+      "instance_index": 22562,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.22707731668274736
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.1112942206656368
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10431170432209518
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09875321680050357
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.07338026075845842
+        },
+        {
+          "rule": "22.00 < service <= 46.00",
+          "weight": 0.06830866590197816
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.06589624423773374
+        },
+        {
+          "rule": "0.00 < srv_serror_rate <= 1.00",
+          "weight": 0.06530353277777508
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.06500776827523178
+        },
+        {
+          "rule": "14.00 < count <= 144.00",
+          "weight": 0.06482473163823331
+        },
+        {
+          "rule": "0.00 < serror_rate <= 1.00",
+          "weight": 0.05113911191449174
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.04132331931855207
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.0246772140741365
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.023071468475042052
+        },
+        {
+          "rule": "srv_count > 18.00",
+          "weight": 0.0009375709277153456
+        }
+      ]
+    },
+    {
+      "instance_index": 13073,
+      "feature_contributions": [
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.10799075447342227
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10615845760734083
+        },
+        {
+          "rule": "src_bytes > 277.00",
+          "weight": -0.09969039314433854
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.08923526039982803
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.07618993547510722
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06267246901864007
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.05986795541093962
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.05149365714299875
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.05020975547117156
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.04493323311294861
+        },
+        {
+          "rule": "2.00 < count <= 14.00",
+          "weight": -0.03047031738621667
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.02433682427570682
+        },
+        {
+          "rule": "service <= 19.00",
+          "weight": -0.020221933595067763
+        },
+        {
+          "rule": "8.00 < srv_count <= 18.00",
+          "weight": -0.012254327612228897
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": 3.640196809747878e-05
+        }
+      ]
+    },
+    {
+      "instance_index": 1240,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.21277340817735005
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.11112571560452646
+        },
+        {
+          "rule": "count <= 2.00",
+          "weight": -0.10410282360370804
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.10372233414570815
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09517949215985554
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.08511996936557617
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.06985754994471252
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06494449400039319
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.061966484160243925
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.0611325869229738
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04893743739535764
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": 0.03838397831475702
+        },
+        {
+          "rule": "service <= 19.00",
+          "weight": -0.01824563676177912
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.016729261751582913
+        },
+        {
+          "rule": "2.00 < srv_count <= 8.00",
+          "weight": -0.0076198774822115135
+        }
+      ]
+    },
+    {
+      "instance_index": 5929,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.20548088115562813
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.10460203104648977
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10348626145598677
+        },
+        {
+          "rule": "19.00 < service <= 22.00",
+          "weight": -0.06758870369418214
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.062342816015829
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.05948080583295066
+        },
+        {
+          "rule": "0.00 < dst_bytes <= 544.00",
+          "weight": -0.05827732770755608
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.05672273064790413
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.045660529828849425
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.03604043474421879
+        },
+        {
+          "rule": "2.00 < count <= 14.00",
+          "weight": -0.03293379266510195
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.031168673122075635
+        },
+        {
+          "rule": "8.00 < srv_count <= 18.00",
+          "weight": -0.018118356448373455
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.01203612793319213
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.006415953470759892
+        }
+      ]
+    },
+    {
+      "instance_index": 3816,
+      "feature_contributions": [
+        {
+          "rule": "src_bytes <= 0.00",
+          "weight": 0.2346035759969822
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.11116450984594704
+        },
+        {
+          "rule": "rerror_rate > 0.00",
+          "weight": 0.0992049079397587
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09395407658735279
+        },
+        {
+          "rule": "count > 144.00",
+          "weight": 0.08361518637631188
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.07158048721738483
+        },
+        {
+          "rule": "22.00 < service <= 46.00",
+          "weight": 0.06982415778085196
+        },
+        {
+          "rule": "flag <= 5.00",
+          "weight": 0.06557201885319752
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06191393318140554
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.06143302190456994
+        },
+        {
+          "rule": "0.00 < serror_rate <= 1.00",
+          "weight": 0.05279764974009714
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.04265061715069653
+        },
+        {
+          "rule": "srv_count <= 2.00",
+          "weight": 0.025730738481451312
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.019280665585457615
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.0032123635030347607
+        }
+      ]
+    },
+    {
+      "instance_index": 1377,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.20500873027200714
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.11337851539837313
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10870149132369655
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.09360203757190798
+        },
+        {
+          "rule": "count > 144.00",
+          "weight": 0.08137612422093256
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.07085505615482131
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06162505703722694
+        },
+        {
+          "rule": "0.00 < dst_bytes <= 544.00",
+          "weight": -0.05454637151449563
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04873232613603823
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.043029788996064
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.03355354678929726
+        },
+        {
+          "rule": "protocol_type > 1.00",
+          "weight": 0.02241300243321664
+        },
+        {
+          "rule": "service <= 19.00",
+          "weight": -0.012476226097762982
+        },
+        {
+          "rule": "srv_count > 18.00",
+          "weight": 0.004938522210726175
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.004254185257153872
+        }
+      ]
+    },
+    {
+      "instance_index": 9395,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.2067976130235979
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.11205536958433267
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10509023681668604
+        },
+        {
+          "rule": "count <= 2.00",
+          "weight": -0.08469067582774822
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.07846451192592038
+        },
+        {
+          "rule": "dst_bytes > 544.00",
+          "weight": -0.07330743793841205
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.06500102634186741
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.06315311223526972
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06294825390239556
+        },
+        {
+          "rule": "service > 46.00",
+          "weight": 0.057084745509440135
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04306950313026205
+        },
+        {
+          "rule": "duration > 0.00",
+          "weight": 0.03655153317314628
+        },
+        {
+          "rule": "srv_count <= 2.00",
+          "weight": 0.026883249867766388
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.015591374903153566
+        },
+        {
+          "rule": "num_compromised > 0.00",
+          "weight": 0.005347844815589266
+        }
+      ]
+    },
+    {
+      "instance_index": 17795,
+      "feature_contributions": [
+        {
+          "rule": "rerror_rate > 0.00",
+          "weight": 0.11002269751803273
+        },
+        {
+          "rule": "logged_in <= 0.00",
+          "weight": 0.10408503547693577
+        },
+        {
+          "rule": "dst_bytes <= 0.00",
+          "weight": 0.09172402188770856
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.0777937211916216
+        },
+        {
+          "rule": "14.00 < count <= 144.00",
+          "weight": 0.06790591028726775
+        },
+        {
+          "rule": "22.00 < service <= 46.00",
+          "weight": 0.0641374477743123
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.06352657165278328
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.05783303139347991
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.05195264910148814
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.04049853515973014
+        },
+        {
+          "rule": "protocol_type > 1.00",
+          "weight": 0.027112059943533908
+        },
+        {
+          "rule": "wrong_fragment > 0.00",
+          "weight": 0.02271882713894158
+        },
+        {
+          "rule": "srv_count > 18.00",
+          "weight": -0.006673345578349169
+        },
+        {
+          "rule": "0.00 < src_bytes <= 44.00",
+          "weight": 0.005037525690929861
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.0006020943691986082
+        }
+      ]
+    },
+    {
+      "instance_index": 6255,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.20183370658375763
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.10814245927121637
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10249525477728742
+        },
+        {
+          "rule": "19.00 < service <= 22.00",
+          "weight": -0.07679384199646294
+        },
+        {
+          "rule": "dst_bytes > 544.00",
+          "weight": -0.07112734028299215
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.07012272980041348
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.06977820239334075
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.056522411862903195
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.0468022443853463
+        },
+        {
+          "rule": "2.00 < count <= 14.00",
+          "weight": -0.03619845121335747
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.03516272046287872
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.032672644116376506
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.0233780702408869
+        },
+        {
+          "rule": "8.00 < srv_count <= 18.00",
+          "weight": -0.019592037571247597
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.017514712602882936
+        }
+      ]
+    },
+    {
+      "instance_index": 5132,
+      "feature_contributions": [
+        {
+          "rule": "44.00 < src_bytes <= 277.00",
+          "weight": -0.20377488931955207
+        },
+        {
+          "rule": "rerror_rate <= 0.00",
+          "weight": -0.10496894942351537
+        },
+        {
+          "rule": "0.00 < logged_in <= 1.00",
+          "weight": -0.09928914026474032
+        },
+        {
+          "rule": "hot <= 0.00",
+          "weight": -0.0812937376886916
+        },
+        {
+          "rule": "dst_bytes > 544.00",
+          "weight": -0.07457731953072112
+        },
+        {
+          "rule": "19.00 < service <= 22.00",
+          "weight": -0.06632567118196812
+        },
+        {
+          "rule": "5.00 < flag <= 9.00",
+          "weight": -0.0639831218103119
+        },
+        {
+          "rule": "srv_serror_rate <= 0.00",
+          "weight": -0.06094932646259596
+        },
+        {
+          "rule": "serror_rate <= 0.00",
+          "weight": -0.05001419570127634
+        },
+        {
+          "rule": "wrong_fragment <= 0.00",
+          "weight": -0.044406769331276026
+        },
+        {
+          "rule": "duration <= 0.00",
+          "weight": -0.03392115733690484
+        },
+        {
+          "rule": "2.00 < count <= 14.00",
+          "weight": -0.033500137334615196
+        },
+        {
+          "rule": "num_compromised <= 0.00",
+          "weight": -0.019169494351466122
+        },
+        {
+          "rule": "2.00 < srv_count <= 8.00",
+          "weight": -0.014041134069064307
+        },
+        {
+          "rule": "protocol_type <= 1.00",
+          "weight": -0.009502910180339538
+        }
+      ]
+    }
+  ],
+  "prompts": {
+    "prompt": "# Model Information\n\n- **Type:** RandomForestClassifier\n- **Target:** label\n- **Classes:** Normal, Attack\n- **Features:** duration, protocol_type, service, flag, src_bytes, dst_bytes, wrong_fragment, hot, logged_in, num_compromised, count, srv_count, serror_rate, srv_serror_rate, rerror_rate\n- **Accuracy:** 0.9966\n\n# Column Descriptions\n\n  - duration: Connection duration in seconds\n  - protocol_type: Protocol type: ICMP=0, TCP=1, UDP=2\n  - service: Network service accessed (encoded, e.g., http=22, ftp_data=19, private=46)\n  - flag: Connection flag/status: SF=9 (success), S0=5 (syn attack), REJ=1 (rejected), etc.\n  - src_bytes: Source bytes sent by origin host\n  - dst_bytes: Destination bytes sent by target host\n  - wrong_fragment: Number of wrong fragments\n  - hot: Number of hot indicators (suspicious access patterns)\n  - logged_in: Whether user logged in: 0=no, 1=yes\n  - num_compromised: Number of compromised files\n  - count: Number of same-type connections in time window\n  - srv_count: Number of same-service connections in time window\n  - serror_rate: TCP error rate (0.0-1.0)\n  - srv_serror_rate: Same-service TCP error rate (0.0-1.0)\n  - rerror_rate: Protocol error rate (0.0-1.0)\n\n# Training Samples (representative examples)\n\n[{\"duration\":0,\"protocol_type\":1,\"service\":22,\"flag\":9,\"src_bytes\":170,\"dst_bytes\":52838,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":1,\"num_compromised\":0,\"count\":1,\"srv_count\":1,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":1,\"service\":22,\"flag\":9,\"src_bytes\":195,\"dst_bytes\":318,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":1,\"num_compromised\":0,\"count\":9,\"srv_count\":9,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":2,\"service\":11,\"flag\":9,\"src_bytes\":29,\"dst_bytes\":29,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":4,\"srv_count\":18,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":1,\"service\":57,\"flag\":5,\"src_bytes\":0,\"dst_bytes\":0,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":228,\"srv_count\":7,\"serror_rate\":1.0,\"srv_serror_rate\":1.0,\"rerror_rate\":0.0,\"label\":1},{\"duration\":0,\"protocol_type\":2,\"service\":11,\"flag\":9,\"src_bytes\":45,\"dst_bytes\":134,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":64,\"srv_count\":144,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":1,\"service\":22,\"flag\":9,\"src_bytes\":54540,\"dst_bytes\":8314,\"wrong_fragment\":0,\"hot\":2,\"logged_in\":1,\"num_compromised\":1,\"count\":9,\"srv_count\":9,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":1},{\"duration\":0,\"protocol_type\":2,\"service\":11,\"flag\":9,\"src_bytes\":42,\"dst_bytes\":72,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":249,\"srv_count\":249,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":1,\"service\":5,\"flag\":5,\"src_bytes\":0,\"dst_bytes\":0,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":113,\"srv_count\":1,\"serror_rate\":1.0,\"srv_serror_rate\":1.0,\"rerror_rate\":0.0,\"label\":1},{\"duration\":0,\"protocol_type\":1,\"service\":22,\"flag\":9,\"src_bytes\":292,\"dst_bytes\":1718,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":1,\"num_compromised\":0,\"count\":3,\"srv_count\":3,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":2,\"service\":46,\"flag\":9,\"src_bytes\":28,\"dst_bytes\":0,\"wrong_fragment\":3,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":99,\"srv_count\":99,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":1},{\"duration\":0,\"protocol_type\":1,\"service\":19,\"flag\":9,\"src_bytes\":5929,\"dst_bytes\":0,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":1,\"num_compromised\":0,\"count\":13,\"srv_count\":13,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":0,\"service\":14,\"flag\":9,\"src_bytes\":1032,\"dst_bytes\":0,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":149,\"srv_count\":149,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":1},{\"duration\":0,\"protocol_type\":1,\"service\":18,\"flag\":2,\"src_bytes\":0,\"dst_bytes\":0,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":1,\"srv_count\":1,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":1.0,\"label\":0},{\"duration\":0,\"protocol_type\":2,\"service\":11,\"flag\":9,\"src_bytes\":45,\"dst_bytes\":76,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":199,\"srv_count\":199,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":2,\"service\":11,\"flag\":9,\"src_bytes\":45,\"dst_bytes\":136,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":65,\"srv_count\":147,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":0,\"protocol_type\":1,\"service\":46,\"flag\":1,\"src_bytes\":0,\"dst_bytes\":0,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":288,\"srv_count\":15,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":1.0,\"label\":1},{\"duration\":0,\"protocol_type\":1,\"service\":22,\"flag\":9,\"src_bytes\":257,\"dst_bytes\":678,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":1,\"num_compromised\":0,\"count\":14,\"srv_count\":20,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":0},{\"duration\":1,\"protocol_type\":1,\"service\":18,\"flag\":9,\"src_bytes\":1238,\"dst_bytes\":2451,\"wrong_fragment\":0,\"hot\":28,\"logged_in\":1,\"num_compromised\":0,\"count\":1,\"srv_count\":1,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":1},{\"duration\":0,\"protocol_type\":0,\"service\":13,\"flag\":9,\"src_bytes\":8,\"dst_bytes\":0,\"wrong_fragment\":0,\"hot\":0,\"logged_in\":0,\"num_compromised\":0,\"count\":1,\"srv_count\":43,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":1},{\"duration\":718,\"protocol_type\":1,\"service\":57,\"flag\":9,\"src_bytes\":1412,\"dst_bytes\":25260,\"wrong_fragment\":0,\"hot\":15,\"logged_in\":1,\"num_compromised\":38,\"count\":1,\"srv_count\":1,\"serror_rate\":0.0,\"srv_serror_rate\":0.0,\"rerror_rate\":0.0,\"label\":1}]\n\n---\n\n\nBased on the model information and data provided, identify the top 5 most important features for detecting security threats.\n\nIMPORTANT: Provide your response as a valid JSON array ONLY, with no additional text.\n\nFormat:\n```json\n[\n  {\"name\": \"feature_name\", \"why\": \"Brief explanation of why this feature is important\"},\n  {\"name\": \"feature_name\", \"why\": \"Brief explanation\"},\n  ...\n]\n```\n\nExample (do not use these values, analyze the actual data):\n```json\n[\n  {\"name\": \"failed_logins\", \"why\": \"High number of failed login attempts indicates brute-force attack patterns\"},\n  {\"name\": \"ip_reputation_score\", \"why\": \"Previously flagged IP addresses correlate strongly with malicious activity\"}\n]\n```\n\nNow analyze and provide exactly 5 features in JSON format:\n",
+    "self_consistency_mode": true
+  },
+  "results": {
+    "glm-4.7-flash": {
+      "response": "Self-Consistency Results (3/5 valid runs)\n\n1. serror_rate - 100.0% consensus\n   Why: The majority of attack samples demonstrated error rates of 1.0, a hallmark signature of network scanning, packet injection, or denial-of-service attempts.\n\n2. flag - 100.0% consensus\n   Why: The connection flag indicates the state of the packet establishment (e.g., 'S0' or 'REJ'), which distinguishes normal handshake processes from attack vectors like SYN floods.\n\n3. num_compromised - 66.7% consensus\n   Why: Sample 6 displayed `num_compromised: 1`, serving as direct evidence of system compromise, data theft, or successful payload execution.\n\n4. wrong_fragment - 66.7% consensus\n   Why: Sample 10 showed `wrong_fragment: 3`, a non-zero value indicative of improperly formed or malicious packets often targeted at exploiting system vulnerabilities.\n\n5. count - 33.3% consensus\n   Why: High volume of connections within a timeframe suggests port scanning, brute-force attempts, or volumetric DDoS attacks.\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 11340,
+        "completion_tokens": 20420,
+        "total_tokens": 31760
+      },
+      "time_ms": 1761216.73,
+      "time_formatted": "29m21s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "serror_rate",
+            "percentage": 1.0,
+            "appearances": 3,
+            "avg_position": 1.67,
+            "explanations": [
+              "High sequence error rates indicate failed connection attempts, which are common signatures of SYN floods and malicious probing.",
+              "The majority of attack samples demonstrated error rates of 1.0, a hallmark signature of network scanning, packet injection, or denial-of-service attempts.",
+              "A high rate of SYN errors indicates failures in establishing secure connections, often correlating with Denial of Service (DoS) or port scanning attacks."
+            ],
+            "consensus_explanation": "The majority of attack samples demonstrated error rates of 1.0, a hallmark signature of network scanning, packet injection, or denial-of-service attempts."
+          },
+          {
+            "rank": 2,
+            "name": "flag",
+            "percentage": 1.0,
+            "appearances": 3,
+            "avg_position": 2.33,
+            "explanations": [
+              "Specific flags like 's0' (denial of connection) or 'REJ' (rejected) strongly predict malicious network activity in the dataset.",
+              "S0 and REJ flags in attack samples indicate SYN attacks and failed connection attempts, which are distinct from standard success (SF) flows.",
+              "The connection flag indicates the state of the packet establishment (e.g., 'S0' or 'REJ'), which distinguishes normal handshake processes from attack vectors like SYN floods."
+            ],
+            "consensus_explanation": "The connection flag indicates the state of the packet establishment (e.g., 'S0' or 'REJ'), which distinguishes normal handshake processes from attack vectors like SYN floods."
+          },
+          {
+            "rank": 3,
+            "name": "num_compromised",
+            "percentage": 0.6667,
+            "appearances": 2,
+            "avg_position": 3.0,
+            "explanations": [
+              "A positive value directly confirms system compromise or unauthorized data access.",
+              "Sample 6 displayed `num_compromised: 1`, serving as direct evidence of system compromise, data theft, or successful payload execution."
+            ],
+            "consensus_explanation": "Sample 6 displayed `num_compromised: 1`, serving as direct evidence of system compromise, data theft, or successful payload execution."
+          },
+          {
+            "rank": 4,
+            "name": "wrong_fragment",
+            "percentage": 0.6667,
+            "appearances": 2,
+            "avg_position": 3.5,
+            "explanations": [
+              "Malformed or excessively fragmented packets are often associated with packet flooding or application-layer attacks.",
+              "Sample 10 showed `wrong_fragment: 3`, a non-zero value indicative of improperly formed or malicious packets often targeted at exploiting system vulnerabilities."
+            ],
+            "consensus_explanation": "Sample 10 showed `wrong_fragment: 3`, a non-zero value indicative of improperly formed or malicious packets often targeted at exploiting system vulnerabilities."
+          },
+          {
+            "rank": 5,
+            "name": "count",
+            "percentage": 0.3333,
+            "appearances": 1,
+            "avg_position": 3.0,
+            "explanations": [
+              "High volume of connections within a timeframe suggests port scanning, brute-force attempts, or volumetric DDoS attacks."
+            ],
+            "consensus_explanation": "High volume of connections within a timeframe suggests port scanning, brute-force attempts, or volumetric DDoS attacks."
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 3,
+          "invalid_runs": 2
+        },
+        "summary": "Self-Consistency Results (3/5 valid runs)\n\n1. serror_rate - 100.0% consensus\n   Why: The majority of attack samples demonstrated error rates of 1.0, a hallmark signature of network scanning, packet injection, or denial-of-service attempts.\n\n2. flag - 100.0% consensus\n   Why: The connection flag indicates the state of the packet establishment (e.g., 'S0' or 'REJ'), which distinguishes normal handshake processes from attack vectors like SYN floods.\n\n3. num_compromised - 66.7% consensus\n   Why: Sample 6 displayed `num_compromised: 1`, serving as direct evidence of system compromise, data theft, or successful payload execution.\n\n4. wrong_fragment - 66.7% consensus\n   Why: Sample 10 showed `wrong_fragment: 3`, a non-zero value indicative of improperly formed or malicious packets often targeted at exploiting system vulnerabilities.\n\n5. count - 33.3% consensus\n   Why: High volume of connections within a timeframe suggests port scanning, brute-force attempts, or volumetric DDoS attacks.\n"
+      }
+    },
+    "qwen3:14b": {
+      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. num_compromised - 100.0% consensus\n   Why: Higher values indicate more compromised files, directly correlating with attack presence\n\n2. serror_rate - 100.0% consensus\n   Why: High TCP error rates often indicate malicious traffic or network anomalies\n\n3. srv_serror_rate - 100.0% consensus\n   Why: Service-specific error rates highlight unusual patterns in specific network services\n\n4. hot - 80.0% consensus\n   Why: Indicates suspicious access patterns, which are strong signals of potential threats\n\n5. count - 40.0% consensus\n   Why: Frequent same-type connections in a time window suggest potential scanning or DoS attacks\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 11855,
+        "completion_tokens": 8791,
+        "total_tokens": 20646
+      },
+      "time_ms": 443204.63,
+      "time_formatted": "7m23s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "num_compromised",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 1.8,
+            "explanations": [
+              "Higher values directly correlate with security breaches and compromised systems",
+              "Indicates the number of compromised files, directly related to security threats",
+              "High values indicate potential system breaches or exploitation attempts",
+              "Higher values directly indicate system compromise",
+              "Higher values indicate more compromised files, directly correlating with attack presence"
+            ],
+            "consensus_explanation": "Higher values indicate more compromised files, directly correlating with attack presence"
+          },
+          {
+            "rank": 2,
+            "name": "serror_rate",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 2.0,
+            "explanations": [
+              "High TCP error rates often indicate malicious traffic or network anomalies",
+              "High TCP error rates may indicate malicious traffic or network anomalies",
+              "TCP error rate of 1.0 in attacks suggests severe network anomalies",
+              "High values indicate network anomalies and potential attacks",
+              "High TCP error rates often signal malicious network activity or attacks"
+            ],
+            "consensus_explanation": "High TCP error rates often indicate malicious traffic or network anomalies"
+          },
+          {
+            "rank": 3,
+            "name": "srv_serror_rate",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 3.2,
+            "explanations": [
+              "Service-specific error rates highlight unusual patterns in specific network services",
+              "Service-specific TCP error rates help identify abnormal behavior per service",
+              "Service-specific TCP errors correlate strongly with malicious activity",
+              "Elevated service-level error rates correlate with malicious activity",
+              "Same-service error rates highlight anomalous behavior within specific services"
+            ],
+            "consensus_explanation": "Service-specific error rates highlight unusual patterns in specific network services"
+          },
+          {
+            "rank": 4,
+            "name": "hot",
+            "percentage": 0.8,
+            "appearances": 4,
+            "avg_position": 3.25,
+            "explanations": [
+              "Indicates presence of suspicious access patterns associated with attacks",
+              "Measures suspicious access patterns, higher values correlate with attacks",
+              "Higher hot indicators reflect suspicious access patterns linked to attacks",
+              "Indicates suspicious access patterns, which are strong signals of potential threats"
+            ],
+            "consensus_explanation": "Indicates suspicious access patterns, which are strong signals of potential threats"
+          },
+          {
+            "rank": 5,
+            "name": "count",
+            "percentage": 0.4,
+            "appearances": 2,
+            "avg_position": 4.0,
+            "explanations": [
+              "Frequent same-type connections in a time window suggest potential scanning or DoS attacks",
+              "Excessive same-type connections suggest DDoS or scanning behavior"
+            ],
+            "consensus_explanation": "Frequent same-type connections in a time window suggest potential scanning or DoS attacks"
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 5,
+          "invalid_runs": 0
+        },
+        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. num_compromised - 100.0% consensus\n   Why: Higher values indicate more compromised files, directly correlating with attack presence\n\n2. serror_rate - 100.0% consensus\n   Why: High TCP error rates often indicate malicious traffic or network anomalies\n\n3. srv_serror_rate - 100.0% consensus\n   Why: Service-specific error rates highlight unusual patterns in specific network services\n\n4. hot - 80.0% consensus\n   Why: Indicates suspicious access patterns, which are strong signals of potential threats\n\n5. count - 40.0% consensus\n   Why: Frequent same-type connections in a time window suggest potential scanning or DoS attacks\n"
+      }
+    },
+    "gpt-oss:20b": {
+      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. count - 100.0% consensus\n   Why: Represents the number of connections to the same host within a short time frame, making sudden spikes a strong indicator of scan or flooding attacks.\n\n2. srv_count - 80.0% consensus\n   Why: Shows how many connections are made to the same service, helping to detect service-specific attacks like DoS on a particular port.\n\n3. flag - 80.0% consensus\n   Why: Certain flag values such as S0 (5) or REJ (1) are frequently observed in attack traffic, whereas normal connections mostly use SF (9).\n\n4. serror_rate - 80.0% consensus\n   Why: The TCP error rate spikes to 1.0 during many attack instances, indicating repeated retransmissions or malformed packets.\n\n5. hot - 60.0% consensus\n   Why: High values of hot (number of suspicious access patterns) are common in attacks, helping to distinguish malicious sessions from normal traffic.\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 11595,
+        "completion_tokens": 4376,
+        "total_tokens": 15971
+      },
+      "time_ms": 104984.57,
+      "time_formatted": "1m44s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "count",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 2.0,
+            "explanations": [
+              "High value indicates many repeated connections, a classic sign of scanning or flooding attacks",
+              "High values represent many connections from the same host, a common indicator of DoS attacks or port‑scanning activity.",
+              "The number of same‑type connections in a short window rises dramatically during scans or DoS attacks, making it a strong indicator of threats.",
+              "High number of connections in a short time window is a key signature of denial‑of‑service and other volumetric attacks.",
+              "Represents the number of connections to the same host within a short time frame, making sudden spikes a strong indicator of scan or flooding attacks."
+            ],
+            "consensus_explanation": "Represents the number of connections to the same host within a short time frame, making sudden spikes a strong indicator of scan or flooding attacks."
+          },
+          {
+            "rank": 2,
+            "name": "srv_count",
+            "percentage": 0.8,
+            "appearances": 4,
+            "avg_position": 2.25,
+            "explanations": [
+              "Shows how often the same service is targeted in a short period, highlighting possible exploitation attempts",
+              "Counts of connections to the same service signal focused attacks against a specific protocol or service.",
+              "Counts of same‑service connections reveal abnormal service usage, a common attack pattern.",
+              "Shows how many connections are made to the same service, helping to detect service-specific attacks like DoS on a particular port."
+            ],
+            "consensus_explanation": "Shows how many connections are made to the same service, helping to detect service-specific attacks like DoS on a particular port."
+          },
+          {
+            "rank": 3,
+            "name": "flag",
+            "percentage": 0.8,
+            "appearances": 4,
+            "avg_position": 2.25,
+            "explanations": [
+              "Connection flags (e.g., S0, RST, SR) reveal abnormal connection states often used in probing or attack attempts.",
+              "Certain flag values such as S0 (5) or REJ (1) are frequently observed in attack traffic, whereas normal connections mostly use SF (9).",
+              "Connection flags (e.g., S0, REJ) strongly indicate attack protocols such as SYN floods.",
+              "Connection flags (SF, S0, REJ, etc.) directly reflect TCP/UDP handshake behavior, where abnormal flags signal malicious attempts."
+            ],
+            "consensus_explanation": "Certain flag values such as S0 (5) or REJ (1) are frequently observed in attack traffic, whereas normal connections mostly use SF (9)."
+          },
+          {
+            "rank": 4,
+            "name": "serror_rate",
+            "percentage": 0.8,
+            "appearances": 4,
+            "avg_position": 4.0,
+            "explanations": [
+              "Elevated TCP error rates are a strong indicator of protocol misuse typically seen in intrusion attempts",
+              "A high TCP error rate indicates problematic or malicious traffic patterns, frequently seen in exploit attempts.",
+              "The TCP error rate spikes to 1.0 during many attack instances, indicating repeated retransmissions or malformed packets.",
+              "Elevated TCP error rates often accompany malicious traffic, signaling disrupted or malformed packets."
+            ],
+            "consensus_explanation": "The TCP error rate spikes to 1.0 during many attack instances, indicating repeated retransmissions or malformed packets."
+          },
+          {
+            "rank": 5,
+            "name": "hot",
+            "percentage": 0.6,
+            "appearances": 3,
+            "avg_position": 4.0,
+            "explanations": [
+              "Signals presence of anomalous or suspicious activities; higher counts correlate with attack traffic",
+              "High values of hot (number of suspicious access patterns) are common in attacks, helping to distinguish malicious sessions from normal traffic.",
+              "The 'hot' indicator captures frequent suspicious activities (e.g., multiple failed attempts), which are typical for intrusion attempts."
+            ],
+            "consensus_explanation": "High values of hot (number of suspicious access patterns) are common in attacks, helping to distinguish malicious sessions from normal traffic."
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 5,
+          "invalid_runs": 0
+        },
+        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. count - 100.0% consensus\n   Why: Represents the number of connections to the same host within a short time frame, making sudden spikes a strong indicator of scan or flooding attacks.\n\n2. srv_count - 80.0% consensus\n   Why: Shows how many connections are made to the same service, helping to detect service-specific attacks like DoS on a particular port.\n\n3. flag - 80.0% consensus\n   Why: Certain flag values such as S0 (5) or REJ (1) are frequently observed in attack traffic, whereas normal connections mostly use SF (9).\n\n4. serror_rate - 80.0% consensus\n   Why: The TCP error rate spikes to 1.0 during many attack instances, indicating repeated retransmissions or malformed packets.\n\n5. hot - 60.0% consensus\n   Why: High values of hot (number of suspicious access patterns) are common in attacks, helping to distinguish malicious sessions from normal traffic.\n"
+      }
+    },
+    "qwen3:30b": {
+      "response": "Self-Consistency Results (1/5 valid runs)\n\n1. srv_serror_rate - 100.0% consensus\n   Why: Indicates server-side error rates, consistently reaching 1.0 in attack samples while 0.0 in normal traffic.\n\n2. serror_rate - 100.0% consensus\n   Why: Represents client-side error rates, aligning with attack patterns where values are maximized (1.0) versus normal (0.0).\n\n3. num_compromised - 100.0% consensus\n   Why: Directly correlates with attack severity; non-zero values (e.g., 1, 38) in attacks versus 0.0 in normal traffic.\n\n4. hot - 100.0% consensus\n   Why: Measures abnormal activity intensity; higher values (e.g., 15, 28) in attacks versus 0.0 in normal samples.\n\n5. wrong_fragment - 100.0% consensus\n   Why: Detects fragmented packet anomalies common in attacks, with non-zero values (e.g., 3) appearing in attack instances.\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 11855,
+        "completion_tokens": 35907,
+        "total_tokens": 47762
+      },
+      "time_ms": 2205799.15,
+      "time_formatted": "36m45s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "srv_serror_rate",
+            "percentage": 1.0,
+            "appearances": 1,
+            "avg_position": 1.0,
+            "explanations": [
+              "Indicates server-side error rates, consistently reaching 1.0 in attack samples while 0.0 in normal traffic."
+            ],
+            "consensus_explanation": "Indicates server-side error rates, consistently reaching 1.0 in attack samples while 0.0 in normal traffic."
+          },
+          {
+            "rank": 2,
+            "name": "serror_rate",
+            "percentage": 1.0,
+            "appearances": 1,
+            "avg_position": 2.0,
+            "explanations": [
+              "Represents client-side error rates, aligning with attack patterns where values are maximized (1.0) versus normal (0.0)."
+            ],
+            "consensus_explanation": "Represents client-side error rates, aligning with attack patterns where values are maximized (1.0) versus normal (0.0)."
+          },
+          {
+            "rank": 3,
+            "name": "num_compromised",
+            "percentage": 1.0,
+            "appearances": 1,
+            "avg_position": 3.0,
+            "explanations": [
+              "Directly correlates with attack severity; non-zero values (e.g., 1, 38) in attacks versus 0.0 in normal traffic."
+            ],
+            "consensus_explanation": "Directly correlates with attack severity; non-zero values (e.g., 1, 38) in attacks versus 0.0 in normal traffic."
+          },
+          {
+            "rank": 4,
+            "name": "hot",
+            "percentage": 1.0,
+            "appearances": 1,
+            "avg_position": 4.0,
+            "explanations": [
+              "Measures abnormal activity intensity; higher values (e.g., 15, 28) in attacks versus 0.0 in normal samples."
+            ],
+            "consensus_explanation": "Measures abnormal activity intensity; higher values (e.g., 15, 28) in attacks versus 0.0 in normal samples."
+          },
+          {
+            "rank": 5,
+            "name": "wrong_fragment",
+            "percentage": 1.0,
+            "appearances": 1,
+            "avg_position": 5.0,
+            "explanations": [
+              "Detects fragmented packet anomalies common in attacks, with non-zero values (e.g., 3) appearing in attack instances."
+            ],
+            "consensus_explanation": "Detects fragmented packet anomalies common in attacks, with non-zero values (e.g., 3) appearing in attack instances."
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 1,
+          "invalid_runs": 4
+        },
+        "summary": "Self-Consistency Results (1/5 valid runs)\n\n1. srv_serror_rate - 100.0% consensus\n   Why: Indicates server-side error rates, consistently reaching 1.0 in attack samples while 0.0 in normal traffic.\n\n2. serror_rate - 100.0% consensus\n   Why: Represents client-side error rates, aligning with attack patterns where values are maximized (1.0) versus normal (0.0).\n\n3. num_compromised - 100.0% consensus\n   Why: Directly correlates with attack severity; non-zero values (e.g., 1, 38) in attacks versus 0.0 in normal traffic.\n\n4. hot - 100.0% consensus\n   Why: Measures abnormal activity intensity; higher values (e.g., 15, 28) in attacks versus 0.0 in normal samples.\n\n5. wrong_fragment - 100.0% consensus\n   Why: Detects fragmented packet anomalies common in attacks, with non-zero values (e.g., 3) appearing in attack instances.\n"
+      }
+    },
+    "glm-5:cloud": {
+      "response": "Self-Consistency Results (5/5 valid runs)\n\n1. flag - 100.0% consensus\n   Why: The connection status flag is a primary indicator;Attack samples frequently show S0 (flag=5) or REJ (flag=1) states associated with Denial of Service or scanning, while Normal traffic predominantly shows SF (flag=9).\n\n2. serror_rate - 100.0% consensus\n   Why: This feature shows a perfect correlation with specific attack types in the training data;Attack samples often exhibit a rate of 1.0, indicating SYN errors typical of DoS floods, whereas Normal samples consistently show 0.0.\n\n3. count - 100.0% consensus\n   Why: The number of connections to the same host in a time window is a critical indicator for Denial of Service (DoS) attacks, with Attack samples frequently showing significantly higher counts (e.g., 228, 288) compared to Normal traffic.\n\n4. hot - 80.0% consensus\n   Why: This indicates the number of 'hot' indicators or suspicious access patterns; non-zero values for this feature in the training data correlate strongly with intrusion attempts (label 1), distinguishing them from standard traffic.\n\n5. service - 40.0% consensus\n   Why: Specific network services are targeted in attacks; the data shows certain encoded services (like 46 or 57) associated with malicious activity, while others (like 22) are common in both but require context from other features.\n",
+      "thinking_process": null,
+      "token_usage": {
+        "prompt_tokens": 11340,
+        "completion_tokens": 14516,
+        "total_tokens": 25856
+      },
+      "time_ms": 192504.84,
+      "time_formatted": "3m12s",
+      "error": null,
+      "self_consistency": {
+        "features": [
+          {
+            "rank": 1,
+            "name": "flag",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 1.0,
+            "explanations": [
+              "Normal traffic consistently shows flag=9 (Success), whereas attack traffic frequently displays flag=5 (S0) or flag=1 (REJ), making it a primary discriminator for connection status.",
+              "The connection status flag is the strongest discriminator; values like S0 (5) and REJ (1) appear almost exclusively in Attack samples, whereas Normal samples predominantly show SF (9).",
+              "Specific status flags like S0 (5) and REJ (1) strongly correlate with Attack labels, indicating connection failures or rejections typical of DoS and scanning attempts.",
+              "Indicates the connection status; values like S0 (Syn attack) or REJ (Rejected) are strong indicators of malicious activity, whereas SF (Success) typically indicates normal traffic.",
+              "The connection status flag is a primary indicator;Attack samples frequently show S0 (flag=5) or REJ (flag=1) states associated with Denial of Service or scanning, while Normal traffic predominantly shows SF (flag=9)."
+            ],
+            "consensus_explanation": "The connection status flag is a primary indicator;Attack samples frequently show S0 (flag=5) or REJ (flag=1) states associated with Denial of Service or scanning, while Normal traffic predominantly shows SF (flag=9)."
+          },
+          {
+            "rank": 2,
+            "name": "serror_rate",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 2.2,
+            "explanations": [
+              "Attack samples exhibit high SYN error rates (1.0) compared to 0.0 in normal samples, serving as a strong indicator of DoS or probing attacks.",
+              "This feature captures the rate of connection errors; Attack samples often exhibit a rate of 1.0, indicating a flood of failed or malicious connection attempts, while Normal samples consistently show 0.0.",
+              "A rate of 1.0 appears exclusively in Attack samples, perfectly distinguishing SYN error floods from the 0.0 rate typical of Normal connections.",
+              "Represents the rate of SYN errors; a rate of 1.0 is prevalent in the attack samples (DoS/Probes), while normal traffic consistently shows 0.0.",
+              "This feature shows a perfect correlation with specific attack types in the training data;Attack samples often exhibit a rate of 1.0, indicating SYN errors typical of DoS floods, whereas Normal samples consistently show 0.0."
+            ],
+            "consensus_explanation": "This feature shows a perfect correlation with specific attack types in the training data;Attack samples often exhibit a rate of 1.0, indicating SYN errors typical of DoS floods, whereas Normal samples consistently show 0.0."
+          },
+          {
+            "rank": 3,
+            "name": "count",
+            "percentage": 1.0,
+            "appearances": 5,
+            "avg_position": 3.4,
+            "explanations": [
+              "Represents the number of connections to the same host in a time window; high values are evident in attack samples, suggesting flooding or scanning behavior.",
+              "The number of connections to the same host in a time window is a critical indicator for Denial of Service (DoS) attacks, with Attack samples frequently showing significantly higher counts (e.g., 228, 288) compared to Normal traffic.",
+              "High connection counts within a time window appear frequently in Attacks (often >100), signaling flooding or scanning behavior, whereas Normal counts are generally lower.",
+              "Tracks the number of connections to the same host in a time window; high counts are a signature of Denial of Service (DoS) or scanning attacks.",
+              "This counts connections to the same host in a time window;Attack samples display high counts (e.g., 228, 113) indicating flooding behavior, while Normal samples show significantly lower values."
+            ],
+            "consensus_explanation": "The number of connections to the same host in a time window is a critical indicator for Denial of Service (DoS) attacks, with Attack samples frequently showing significantly higher counts (e.g., 228, 288) compared to Normal traffic."
+          },
+          {
+            "rank": 4,
+            "name": "hot",
+            "percentage": 0.8,
+            "appearances": 4,
+            "avg_position": 3.75,
+            "explanations": [
+              "Measures access to sensitive system areas; normal samples have 0, while attack samples show elevated values, correlating with suspicious administrative or probing behavior.",
+              "This indicates the number of 'hot' indicators or suspicious access patterns; non-zero values for this feature in the training data correlate strongly with intrusion attempts (label 1), distinguishing them from standard traffic.",
+              "Number of hot indicators is 0 for all Normal samples but non-zero for Attack samples, directly signaling suspicious access patterns or compromised states.",
+              "Indicators of 'hot' access patterns are non-zero exclusively in Attack samples in the provided data, acting as a strong signal for intrusion attempts or compromise."
+            ],
+            "consensus_explanation": "This indicates the number of 'hot' indicators or suspicious access patterns; non-zero values for this feature in the training data correlate strongly with intrusion attempts (label 1), distinguishing them from standard traffic."
+          },
+          {
+            "rank": 5,
+            "name": "service",
+            "percentage": 0.4,
+            "appearances": 2,
+            "avg_position": 4.0,
+            "explanations": [
+              "Specific network services are targeted in attacks; the data shows certain encoded services (like 46 or 57) associated with malicious activity, while others (like 22) are common in both but require context from other features.",
+              "Identifies the network service targeted; specific encoded services like 'private' or those targeted by exploits appear frequently in attack vectors."
+            ],
+            "consensus_explanation": "Specific network services are targeted in attacks; the data shows certain encoded services (like 46 or 57) associated with malicious activity, while others (like 22) are common in both but require context from other features."
+          }
+        ],
+        "metadata": {
+          "total_runs": 5,
+          "valid_runs": 5,
+          "invalid_runs": 0
+        },
+        "summary": "Self-Consistency Results (5/5 valid runs)\n\n1. flag - 100.0% consensus\n   Why: The connection status flag is a primary indicator;Attack samples frequently show S0 (flag=5) or REJ (flag=1) states associated with Denial of Service or scanning, while Normal traffic predominantly shows SF (flag=9).\n\n2. serror_rate - 100.0% consensus\n   Why: This feature shows a perfect correlation with specific attack types in the training data;Attack samples often exhibit a rate of 1.0, indicating SYN errors typical of DoS floods, whereas Normal samples consistently show 0.0.\n\n3. count - 100.0% consensus\n   Why: The number of connections to the same host in a time window is a critical indicator for Denial of Service (DoS) attacks, with Attack samples frequently showing significantly higher counts (e.g., 228, 288) compared to Normal traffic.\n\n4. hot - 80.0% consensus\n   Why: This indicates the number of 'hot' indicators or suspicious access patterns; non-zero values for this feature in the training data correlate strongly with intrusion attempts (label 1), distinguishing them from standard traffic.\n\n5. service - 40.0% consensus\n   Why: Specific network services are targeted in attacks; the data shows certain encoded services (like 46 or 57) associated with malicious activity, while others (like 22) are common in both but require context from other features.\n"
+      }
+    }
+  }
+}

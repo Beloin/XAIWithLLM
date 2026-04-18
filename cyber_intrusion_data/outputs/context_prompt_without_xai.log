@@ -1,6 +1,6 @@
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
 <frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
-Loading configuration from: inputs/context_prompt.input.json
+Loading configuration from: inputs/context_prompt_without_xai.input.json
 ============================================================
 WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
 ============================================================
@@ -8,7 +8,7 @@ Original shape: (9537, 11)
 After cleaning: (7571, 10)
 Final shape: (7571, 10)
 Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
-=== Starting pipeline: experiment_type=with_xai ===
+=== Starting pipeline: experiment_type=without_xai ===
 Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
 Using provided DataFrame...
 Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
@@ -39,7 +39,7 @@ LIME computed: 20 instances
 
 [5/5] Querying glm-5:cloud...
 
-Saving results to resultados_context_prompt.json...
+Saving results to resultados_context_prompt_without_xai.json...
 
 === Pipeline complete ===
 
@@ -48,61 +48,77 @@ RESULTS
 ============================================================
 
 glm-4.7-flash:
-  Time: 10m25s
+  Time: 6m39s
   Error: None
-  Response length: 4475 chars
+  Response length: 4992 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the analysis of the provided explanation data (embedded in the `explainer_data` field), here is the breakdown of feature importance, class patterns, comparisons between SHAP/Lime, and security implications.
+Based on the provided training samples and predictions, here is the analysis of the model's behavior, risk factors, and derived security rules.
 
-### 1. Feature Importance Analysis
-The Global Importance of features is determined by the magnitude (absolute value) of the SHAP/LIME scores across the provided instances.
+### 1. Feature Importance (Ranking & Rationale)
 
-**Top 3 Most Influential Features:**
+Based on the distribution of values in the attack vs. normal samples, the three most influential features are:
 
 1.  **`ip_reputation_score`**
-    *   **Magnitude:** Ranges up to **0.26
+    *   **Why:** This is the primary "source of truth" for the model in this small dataset. Nearly all Attack samples (except Sample 3/11) have a reputation score *
 ...
 
 
 qwen3:14b:
-  Time: 5m45s
+  Time: 4m43s
   Error: None
-  Response length: 2365 chars
+  Response length: 2385 chars
 
 --- Response Preview (first 500 chars) ---
-### **1. Feature Importance Analysis Across Classes**  
-Due to the absence of explicit class labels or probabilities in the provided SHAP values, we focus on the magnitude of SHAP contributions to identify the most influential features overall. Key findings include:  
+Based on the provided information and analysis, here's a structured summary:
 
-- **Most Influential Features** (based on **absolute SHAP values**):  
-  - **`login_attempts`**: Highest magnitude (0.1817 in one instance). Likely indicates that the number of successful login attempts strongly influences model p
+### **1. Key Features Influencing Detection**
+- **High `login_attempts`**: Attack samples (true_label=1) may have higher values (e.g., 5–7 attempts compared to normal behavior).
+- **High `failed_logins`**: Attack samples could exhibit elevated failed login counts (e.g., 2–3 failures).
+- **`unusual_time_access`**: Attacks may occur at non-business hours or irregular times.
+- **High `ip_reputation_score`**: Suspicious IP
 ...
 
 
 gpt-oss:20b:
-  Time: 4m51s
+  Time: 1m39s
   Error: None
-  Response: None
+  Response length: 11085 chars
+
+--- Response Preview (first 500 chars) ---
+Below is a pragmatic analysis of the RandomForest model you’re running in production.  All observations are grounded in the 20 training rows you posted and in the 21‑class‑confusion matrix you supplied – no extra numbers are invented.
+
+|**Section**|**What you saw**|**Key Take‑away for the SOC**|
+|-----------|----------------|-----------------------------|
+
+---
+
+## 1. Feature Importance (top 3–5 per class)
+
+|Class | Rank | Feature | Why it matters (based on the sample data) | Typical threshold th
+...
+
 
 qwen3:30b:
-  Time: 5m24s
+  Time: 10m47s
   Error: None
   Response: None
 
 glm-5:cloud:
-  Time: 3m42s
+  Time: 6m12s
   Error: None
-  Response length: 6426 chars
+  Response length: 7023 chars
 
 --- Response Preview (first 500 chars) ---
-Based on the provided SHAP and LIME explanations, training data, and model predictions, here is the analysis of the intrusion detection model.
+Based on the provided training samples and prediction results, here is the analysis of the intrusion detection model.
 
 ### 1. Feature Importance
 
-Based on the SHAP Global Importance (mean |SHAP| values), the top 3 features driving the model's decisions for both the "Normal" and "Attack" classes are:
+Based on the separation of classes in the training data, the features are ranked by their discriminative power. The goal is to identify features that cleanly separate "Normal" from "Attack" without overlap to minimize false positives.
 
-1.  **`failed_logins` (Importance: 0.179)**: This is the most dominant feature. The large SHAP value indicates that the number of failed login attempts is the primary decidi
+1.  **`unusual_time_access`** (Primary Discriminator)
+    *   **Importance:** This is the cleanest separator in the da
 ...
 
 
-Full results saved to: resultados_context_prompt.json
+Full results saved to: resultados_context_prompt_without_xai.json

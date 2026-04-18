@@ -1,23 +1,23 @@
-<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
-<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/cyber_intrusion_data/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/NSL_KDD/../venv
 Loading configuration from: inputs/self_consistency.input.json
 ============================================================
-WITHOUT XAI EXPERIMENT - Cybersecurity Intrusion Detection
+WITHOUT XAI EXPERIMENT - NSL_KDD Intrusion Detection
 ============================================================
-Original shape: (9537, 11)
-After cleaning: (7571, 10)
-Final shape: (7571, 10)
-Columns: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access', 'attack_detected']
+Original shape: (25192, 43)
+After cleaning: (25192, 43)
+Final shape: (25192, 16)
+Columns: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'label']
 === Starting pipeline: experiment_type=without_xai ===
 Models: ['glm-4.7-flash', 'qwen3:14b', 'gpt-oss:20b', 'qwen3:30b', 'glm-5:cloud']
 Using provided DataFrame...
-Features: ['network_packet_size', 'protocol_type', 'login_attempts', 'session_duration', 'encryption_used', 'ip_reputation_score', 'failed_logins', 'browser_type', 'unusual_time_access']
+Features: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'wrong_fragment', 'hot', 'logged_in', 'num_compromised', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate']
 Training RandomForestClassifier...
-Model accuracy: 0.8948
+Model accuracy: 0.9966
 Classes: ['Normal', 'Attack']
-Sampling 2272 instances for SHAP/LIME computation...
-Computing SHAP for 2272 instances...
-SHAP computed: 2 classes, 9 features
+Sampling 7558 instances for SHAP/LIME computation...
+Computing SHAP for 7558 instances...
+SHAP computed: 2 classes, 15 features
 Computing LIME for 20 instances...
 LIME computed: 20 instances
 
@@ -78,48 +78,53 @@ RESULTS
 ============================================================
 
 glm-4.7-flash:
-  Time: 34m6s
+  Time: 29m21s
   Error: None
-  Self-Consistency: 1 valid runs
-    1. failed_logins - 100.0%
-    2. ip_reputation_score - 100.0%
-    3. login_attempts - 100.0%
-    4. unusual_time_access - 100.0%
-    5. network_packet_size - 100.0%
+  Self-Consistency: 3 valid runs
+    1. serror_rate - 100.0%
+    2. flag - 100.0%
+    3. num_compromised - 66.7%
+    4. wrong_fragment - 66.7%
+    5. count - 33.3%
 
 qwen3:14b:
-  Time: 7m21s
+  Time: 7m23s
   Error: None
   Self-Consistency: 5 valid runs
-    1. failed_logins - 100.0%
-    2. ip_reputation_score - 100.0%
-    3. login_attempts - 100.0%
-    4. unusual_time_access - 100.0%
-    5. protocol_type - 60.0%
+    1. num_compromised - 100.0%
+    2. serror_rate - 100.0%
+    3. srv_serror_rate - 100.0%
+    4. hot - 80.0%
+    5. count - 40.0%
 
 gpt-oss:20b:
-  Time: 2m12s
-  Error: None
-  Self-Consistency: 4 valid runs
-    1. ip_reputation_score - 100.0%
-    2. failed_logins - 100.0%
-    3. unusual_time_access - 100.0%
-    4. login_attempts - 100.0%
-    5. protocol_type - 25.0%
-
-qwen3:30b:
-  Time: 32m41s
-  Error: None
-  Self-Consistency: 0 valid runs
-
-glm-5:cloud:
-  Time: 12m18s
+  Time: 1m44s
   Error: None
   Self-Consistency: 5 valid runs
-    1. ip_reputation_score - 100.0%
-    2. failed_logins - 100.0%
-    3. unusual_time_access - 100.0%
-    4. login_attempts - 100.0%
-    5. encryption_used - 60.0%
+    1. count - 100.0%
+    2. srv_count - 80.0%
+    3. flag - 80.0%
+    4. serror_rate - 80.0%
+    5. hot - 60.0%
+
+qwen3:30b:
+  Time: 36m45s
+  Error: None
+  Self-Consistency: 1 valid runs
+    1. srv_serror_rate - 100.0%
+    2. serror_rate - 100.0%
+    3. num_compromised - 100.0%
+    4. hot - 100.0%
+    5. wrong_fragment - 100.0%
+
+glm-5:cloud:
+  Time: 3m12s
+  Error: None
+  Self-Consistency: 5 valid runs
+    1. flag - 100.0%
+    2. serror_rate - 100.0%
+    3. count - 100.0%
+    4. hot - 80.0%
+    5. service - 40.0%
 
 Full results saved to: resultados_self_consistency.json
