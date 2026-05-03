@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 """
-Test script for with_xai experiment using the pipeline.
-
-This script:
-1. Preprocesses Network_logs.csv (same as the original notebook)
-2. Calls pipeline() with experiment_type="with_xai"
-3. Saves results to JSON
+Run with_xai experiment on Network_logs intrusion detection dataset.
+Usage: python with_xai.py [input.json]
+If no input file provided, uses default configuration.
 """
 
 import sys
@@ -13,15 +10,16 @@ import sys
 sys.path.insert(0, "..")
 
 import pandas as pd
-import numpy as np
+import json
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.model_selection import train_test_split
-from imblearn.over_sampling import SMOTE
 
 from pipeline import pipeline
 
+DATASET_PATH = "Network_logs.csv"
+DEFAULT_OUTPUT = "resultados_with_xai_default.json"
 
-def preprocess_network_logs(filepath="../Network_logs.csv"):
+
+def preprocess_network_logs(filepath):
     """
     Preprocess Network_logs.csv for pipeline.
 
@@ -55,82 +53,121 @@ def preprocess_network_logs(filepath="../Network_logs.csv"):
     scaler = StandardScaler()
     df["Payload_Size"] = scaler.fit_transform(df[["Payload_Size"]])
 
+    print(f"Final shape: {df.shape}")
+    print(f"Columns: {df.columns.tolist()}")
+
     return df, class_names
 
 
-def main():
-    # Preprocess data
-    df, class_names = preprocess_network_logs("Network_logs.csv")
+def load_input_config(input_path):
+    """Load configuration from JSON input file."""
+    with open(input_path, "r") as f:
+        config = json.load(f)
+    return config
 
-    # Column descriptions (same as original notebook)
+
+def main():
+    # Check for input file argument
+    if len(sys.argv) > 1:
+        input_path = sys.argv[1]
+        print(f"Loading configuration from: {input_path}")
+        config = load_input_config(input_path)
+    else:
+        print("No input file provided, using default configuration")
+        config = None
+
+    print("=" * 60)
+    print("WITH XAI EXPERIMENT - Network Intrusion Detection Logs")
+    print("=" * 60)
+
+    df, class_names = preprocess_network_logs(DATASET_PATH)
+
+    # Column descriptions
     columnDesc = [
-        "Communication port (encoded: 21=0, 22=1, 23=2, 25=3, 53=4, 80=5, 135=6, 443=7, 4444=8, 6667=9, 8080=10, 31337=11)",
+        "Port number (encoded: 21=0, 22=1, 23=2, 25=3, 53=4, 80=5, 135=6, 443=7, 4444=8, 6667=9, 8080=10, 31337=11)",
         "Request type (DNS=0, FTP=1, HTTP=2, HTTPS=3, SMTP=4, SSH=5, Telnet=6)",
         "Transport protocol (ICMP=0, TCP=1, UDP=2)",
         "Packet payload size (StandardScaler normalized)",
-        "Client agent (Mozilla/5.0=0, Nikto/2.1.6=1, Wget/1.20.3=2, curl/7.68.0=3, nmap/7.80=4, python-requests/2.25.1=5)",
+        "Client agent (Mozilla=0, Nikto=1, Wget=2, curl=3, nmap=4, python-requests=5)",
         "Request status (Failure=0, Success=1)",
     ]
 
-    # Test with single model
-    models = [
-        {"name": "qwen3.5:cloud", "api": "http://localhost:11434/v1"},
-        {"name": "deepseek-v3.2:cloud", "api": "http://localhost:11434/v1"},
-    ]
+    # Build pipeline arguments from config or defaults
+    if config:
+        kwargs = {
+            "dataset": df,
+            "columnDesc": columnDesc,
+            "target_col": "Scan_Type_Label",
+            "class_names": class_names,
+            "models": config.get(
+                "models", [{"name": "glm-5:cloud", "api": "http://localhost:11434/v1"}]
+            ),
+            "experiment_type": config.get("experimentType", "with_xai"),
+            "chat": config.get("chat", True),
+            "n_samples": config.get("nSamples", 20),
+            "n_shap_local": config.get("nShapLocal", 15),
+            "n_lime_local": config.get("nLimeLocal", 15),
+            "system_prompt": config.get("systemPrompt"),
+            "self_consistency": config.get("selfConsistency", False),
+            "self_consistency_runs": config.get("selfConsistencyRuns", 5),
+            "self_consistency_top_n": config.get("selfConsistencyTopN", 5),
+            "explain_message_tokens": config.get("explainMessageTokens", 12288),
+            "random_seed": config.get("randomSeed", 42),
+            "output_file": config.get("outputFile", DEFAULT_OUTPUT),
+        }
+    else:
+        kwargs = {
+            "dataset": df,
+            "columnDesc": columnDesc,
+            "target_col": "Scan_Type_Label",
+            "class_names": class_names,
+            "models": [
+                {"name": "glm-5:cloud", "api": "http://localhost:11434/v1"},
+                {"name": "gpt-oss:20b", "api": "http://localhost:11434/v1"},
+            ],
+            "experiment_type": "with_xai",
+            "chat": True,
+            "n_samples": 20,
+            "n_shap_local": 15,
+            "n_lime_local": 15,
+            "explain_message_tokens": 12288,
+            "random_seed": 42,
+            "output_file": DEFAULT_OUTPUT,
+        }
 
-    # Run pipeline
+    result = pipeline(**kwargs)
+
     print("\n" + "=" * 60)
-    print("Running with_xai experiment")
+    print("RESULTS")
     print("=" * 60)
 
-    result = pipeline(
-        dataset=df,
-        columnDesc=columnDesc,
-        models=models,
-        experiment_type="with_xai",
-        n_samples=20,
-        n_shap_local=15,
-        n_lime_local=15,
-        target_col="Scan_Type_Label",
-        class_names=class_names,  # Pass class names
-        explain_message_tokens=8192,  # Smaller for testing
-        random_seed=42,
-        output_file=None,  # Don't save, print result
-    )
+    output_file = kwargs.get("output_file", DEFAULT_OUTPUT)
 
-    # Print results summary
-    print("\n" + "=" * 60)
-    print("RESULTS SUMMARY")
-    print("=" * 60)
-
-    print(f"\nExperiment: {result['experiment_type']}")
-    print(f"Config: {result['config']}")
-    print(f"\nModel accuracy: {result['model_info']['accuracy']:.4f}")
-    print(f"Classes: {result['model_info']['classes']}")
-
-    print("\nSHAP Global (raw):")
-    for cls, feats in result["shap_global_raw"].items():
-        top3 = sorted(feats.items(), key=lambda x: x[1], reverse=True)[:3]
-        print(f"  {cls}: {top3}")
-
-    print("\nModel results:")
     for model_name, model_result in result["results"].items():
-        if model_result.get("error"):
-            print(f"  {model_name}: ERROR - {model_result['error']}")
-        else:
-            response = model_result.get("response", "")
+        print(f"\n{model_name}:")
+        print(f"  Time: {model_result['time_formatted']}")
+        print(f"  Error: {model_result['error']}")
+
+        if model_result.get("self_consistency"):
+            sc = model_result["self_consistency"]
             print(
-                f"  {model_name}: {model_result['time_formatted']} ({model_result['time_ms']:.0f}ms) | {len(response)} chars"
+                f"  Self-Consistency: {sc.get('metadata', {}).get('valid_runs', 0)} valid runs"
             )
-            # Print first 500 chars of response
-            print(f"    Response preview: {response[:500]}...")
+            for feat in sc.get("features", []):
+                print(
+                    f"    {feat['rank']}. {feat['name']} - {feat['percentage'] * 100:.1f}%"
+                )
+        elif model_result["response"]:
+            response = model_result["response"]
+            print(f"  Response length: {len(response)} chars")
+            print(f"\n--- Response Preview (first 500 chars) ---")
+            print(response[:500])
+            print("...\n")
+        else:
+            print("  Response: None")
 
-    print("\n" + "=" * 60)
-    print("Test complete!")
-    print("=" * 60)
-
-    return result
+    print(f"\nFull results saved to: {output_file}")
 
 
 if __name__ == "__main__":
-    result = main()
+    main()

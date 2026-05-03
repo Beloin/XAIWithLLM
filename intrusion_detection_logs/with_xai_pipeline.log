@@ -1,0 +1,57 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/intrusion_detection_logs/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/intrusion_detection_logs/../venv
+Loading configuration from: inputs/cot_with_xai.input.json
+============================================================
+WITH XAI EXPERIMENT - Network Intrusion Detection Logs
+============================================================
+Loading and preprocessing Network_logs.csv...
+Classes: ['BotAttack', 'Normal', 'PortScan']
+Final shape: (8846, 7)
+Columns: ['Port', 'Request_Type', 'Protocol', 'Payload_Size', 'User_Agent', 'Status', 'Scan_Type_Label']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-5:cloud', 'gpt-oss:20b']
+Using provided DataFrame...
+Features: ['Port', 'Request_Type', 'Protocol', 'Payload_Size', 'User_Agent', 'Status']
+Training RandomForestClassifier...
+Model accuracy: 0.9989
+Classes: ['BotAttack', 'Normal', 'PortScan']
+Sampling 2654 instances for SHAP/LIME computation...
+Computing SHAP for 2654 instances...
+SHAP computed: 3 classes, 6 features
+Computing LIME for 15 instances...
+LIME computed: 15 instances
+
+[1/2] Querying glm-5:cloud...
+
+[2/2] Querying gpt-oss:20b...
+  Starting model: gpt-oss:20b...
+  Stopping model: gpt-oss:20b...
+
+Saving results to resultados_cot.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-5:cloud:
+  Time: 1m57s
+  Error: None
+  Response length: 8035 chars
+
+--- Response Preview (first 500 chars) ---
+# XAI Analysis: Network Intrusion Detection Model
+
+## 1. Model Context
+
+The **RandomForestClassifier** demonstrates exceptional performance with an accuracy of **0.9989** on the test set. This high accuracy, combined with the use of SMOTE for class balancing, suggests the model has effectively learned the decision boundaries between **BotAttack**, **Normal**, and **PortScan** classes. However, the multi-class nature and encoded features make interpretability crucial for SOC analysts to trust and
+...
+
+
+gpt-oss:20b:
+  Time: 2m43s
+  Error: None
+  Response: None
+
+Full results saved to: resultados_cot.json

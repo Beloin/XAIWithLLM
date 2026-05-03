@@ -348,12 +348,12 @@ def _build_prompt_without_xai(model_info, column_desc_str, train_sample_str, pre
     
     prompt = f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
 
-You will analyze a network intrusion detection model that has already been fully validated through a complete data science pipeline.
+You will analyze a classification model that has already been fully validated through a complete data science pipeline.
 
 # Model Information
 
 - **Type:** {model_info['type']}
-- **Task:** Network intrusion detection from log entries
+- **Task:** Classification from log entries
 - **Target:** {model_info['target_col']}
 - **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
 - **Features:** {', '.join(feature_cols)}
@@ -378,7 +378,7 @@ Please analyze this model and explain:
 
 1. **Feature Importance:** Rank the top 3-5 features by their importance for each class. Be specific about why each feature matters.
 
-2. **Class-Specific Patterns:** For each class (BotAttack, Normal, PortScan), describe what patterns the model looks for.
+2. **Class-Specific Patterns:** For each class, describe what patterns the model looks for.
 
 3. **Misclassification Risk:** What might cause this model to misclassify? Consider edge cases and class confusion.
 
@@ -395,12 +395,12 @@ def _build_prompt_with_xai(model_info, column_desc_str, train_sample_str, pred_s
     
     prompt = f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
 
-You will analyze a network intrusion detection model that has already been fully validated through a complete data science pipeline.
+You will analyze a classification model that has already been fully validated through a complete data science pipeline.
 
 # Model Information
 
 - **Type:** {model_info['type']}
-- **Task:** Network intrusion detection from log entries
+- **Task:** Classification from log entries
 - **Target:** {model_info['target_col']}
 - **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
 - **Features:** {', '.join(feature_cols)}
@@ -439,15 +439,15 @@ You will analyze a network intrusion detection model that has already been fully
 
 Please analyze this model using the SHAP and LIME explanations provided:
 
-1. **Feature Importance:** Using SHAP global values, rank the top 3 features for each class. Explain why these features have the highest impact.
+1. **Feature Importance:** Using SHAP global values, rank the top 3 features for each class ({', '.join(class_names)}). Explain why these features have the highest impact.
 
-2. **Class-Specific Patterns:** For each class, describe how the model distinguishes it from others. Reference specific SHAP values and LIME rules.
+2. **Class-Specific Patterns:** For each class ({', '.join(class_names)}), describe how the model distinguishes it from others. Reference specific SHAP values and LIME rules.
 
 3. **Comparing SHAP and LIME:** Do the explanations converge? Where do they differ? Which features are consistently important?
 
 4. **Security Implications:** What detection rules would you recommend for a SOC analyst? Be specific about thresholds and conditions.
 
-Cite the SHAP values and LIME rules in your explanation. Be precise and avoid fabrication.
+IMPORTANT: Use ONLY the class names provided ({', '.join(class_names)}). Do NOT invent or use other class names. Cite the exact SHAP values from the data.
 """
     return prompt
 
@@ -503,14 +503,14 @@ def _build_chat_prompts_without_xai(model_info, column_desc_str, train_sample_st
     # Message 1: Model info + column descriptions
     prompts.append(f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
 
-You will analyze a network intrusion detection model. I will send the data in multiple messages.
+You will analyze a classification model. I will send the data in multiple messages.
 
 **Wait for further instructions before responding.**
 
 # Model Information
 
 - **Type:** {model_info['type']}
-- **Task:** Network intrusion detection from log entries
+- **Task:** Classification from log entries
 - **Target:** {model_info['target_col']}
 - **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
 - **Features:** {', '.join(feature_cols)}
@@ -560,23 +560,39 @@ def _build_chat_prompts_with_xai(model_info, column_desc_str, train_sample_str, 
     # Message 1: Model info + column descriptions
     prompts.append(f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
 
-You will analyze a network intrusion detection model using XAI explanations. I will send the data in multiple messages.
+You will analyze a classification model using XAI explanations. I will send the data in multiple messages.
 
 **Wait for further instructions before responding.**
 
 # Model Information
 
 - **Type:** {model_info['type']}
-- **Task:** Network intrusion detection from log entries
+- **Task:** Classification from log entries
 - **Target:** {model_info['target_col']}
 - **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
 - **Features:** {', '.join(feature_cols)}
 - **Accuracy:** {model_info['accuracy']:.4f} (on test set)
 - **Pipeline:** Data cleaning → feature selection → label encoding → class balancing (SMOTE) → 70/30 stratified train/test split
 
-# Column Descriptions
+**CRITICAL MODEL TYPE CONSTRAINT:**
+- The model is a **{model_info['type']}**.
+- Do NOT describe it as XGBoost, GradientBoosting, LogisticRegression, SVM, or any other algorithm.
+- This is NOT a debate or guess - the model type is "{model_info['type']}" as provided.
+
+# Column Descriptions (with encoded value mappings)
 
 {column_desc_str}
+
+**CRITICAL: STRICT VALUE CONSTRAINTS**
+- Use ONLY the exact value mappings provided in the column descriptions above.
+- Do NOT invent values that are not listed in the mappings.
+- Do NOT claim values exist if they are not in the provided data.
+- The data is ENCODED - use the mappings to decode values when explaining patterns.
+
+**DO NOT USE YOUR PRIOR KNOWLEDGE TO INVENT DATA:**
+- Do NOT invent model specifications not provided (e.g., number of trees, max depth, training parameters).
+- Do NOT hallucinate dataset statistics not given (e.g., total rows, class distribution numbers).
+- Do NOT claim the model has attributes you weren't told about.
 
 Please acknowledge receipt and wait for the data samples and XAI explanations.
 """)
@@ -612,16 +628,43 @@ Please acknowledge receipt and wait for the data samples and XAI explanations.
 
 Now please analyze this model using the SHAP and LIME explanations provided:
 
-1. **Feature Importance:** Using SHAP global values, rank the top 3 features for each class. Explain why these features have the highest impact.
+Key SHAP global values (for reference):
+{shap_global_str}
 
-2. **Class-Specific Patterns:** For each class, describe how the model distinguishes it from others. Reference specific SHAP values and LIME rules.
+1. **Model Context:** Briefly acknowledge the model's performance (accuracy, per-class balance)
+   as context for the explanation that follows. Do not spend effort analyzing accuracy — it is
+   already validated. Just establish the baseline so the rest of your analysis has credibility.
 
-3. **Comparing SHAP and LIME:** Do the explanations converge? Where do they differ? Which features are consistently important?
+2. **Global Feature Importance (SHAP):** Using the SHAP global values above, interpret the importance
+   ranking for each class ({', '.join(class_names)}). Which features dominate and why from a
+   cybersecurity perspective? Cite the exact SHAP values from the data.
 
-4. **Security Implications:** What detection rules would you recommend for a SOC analyst? Be specific about thresholds and conditions.
+3. **SHAP vs Data Patterns:** Do the SHAP rankings align with patterns visible in the training examples?
 
-Cite the SHAP values and LIME rules in your explanation. Be precise and avoid fabrication.
-""")
+4. **Local Explanations (SHAP + LIME):** For critical instances, explain the prediction
+   using both SHAP values AND LIME rules. Where do they agree? Where do they disagree?
+
+5. **Feature Interaction Insights:** Based on SHAP/LIME, what feature combinations are most decisive
+   for each class? How do features interact to drive predictions?
+
+6. **Cybersecurity Insights:** Strongest indicators for each class.
+   How could a SOC analyst use these explanations in practice?
+
+7. **SHAP-LIME Coherence:** Assess agreement between SHAP and LIME explanations.
+   Where they diverge, what does that tell us about the model's decision boundaries?
+
+8. **Improvement Suggestions:** Concrete improvements based on XAI evidence to make the model
+   more interpretable or robust.
+
+**CRITICAL - DO NOT INVENT DATA:**
+- Do NOT invent model specifications not provided (e.g., number of trees, max depth, training parameters).
+- Do NOT hallucinate dataset statistics not given (e.g., total rows, class distribution numbers).
+- Do NOT claim the model has attributes you weren't told about.
+- Cite EXACT SHAP values from the data provided above.
+- Use EXACT model type "{model_info['type']}", accuracy "{model_info['accuracy']:.4f}".
+- You MAY use your domain knowledge to EXPLAIN patterns, but do NOT contradict the values provided in the input data.
+
+Use numbered sections and subsections.""")
     
     return prompts
 
@@ -641,14 +684,14 @@ def _build_chat_prompts_enforce_knowledge(model_info, column_desc_str, train_sam
     # Message 1: Model info
     prompts.append(f"""You are an expert in Machine Learning, Explainable AI, and Cybersecurity.
 
-You will analyze a network intrusion detection model. I will send the data in multiple messages.
+You will analyze a classification model. I will send the data in multiple messages.
 
 **Wait for further instructions before responding.**
 
 # Model Information
 
 - **Type:** {model_info['type']}
-- **Task:** Network intrusion detection from log entries
+- **Task:** Classification from log entries
 - **Target:** {model_info['target_col']}
 - **Classes:** {', '.join(f'{cls} (index {i})' for i, cls in enumerate(class_names))}
 - **Features:** {', '.join(feature_cols)}

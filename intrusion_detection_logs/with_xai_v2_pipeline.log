@@ -1,0 +1,65 @@
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/intrusion_detection_logs/../venv
+<frozen site>:101: RuntimeWarning: Unexpected value in sys.exec_prefix, expected /home/beloin/Documents/pos-grad/masters/soc_xai/venv, got /home/beloin/Documents/pos-grad/masters/soc_xai/intrusion_detection_logs/../venv
+Loading configuration from: inputs/cot_with_xai_v2.input.json
+============================================================
+WITH XAI EXPERIMENT - Network Intrusion Detection Logs
+============================================================
+Loading and preprocessing Network_logs.csv...
+Classes: ['BotAttack', 'Normal', 'PortScan']
+Final shape: (8846, 7)
+Columns: ['Port', 'Request_Type', 'Protocol', 'Payload_Size', 'User_Agent', 'Status', 'Scan_Type_Label']
+=== Starting pipeline: experiment_type=with_xai ===
+Models: ['glm-5:cloud', 'qwen3:14b']
+Using provided DataFrame...
+Features: ['Port', 'Request_Type', 'Protocol', 'Payload_Size', 'User_Agent', 'Status']
+Training RandomForestClassifier...
+Model accuracy: 0.9989
+Classes: ['BotAttack', 'Normal', 'PortScan']
+Sampling 2654 instances for SHAP/LIME computation...
+Computing SHAP for 2654 instances...
+SHAP computed: 3 classes, 6 features
+Computing LIME for 15 instances...
+LIME computed: 15 instances
+
+[1/2] Querying glm-5:cloud...
+
+[2/2] Querying qwen3:14b...
+  Starting model: qwen3:14b...
+  Stopping model: qwen3:14b...
+
+Saving results to resultados_cot_v2.json...
+
+=== Pipeline complete ===
+
+============================================================
+RESULTS
+============================================================
+
+glm-5:cloud:
+  Time: 2m5s
+  Error: None
+  Response length: 10132 chars
+
+--- Response Preview (first 500 chars) ---
+Here is the step-by-step analysis of the RandomForestClassifier intrusion detection model based on the provided XAI data.
+
+### 1. Model Context
+
+The **RandomForestClassifier** demonstrates exceptional performance with an accuracy of **0.9989** on the test set. The model classifies network traffic into three categories: **BotAttack** (Index 0), **Normal** (Index 1), and **PortScan** (Index 2). The high accuracy suggests that the features extracted from the log entries (Port, Request_Type, Protoco
+...
+
+
+qwen3:14b:
+  Time: 3m11s
+  Error: None
+  Response length: 6027 chars
+
+--- Response Preview (first 500 chars) ---
+# XAI Analysis of RandomForestClassifier for Cybersecurity Classification
+
+## 1. **Model Context**  
+The RandomForestClassifier achieves an **accuracy of 0.9989**, indicating robust performance on a validated dataset. While class distribution details are not provided, the model's high accuracy suggests strong generalization and minimal overfitting. The XAI analysis below leverages SHAP and LIME explanations to interpret the model's behavior for **BotAttack**, **Normal**, and **PortScan** classes
+...
+
+
+Full results saved to: resultados_cot_v2.json
