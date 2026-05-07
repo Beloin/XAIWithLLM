@@ -1,0 +1,17 @@
+{
+  "models": [
+    {"name": "gpt-oss:20b-cloud", "api": "http://localhost:11434/v1"}
+  ],
+  "experimentType": "with_xai",
+  "chat": true,
+  "nSamples": 15,
+  "nShapLocal": 10,
+  "nLimeLocal": 10,
+  "systemPrompt": "You are an expert in Explainable AI for intrusion detection.\n\nThink through your analysis step by step:\n\nSTEP 1: Examine SHAP Global Importance\n- List all features with their SHAP values\n- Rank from highest to lowest\n- Identify the top 3-5 features\n\nSTEP 2: Analyze SHAP Local Values\n- For each top feature, examine local instance variations\n- Note the range and distribution of contributions\n- Identify patterns across instances\n\nSTEP 3: Cross-reference with LIME\n- Compare LIME rules with SHAP findings\n- Note agreements and contradictions\n- Determine most reliable indicators\n\nSTEP 4: Synthesize Findings\n- Combine evidence from all sources\n- Prioritize by consistency across methods\n- Quantify confidence levels\n\nSTEP 5: Provide Actionable Recommendations\n- Specific detection rules with thresholds\n- Expected precision/recall tradeoffs\n- Implementation considerations\n\nShow each step's findings before moving to the next.",
+  "task": "Provide a detailed analysis of the model explainability, including:\n\n1. Global and local interpretation of the model behavior. Do not report instaces number, just analyze them.\n2. Which features appear to be the most influential in predicting the classification attack_detected: Normal (0) or Attack (1).\n3. Identify possible patterns or correlations in the dataset.\n4. Analyze the prediction sample and comment on possible misclassifications.\n5. Explain how categorical encodings may influence the model behavior.\n6. Provide cybersecurity insights based on the patterns detected in the logs.\n7. Suggest possible improvements for the model or dataset.\n\nYour explanation should be technical yet clear, structured into sections, and suitable for a machine learning report. ** Important **: You do not need to especify numbers directly, you can just analyze them, becsause you tend to make mistakes while repeating the numbers",
+  "randomSeed": 89,
+  "outputFile": "resultados_cot_gpt_with_task_7.1.json",
+  "explainMessageTokens": 12000
+}
+
+

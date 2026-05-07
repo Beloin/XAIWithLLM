@@ -441,13 +441,13 @@ Please analyze this model using the SHAP and LIME explanations provided:
 
 1. **Feature Importance:** Using SHAP global values, rank the top 3 features for each class ({', '.join(class_names)}). Explain why these features have the highest impact.
 
-2. **Class-Specific Patterns:** For each class ({', '.join(class_names)}), describe how the model distinguishes it from others. Reference specific SHAP values and LIME rules.
+2. **Class-Specific Patterns:** For each class ({', '.join(class_names)}), describe how the model distinguishes it from others.
 
 3. **Comparing SHAP and LIME:** Do the explanations converge? Where do they differ? Which features are consistently important?
 
 4. **Security Implications:** What detection rules would you recommend for a SOC analyst? Be specific about thresholds and conditions.
 
-IMPORTANT: Use ONLY the class names provided ({', '.join(class_names)}). Do NOT invent or use other class names. Cite the exact SHAP values from the data.
+IMPORTANT: Use ONLY the class names provided ({', '.join(class_names)}). Do NOT invent or use other class names.
 """
     return prompt
 
@@ -485,7 +485,7 @@ Please revise your previous analysis incorporating this explainability data:
 
 3. **Actionable Insights:** Based on the SHAP/LIME evidence, provide concrete detection rules for SOC analysts.
 
-Cite specific SHAP values and LIME rules to support your revised conclusions.
+Be aware, do not attempt to write down numbers, you can and WILL get confused, just compare them based on the analisys.
 """
     
     return [phase1, phase2]
@@ -627,45 +627,28 @@ Please acknowledge receipt and wait for the data samples and XAI explanations.
 
 ---
 
-{task if task else f'''Now please analyze this model using the SHAP and LIME explanations provided:
+{task if task else f'''Provide a detailed analysis of the model explainability, including:
 
 Key SHAP global values (for reference):
 {shap_global_str}
 
-1. **Model Context:** Briefly acknowledge the model's performance (accuracy, per-class balance)
-   as context for the explanation that follows. Do not spend effort analyzing accuracy — it is
-   already validated. Just establish the baseline so the rest of your analysis has credibility.
-
-2. **Global Feature Importance (SHAP):** Using the SHAP global values above, interpret the importance
-   ranking for each class ({', '.join(class_names)}). Which features dominate and why from a
-   cybersecurity perspective? Cite the exact SHAP values from the data.
-
-3. **SHAP vs Data Patterns:** Do the SHAP rankings align with patterns visible in the training examples?
-
-4. **Local Explanations (SHAP + LIME):** For critical instances, explain the prediction
-   using both SHAP values AND LIME rules. Where do they agree? Where do they disagree?
-
-5. **Feature Interaction Insights:** Based on SHAP/LIME, what feature combinations are most decisive
-   for each class? How do features interact to drive predictions?
-
-6. **Cybersecurity Insights:** Strongest indicators for each class.
-   How could a SOC analyst use these explanations in practice?
-
-7. **SHAP-LIME Coherence:** Assess agreement between SHAP and LIME explanations.
-   Where they diverge, what does that tell us about the model's decision boundaries?
-
-8. **Improvement Suggestions:** Concrete improvements based on XAI evidence to make the model
-   more interpretable or robust.
+1. Global and local interpretation of the model behavior.
+2. Which features appear to be the most influential in predicting the classification for each class ({', '.join(class_names)}).
+3. Identify possible patterns or correlations in the dataset.
+4. Analyze the prediction sample and comment on possible misclassifications.
+5. Explain how categorical encodings may influence the model behavior.
+6. Provide cybersecurity insights based on the patterns detected in the logs.
+7. Suggest possible improvements for the model or dataset.
 
 **CRITICAL - DO NOT INVENT DATA:**
 - Do NOT invent model specifications not provided (e.g., number of trees, max depth, training parameters).
 - Do NOT hallucinate dataset statistics not given (e.g., total rows, class distribution numbers).
 - Do NOT claim the model has attributes you weren't told about.
-- Cite EXACT SHAP values from the data provided above.
 - Use EXACT model type "{model_info['type']}", accuracy "{model_info['accuracy']:.4f}".
 - You MAY use your domain knowledge to EXPLAIN patterns, but do NOT contradict the values provided in the input data.
+- Use ONLY the exact value mappings provided in the column descriptions for decoding.
 
-Use numbered sections and subsections.'''}""")
+Your explanation should be technical yet clear, structured into sections, and suitable for a machine learning report.'''}""")
 
     return prompts
 
@@ -754,8 +737,6 @@ Be precise and ground your reasoning in the data provided.
 2. **Evidence-Based Corrections:** Where did your initial reasoning deviate from actual model behavior? What did the XAI data reveal?
 
 3. **Actionable Insights:** Based on the SHAP/LIME evidence, provide concrete detection rules for SOC analysts.
-
-Cite specific SHAP values and LIME rules to support your revised conclusions.
 """)
     
     return prompts
