@@ -1,0 +1,1119 @@
+{
+  "experiment_type": "with_xai",
+  "config": {
+    "chat": true,
+    "n_samples": 20,
+    "n_shap_local": 15,
+    "n_lime_local": 15,
+    "self_consistency": false,
+    "self_consistency_runs": null,
+    "self_consistency_top_n": null,
+    "explain_message_tokens": 12000,
+    "random_seed": 42
+  },
+  "model_info": {
+    "type": "RandomForestClassifier",
+    "accuracy": 0.9988696307460437,
+    "features": [
+      "Port",
+      "Request_Type",
+      "Protocol",
+      "Payload_Size",
+      "User_Agent",
+      "Status"
+    ],
+    "classes": [
+      "BotAttack",
+      "Normal",
+      "PortScan"
+    ],
+    "target_col": "Scan_Type_Label"
+  },
+  "column_description": [
+    "Port number (encoded: 21=0, 22=1, 23=2, 25=3, 53=4, 80=5, 135=6, 443=7, 4444=8, 6667=9, 8080=10, 31337=11)",
+    "Request type (DNS=0, FTP=1, HTTP=2, HTTPS=3, SMTP=4, SSH=5, Telnet=6)",
+    "Transport protocol (ICMP=0, TCP=1, UDP=2)",
+    "Packet payload size (StandardScaler normalized)",
+    "Client agent (Mozilla=0, Nikto=1, Wget=2, curl=3, nmap=4, python-requests=5)",
+    "Request status (Failure=0, Success=1)"
+  ],
+  "shap_global_raw": {
+    "BotAttack": {
+      "Port": 0.081111,
+      "Request_Type": 0.002742,
+      "Protocol": 0.001517,
+      "Payload_Size": 0.031283,
+      "User_Agent": 0.00167,
+      "Status": 0.022504
+    },
+    "Normal": {
+      "Port": 0.095535,
+      "Request_Type": 0.002472,
+      "Protocol": 0.00158,
+      "Payload_Size": 0.048257,
+      "User_Agent": 0.001664,
+      "Status": 0.039981
+    },
+    "PortScan": {
+      "Port": 0.014439,
+      "Request_Type": 0.000513,
+      "Protocol": 0.000431,
+      "Payload_Size": 0.060894,
+      "User_Agent": 0.000596,
+      "Status": 0.018635
+    }
+  },
+  "shap_global_percentages": {
+    "BotAttack": {
+      "Port": 0.576,
+      "Request_Type": 0.0195,
+      "Protocol": 0.0108,
+      "Payload_Size": 0.2221,
+      "User_Agent": 0.0119,
+      "Status": 0.1598
+    },
+    "Normal": {
+      "Port": 0.5042,
+      "Request_Type": 0.013,
+      "Protocol": 0.0083,
+      "Payload_Size": 0.2547,
+      "User_Agent": 0.0088,
+      "Status": 0.211
+    },
+    "PortScan": {
+      "Port": 0.1512,
+      "Request_Type": 0.0054,
+      "Protocol": 0.0045,
+      "Payload_Size": 0.6376,
+      "User_Agent": 0.0062,
+      "Status": 0.1951
+    }
+  },
+  "shap_local": [
+    {
+      "instance_index": 6094,
+      "features": {
+        "Port": 2.0,
+        "Request_Type": 1.0,
+        "Protocol": 1.0,
+        "Payload_Size": 1.6484247698489922,
+        "User_Agent": 4.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": 0.191214118418995,
+          "Request_Type": -0.002531450804896328,
+          "Protocol": 0.013449794100952235,
+          "Payload_Size": 0.36543387407865735,
+          "User_Agent": -0.030195982517460033,
+          "Status": -0.02169044371552401
+        },
+        "Normal": {
+          "Port": -0.1940175201346953,
+          "Request_Type": 0.0028265164020035683,
+          "Protocol": -0.013205786859076918,
+          "Payload_Size": -0.3295621287409756,
+          "User_Agent": 0.030328582446122628,
+          "Status": 0.029358696059748134
+        },
+        "PortScan": {
+          "Port": 0.00280340171570026,
+          "Request_Type": -0.0002950655971072361,
+          "Protocol": -0.00024400724187529797,
+          "Payload_Size": -0.03587174533768102,
+          "User_Agent": -0.0001325999286626317,
+          "Status": -0.007668252344224214
+        }
+      }
+    },
+    {
+      "instance_index": 8649,
+      "features": {
+        "Port": 1.0,
+        "Request_Type": 4.0,
+        "Protocol": 1.0,
+        "Payload_Size": 0.48848308464468215,
+        "User_Agent": 0.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04221066285905393,
+          "Request_Type": -0.0014569749352423115,
+          "Protocol": -0.00042816898903431905,
+          "Payload_Size": -0.0004201533871697509,
+          "User_Agent": 7.944792885980686e-07,
+          "Status": -0.009804924748064724
+        },
+        "Normal": {
+          "Port": 0.049192927222409574,
+          "Request_Type": 0.0013535485332008585,
+          "Protocol": 0.0005258232674761656,
+          "Payload_Size": 0.02788884980627028,
+          "User_Agent": 2.2273443408649673e-05,
+          "Status": 0.016744936900360965
+        },
+        "PortScan": {
+          "Port": -0.006982264363355653,
+          "Request_Type": 0.00010342640204143233,
+          "Protocol": -9.765427844183939e-05,
+          "Payload_Size": -0.027468696419100547,
+          "User_Agent": -2.30679226972583e-05,
+          "Status": -0.0069400121522962595
+        }
+      }
+    },
+    {
+      "instance_index": 5040,
+      "features": {
+        "Port": 1.0,
+        "Request_Type": 3.0,
+        "Protocol": 2.0,
+        "Payload_Size": -1.1378381670212478,
+        "User_Agent": 0.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04063941986616623,
+          "Request_Type": -0.003263006114826247,
+          "Protocol": 0.0005679494280393041,
+          "Payload_Size": 0.003370053126959538,
+          "User_Agent": -0.003785199281334207,
+          "Status": -0.010570467731948729
+        },
+        "Normal": {
+          "Port": 0.04820455453727794,
+          "Request_Type": 0.003398122315036727,
+          "Protocol": -0.0008908110964884758,
+          "Payload_Size": 0.023412338571569543,
+          "User_Agent": 0.0038282389477268045,
+          "Status": 0.017775915898003987
+        },
+        "PortScan": {
+          "Port": -0.007565134671111793,
+          "Request_Type": -0.00013511620021049278,
+          "Protocol": 0.0003228616684491626,
+          "Payload_Size": -0.026782391698529154,
+          "User_Agent": -4.303966639260947e-05,
+          "Status": -0.0072054481660552465
+        }
+      }
+    },
+    {
+      "instance_index": 6901,
+      "features": {
+        "Port": 3.0,
+        "Request_Type": 3.0,
+        "Protocol": 1.0,
+        "Payload_Size": 0.8172424511668077,
+        "User_Agent": 5.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04211496672021621,
+          "Request_Type": -0.0009618675611916866,
+          "Protocol": -0.00011768785079496845,
+          "Payload_Size": -0.0004785912599786898,
+          "User_Agent": -0.001192158666581666,
+          "Status": -0.00945481838051325
+        },
+        "Normal": {
+          "Port": 0.0486049882816152,
+          "Request_Type": 0.0008281895365292696,
+          "Protocol": 0.0002585483684716735,
+          "Payload_Size": 0.02807206691348333,
+          "User_Agent": 0.0018537194265959337,
+          "Status": 0.01611084664643108
+        },
+        "PortScan": {
+          "Port": -0.006490021561399134,
+          "Request_Type": 0.00013367802466242174,
+          "Protocol": -0.00014086051767670733,
+          "Payload_Size": -0.02759347565350459,
+          "User_Agent": -0.0006615607600142692,
+          "Status": -0.006656028265917849
+        }
+      }
+    },
+    {
+      "instance_index": 8058,
+      "features": {
+        "Port": 5.0,
+        "Request_Type": 1.0,
+        "Protocol": 0.0,
+        "Payload_Size": 1.421242217567922,
+        "User_Agent": 0.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04678263962640963,
+          "Request_Type": 0.008740622918063217,
+          "Protocol": 0.008408017612153042,
+          "Payload_Size": 0.020209350491080063,
+          "User_Agent": 0.009422225505701218,
+          "Status": -0.014317667339864561
+        },
+        "Normal": {
+          "Port": 0.05331909577126045,
+          "Request_Type": -0.008622618808790202,
+          "Protocol": -0.008234254491647136,
+          "Payload_Size": 0.007422435929018077,
+          "User_Agent": -0.009387497347292134,
+          "Status": 0.021231198120577548
+        },
+        "PortScan": {
+          "Port": -0.0065364561448509745,
+          "Request_Type": -0.00011800410927301722,
+          "Protocol": -0.0001737631205059004,
+          "Payload_Size": -0.027631786420098167,
+          "User_Agent": -3.472815840908917e-05,
+          "Status": -0.0069135307807130075
+        }
+      }
+    },
+    {
+      "instance_index": 1701,
+      "features": {
+        "Port": 0.0,
+        "Request_Type": 1.0,
+        "Protocol": 2.0,
+        "Payload_Size": -0.4191549006705548,
+        "User_Agent": 1.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04277002656831614,
+          "Request_Type": -0.0008991180848722866,
+          "Protocol": 6.956047649391383e-05,
+          "Payload_Size": -0.0015278258058235266,
+          "User_Agent": -0.0002968130342081195,
+          "Status": -0.00889586742255034
+        },
+        "Normal": {
+          "Port": 0.05000553523922757,
+          "Request_Type": 0.0007244653399277912,
+          "Protocol": -0.00045272637846505777,
+          "Payload_Size": 0.029458106640417755,
+          "User_Agent": 9.919885630903714e-05,
+          "Status": 0.015893779475709396
+        },
+        "PortScan": {
+          "Port": -0.0072355086709115415,
+          "Request_Type": 0.00017465274494449018,
+          "Protocol": 0.00038316590197112874,
+          "Payload_Size": -0.02793028083459421,
+          "User_Agent": 0.0001976141778990757,
+          "Status": -0.006997912053159078
+        }
+      }
+    },
+    {
+      "instance_index": 4216,
+      "features": {
+        "Port": 11.0,
+        "Request_Type": 2.0,
+        "Protocol": 2.0,
+        "Payload_Size": -1.5747276906386904,
+        "User_Agent": 2.0,
+        "Status": 0.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": 0.3369049867218152,
+          "Request_Type": -0.005470372818182708,
+          "Protocol": 0.0005264963025092748,
+          "Payload_Size": -0.35627096429519095,
+          "User_Agent": -0.00014415847111181845,
+          "Status": -0.019866077879112726
+        },
+        "Normal": {
+          "Port": -0.4635653151341048,
+          "Request_Type": 0.0018126531892275228,
+          "Protocol": -0.0024478408814970236,
+          "Payload_Size": -0.2920211089711735,
+          "User_Agent": -0.0011304325257358906,
+          "Status": -0.1469195965035922
+        },
+        "PortScan": {
+          "Port": 0.12666032841228858,
+          "Request_Type": 0.003657719628955186,
+          "Protocol": 0.0019213445789877384,
+          "Payload_Size": 0.6482920732663642,
+          "User_Agent": 0.001274590996847705,
+          "Status": 0.16678567438270508
+        }
+      }
+    },
+    {
+      "instance_index": 1493,
+      "features": {
+        "Port": 7.0,
+        "Request_Type": 0.0,
+        "Protocol": 2.0,
+        "Payload_Size": 0.9930904844228283,
+        "User_Agent": 5.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.03886869811913749,
+          "Request_Type": -0.00041855035660747284,
+          "Protocol": 0.00010604681876942289,
+          "Payload_Size": 0.00023571031982872089,
+          "User_Agent": -0.002286768172529826,
+          "Status": -0.01308783092959975
+        },
+        "Normal": {
+          "Port": 0.04333613842542281,
+          "Request_Type": 0.00017474170975364105,
+          "Protocol": -0.0006076362702408144,
+          "Payload_Size": 0.028780214060805127,
+          "User_Agent": 0.0029967534412448245,
+          "Status": 0.021048147806141046
+        },
+        "PortScan": {
+          "Port": -0.004467440306285203,
+          "Request_Type": 0.00024380864685381536,
+          "Protocol": 0.0005015894514713907,
+          "Payload_Size": -0.02901592438063389,
+          "User_Agent": -0.0007099852687149954,
+          "Status": -0.007960316876541255
+        }
+      }
+    },
+    {
+      "instance_index": 3529,
+      "features": {
+        "Port": 0.0,
+        "Request_Type": 3.0,
+        "Protocol": 1.0,
+        "Payload_Size": 0.9679693368148253,
+        "User_Agent": 2.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04246734896609716,
+          "Request_Type": -0.0014989914008835428,
+          "Protocol": 0.0004240319721667,
+          "Payload_Size": 0.0004820840565873824,
+          "User_Agent": -0.0008569148910069057,
+          "Status": -0.010402951210042958
+        },
+        "Normal": {
+          "Port": 0.049260580406560936,
+          "Request_Type": 0.001383701486318929,
+          "Protocol": -0.0002416818691153185,
+          "Payload_Size": 0.027242393205111865,
+          "User_Agent": 0.0007767239763150101,
+          "Status": 0.017306641967935084
+        },
+        "PortScan": {
+          "Port": -0.00679323144046377,
+          "Request_Type": 0.0001152899145646208,
+          "Protocol": -0.00018235010305137902,
+          "Payload_Size": -0.027724477261699285,
+          "User_Agent": 8.019091469189517e-05,
+          "Status": -0.006903690757892192
+        }
+      }
+    },
+    {
+      "instance_index": 7222,
+      "features": {
+        "Port": 10.0,
+        "Request_Type": 5.0,
+        "Protocol": 1.0,
+        "Payload_Size": -0.6780119434138895,
+        "User_Agent": 1.0,
+        "Status": 0.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": 0.6685785725553685,
+          "Request_Type": 0.007818471223830706,
+          "Protocol": -0.0001778803398963136,
+          "Payload_Size": 0.14052750323602398,
+          "User_Agent": 0.0020039001986842182,
+          "Status": 0.09692934268671353
+        },
+        "Normal": {
+          "Port": -0.7584616501148639,
+          "Request_Type": -0.007584502031199382,
+          "Protocol": 0.0025307253682485703,
+          "Payload_Size": 0.031162239448844102,
+          "User_Agent": -0.003219891945703072,
+          "Status": -0.14869856155220057
+        },
+        "PortScan": {
+          "Port": 0.08988307755949625,
+          "Request_Type": -0.00023396919263132766,
+          "Protocol": -0.002352845028352253,
+          "Payload_Size": -0.17168974268486822,
+          "User_Agent": 0.0012159917470188479,
+          "Status": 0.051769218865486556
+        }
+      }
+    },
+    {
+      "instance_index": 1123,
+      "features": {
+        "Port": 0.0,
+        "Request_Type": 4.0,
+        "Protocol": 1.0,
+        "Payload_Size": 0.2744072180721353,
+        "User_Agent": 0.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04215684530314541,
+          "Request_Type": -0.001364314387636537,
+          "Protocol": -0.0003980444530354576,
+          "Payload_Size": -0.0007028433114716201,
+          "User_Agent": 0.00012119588217721398,
+          "Status": -0.009819238866164655
+        },
+        "Normal": {
+          "Port": 0.049169579632919465,
+          "Request_Type": 0.0012508395562457362,
+          "Protocol": 0.0004887882509845402,
+          "Payload_Size": 0.02813951703254333,
+          "User_Agent": -0.00010977782890494973,
+          "Status": 0.01678941252933835
+        },
+        "PortScan": {
+          "Port": -0.007012734329774121,
+          "Request_Type": 0.00011347483139078703,
+          "Protocol": -9.074379794907668e-05,
+          "Payload_Size": -0.02743667372107173,
+          "User_Agent": -1.1418053272270992e-05,
+          "Status": -0.0069701736631737135
+        }
+      }
+    },
+    {
+      "instance_index": 4639,
+      "features": {
+        "Port": 5.0,
+        "Request_Type": 3.0,
+        "Protocol": 2.0,
+        "Payload_Size": -0.6528907958058866,
+        "User_Agent": 2.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.043492783898629435,
+          "Request_Type": -0.0017630704017063683,
+          "Protocol": 0.0004282129554349541,
+          "Payload_Size": -0.0008799501390520312,
+          "User_Agent": -0.00019057652789586084,
+          "Status": -0.00842192242742772
+        },
+        "Normal": {
+          "Port": 0.05034645743956169,
+          "Request_Type": 0.0017264939200117065,
+          "Protocol": -0.0007576411887159505,
+          "Payload_Size": 0.028894811257352493,
+          "User_Agent": 1.0042514046645751e-05,
+          "Status": 0.01550819523087
+        },
+        "PortScan": {
+          "Port": -0.0068536735409322706,
+          "Request_Type": 3.6576481694676256e-05,
+          "Protocol": 0.0003294282332809911,
+          "Payload_Size": -0.028014861118300458,
+          "User_Agent": 0.00018053401384921425,
+          "Status": -0.007086272803442275
+        }
+      }
+    },
+    {
+      "instance_index": 6815,
+      "features": {
+        "Port": 4.0,
+        "Request_Type": 4.0,
+        "Protocol": 0.0,
+        "Payload_Size": 0.2962516942530074,
+        "User_Agent": 3.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.0433298718960851,
+          "Request_Type": -0.0010110571655643499,
+          "Protocol": -0.0004469843553668361,
+          "Payload_Size": 8.566699349334413e-05,
+          "User_Agent": 0.0002970282162645548,
+          "Status": -0.009914872232018087
+        },
+        "Normal": {
+          "Port": 0.05046417639260725,
+          "Request_Type": 0.0007127575523508866,
+          "Protocol": 0.00040636131263098804,
+          "Payload_Size": 0.027676738376651872,
+          "User_Agent": -0.0005791379854467164,
+          "Status": 0.017047463524332424
+        },
+        "PortScan": {
+          "Port": -0.0071343044965220224,
+          "Request_Type": 0.00029829961321348316,
+          "Protocol": 4.062304273585347e-05,
+          "Payload_Size": -0.027762405370145293,
+          "User_Agent": 0.0002821097691821622,
+          "Status": -0.007132591292314318
+        }
+      }
+    },
+    {
+      "instance_index": 8576,
+      "features": {
+        "Port": 5.0,
+        "Request_Type": 5.0,
+        "Protocol": 1.0,
+        "Payload_Size": -0.4584749577961246,
+        "User_Agent": 0.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.04341981531099741,
+          "Request_Type": 0.0009549531779482892,
+          "Protocol": -0.0002201649288144857,
+          "Payload_Size": -0.000739286912716643,
+          "User_Agent": -6.86102869511443e-05,
+          "Status": -0.010827166177745066
+        },
+        "Normal": {
+          "Port": 0.050243392316753795,
+          "Request_Type": -0.0008921046747946995,
+          "Protocol": 0.0003860583864291173,
+          "Payload_Size": 0.028128478439573685,
+          "User_Agent": 6.187631912815876e-05,
+          "Status": 0.017800658386036613
+        },
+        "PortScan": {
+          "Port": -0.006823577005756359,
+          "Request_Type": -6.28485031535918e-05,
+          "Protocol": -0.00016589345761462522,
+          "Payload_Size": -0.027389191526857044,
+          "User_Agent": 6.7339678229688394e-06,
+          "Status": -0.006973492208291515
+        }
+      }
+    },
+    {
+      "instance_index": 3531,
+      "features": {
+        "Port": 7.0,
+        "Request_Type": 0.0,
+        "Protocol": 1.0,
+        "Payload_Size": -0.554590652991962,
+        "User_Agent": 5.0,
+        "Status": 1.0
+      },
+      "shap_values_per_class": {
+        "BotAttack": {
+          "Port": -0.03795975310907596,
+          "Request_Type": 0.00029745542063688125,
+          "Protocol": -0.0009381821028428168,
+          "Payload_Size": -0.001508253494883779,
+          "User_Agent": -0.001174861667998311,
+          "Status": -0.013036495485112485
+        },
+        "Normal": {
+          "Port": 0.04266425694850759,
+          "Request_Type": -0.0004154198264119744,
+          "Protocol": 0.0012841666709573155,
+          "Payload_Size": 0.029691495480828972,
+          "User_Agent": 0.0018524717977453542,
+          "Status": 0.02065138810149925
+        },
+        "PortScan": {
+          "Port": -0.004704503839431703,
+          "Request_Type": 0.00011796440577509726,
+          "Protocol": -0.0003459845681144955,
+          "Payload_Size": -0.028183241985945257,
+          "User_Agent": -0.0006776101297470526,
+          "Status": -0.007614892616386723
+        }
+      }
+    }
+  ],
+  "lime_local": [
+    {
+      "instance_index": 6094,
+      "feature_contributions": [
+        {
+          "rule": "1.00 < Port <= 4.00",
+          "weight": 0.16135391244526542
+        },
+        {
+          "rule": "Payload_Size > 0.79",
+          "weight": -0.1349626807729492
+        },
+        {
+          "rule": "2.00 < User_Agent <= 4.00",
+          "weight": -0.012873567393034902
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": 0.008506558510590805
+        },
+        {
+          "rule": "Request_Type <= 1.00",
+          "weight": -0.0009026485134065617
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 8649,
+      "feature_contributions": [
+        {
+          "rule": "Port <= 1.00",
+          "weight": 0.19389043236704773
+        },
+        {
+          "rule": "-0.03 < Payload_Size <= 0.79",
+          "weight": 0.0857128302844512
+        },
+        {
+          "rule": "User_Agent <= 1.00",
+          "weight": 0.017083203103616062
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": 0.004401332501952762
+        },
+        {
+          "rule": "3.00 < Request_Type <= 5.00",
+          "weight": -0.0026655702235020015
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 5040,
+      "feature_contributions": [
+        {
+          "rule": "Port <= 1.00",
+          "weight": 0.19578679258618228
+        },
+        {
+          "rule": "1.00 < Request_Type <= 3.00",
+          "weight": 0.009065304948832016
+        },
+        {
+          "rule": "User_Agent <= 1.00",
+          "weight": -0.008086628794653668
+        },
+        {
+          "rule": "1.00 < Protocol <= 2.00",
+          "weight": 0.007849961578297171
+        },
+        {
+          "rule": "Payload_Size <= -0.84",
+          "weight": -0.002023513504050414
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 6901,
+      "feature_contributions": [
+        {
+          "rule": "1.00 < Port <= 4.00",
+          "weight": 0.15946687586626632
+        },
+        {
+          "rule": "Payload_Size > 0.79",
+          "weight": -0.15793175974200643
+        },
+        {
+          "rule": "User_Agent > 4.00",
+          "weight": 0.016455894597810473
+        },
+        {
+          "rule": "1.00 < Request_Type <= 3.00",
+          "weight": 0.004531783081989413
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": 0.0035103012435077244
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 8058,
+      "feature_contributions": [
+        {
+          "rule": "4.00 < Port <= 5.00",
+          "weight": 0.1726995850580402
+        },
+        {
+          "rule": "Payload_Size > 0.79",
+          "weight": -0.1482878842988024
+        },
+        {
+          "rule": "User_Agent <= 1.00",
+          "weight": 0.017762347295897957
+        },
+        {
+          "rule": "Protocol <= 0.00",
+          "weight": 0.011276630436060007
+        },
+        {
+          "rule": "Request_Type <= 1.00",
+          "weight": 0.011257869031906795
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 1701,
+      "feature_contributions": [
+        {
+          "rule": "Port <= 1.00",
+          "weight": 0.20122076449617504
+        },
+        {
+          "rule": "-0.84 < Payload_Size <= -0.03",
+          "weight": 0.08247540322837006
+        },
+        {
+          "rule": "User_Agent <= 1.00",
+          "weight": -0.02551411049551831
+        },
+        {
+          "rule": "Request_Type <= 1.00",
+          "weight": 0.004202484495787815
+        },
+        {
+          "rule": "1.00 < Protocol <= 2.00",
+          "weight": 0.002648935181142422
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 4216,
+      "feature_contributions": [
+        {
+          "rule": "Port > 5.00",
+          "weight": -0.565222666045744
+        },
+        {
+          "rule": "Payload_Size <= -0.84",
+          "weight": -0.02216619577165171
+        },
+        {
+          "rule": "1.00 < Protocol <= 2.00",
+          "weight": 0.011047850106639468
+        },
+        {
+          "rule": "1.00 < User_Agent <= 2.00",
+          "weight": -0.00692076468776389
+        },
+        {
+          "rule": "1.00 < Request_Type <= 3.00",
+          "weight": -0.0019606570342465194
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 1493,
+      "feature_contributions": [
+        {
+          "rule": "Port > 5.00",
+          "weight": -0.5445366056709161
+        },
+        {
+          "rule": "Payload_Size > 0.79",
+          "weight": -0.13561648243398863
+        },
+        {
+          "rule": "Request_Type <= 1.00",
+          "weight": 0.013911462625399124
+        },
+        {
+          "rule": "User_Agent > 4.00",
+          "weight": 0.012503830900604118
+        },
+        {
+          "rule": "1.00 < Protocol <= 2.00",
+          "weight": 0.0027094363486181747
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 3529,
+      "feature_contributions": [
+        {
+          "rule": "Payload_Size > 0.79",
+          "weight": -0.17226307279065606
+        },
+        {
+          "rule": "Port <= 1.00",
+          "weight": 0.16939579273253336
+        },
+        {
+          "rule": "1.00 < Request_Type <= 3.00",
+          "weight": 0.015699027450777028
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": 0.013421984446247178
+        },
+        {
+          "rule": "1.00 < User_Agent <= 2.00",
+          "weight": 0.008335029909520704
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 7222,
+      "feature_contributions": [
+        {
+          "rule": "Port > 5.00",
+          "weight": -0.5243170305963015
+        },
+        {
+          "rule": "-0.84 < Payload_Size <= -0.03",
+          "weight": 0.07107741198945808
+        },
+        {
+          "rule": "User_Agent <= 1.00",
+          "weight": -0.01283339732750961
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": 0.011873118776809737
+        },
+        {
+          "rule": "3.00 < Request_Type <= 5.00",
+          "weight": 0.005017897574112834
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 1123,
+      "feature_contributions": [
+        {
+          "rule": "Port <= 1.00",
+          "weight": 0.20108210402073093
+        },
+        {
+          "rule": "-0.03 < Payload_Size <= 0.79",
+          "weight": 0.08026248216948258
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": 0.023663010554115044
+        },
+        {
+          "rule": "3.00 < Request_Type <= 5.00",
+          "weight": 0.00882469164336316
+        },
+        {
+          "rule": "User_Agent <= 1.00",
+          "weight": -1.0124117009518738e-05
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 4639,
+      "feature_contributions": [
+        {
+          "rule": "4.00 < Port <= 5.00",
+          "weight": 0.14654471055192514
+        },
+        {
+          "rule": "-0.84 < Payload_Size <= -0.03",
+          "weight": 0.08039285812608811
+        },
+        {
+          "rule": "1.00 < Request_Type <= 3.00",
+          "weight": 0.014586850245907754
+        },
+        {
+          "rule": "1.00 < Protocol <= 2.00",
+          "weight": 0.0038109407340844704
+        },
+        {
+          "rule": "1.00 < User_Agent <= 2.00",
+          "weight": 0.0003153706196723313
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 6815,
+      "feature_contributions": [
+        {
+          "rule": "1.00 < Port <= 4.00",
+          "weight": 0.16403237060726242
+        },
+        {
+          "rule": "-0.03 < Payload_Size <= 0.79",
+          "weight": 0.07189903454168656
+        },
+        {
+          "rule": "Protocol <= 0.00",
+          "weight": 0.01048545792949029
+        },
+        {
+          "rule": "3.00 < Request_Type <= 5.00",
+          "weight": 0.007593756367389949
+        },
+        {
+          "rule": "2.00 < User_Agent <= 4.00",
+          "weight": -0.003839656721556041
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 8576,
+      "feature_contributions": [
+        {
+          "rule": "4.00 < Port <= 5.00",
+          "weight": 0.15631020442424717
+        },
+        {
+          "rule": "-0.84 < Payload_Size <= -0.03",
+          "weight": 0.11869561806188487
+        },
+        {
+          "rule": "User_Agent <= 1.00",
+          "weight": 0.01631969852246645
+        },
+        {
+          "rule": "3.00 < Request_Type <= 5.00",
+          "weight": 0.006464127676824827
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": -0.0034659324811545365
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    },
+    {
+      "instance_index": 3531,
+      "feature_contributions": [
+        {
+          "rule": "Port > 5.00",
+          "weight": -0.5530141118901396
+        },
+        {
+          "rule": "-0.84 < Payload_Size <= -0.03",
+          "weight": 0.08311238290994155
+        },
+        {
+          "rule": "0.00 < Protocol <= 1.00",
+          "weight": -0.011977153301369621
+        },
+        {
+          "rule": "Request_Type <= 1.00",
+          "weight": 0.009110871919812618
+        },
+        {
+          "rule": "User_Agent > 4.00",
+          "weight": -0.002374948622703947
+        },
+        {
+          "rule": "Status <= 1.00",
+          "weight": 0.0
+        }
+      ]
+    }
+  ],
+  "prompts": {
+    "chat_prompts": [
+      "You are an expert in Explainable AI for intrusion detection.\n\nThink through your analysis step by step:\n\nSTEP 1: Examine SHAP Global Importance\n- List all features with their SHAP values\n- Rank from highest to lowest\n- Identify the top 3-5 features\n\nSTEP 2: Analyze SHAP Local Values\n- For each top feature, examine local instance variations\n- Note the range and distribution of contributions\n- Identify patterns across instances\n\nSTEP 3: Cross-reference with LIME\n- Compare LIME rules with SHAP findings\n\nSTEP 4: Synthesize Findings\n- Combine evidence from all sources\n- Prioritize by consistency across methods\n- Quantify confidence levels\n\nSTEP 5: Specific detection rules with thresholds\n\nShow each step's findings before moving to the next.\nDo not try to create new data, only work with the codification that were given to you\n\nSTEP 6: Sumarization: As you are an xAI especialist, Now get all data you have analyzed and make a concise but detailed model explanation, it should be technical, yet clear, structured in sections, and suitable for a machine learning report. It should contain:\n- Global and Local interpretation of model\n- Which caracteristics seems to be more influential on model classification.\n- Identify possible paterns or correlations in the dataset.\n- Explain how codification can bias model behaviour.\n- Give cybersecurity insights based on the patterns detected on the data.\n\nYou will analyze a classification model using XAI explanations. I will send the data in multiple messages.\n\n**Wait for further instructions before responding.**\n\n# Model Information\n\n- **Type:** RandomForestClassifier\n- **Task:** Classification from log entries\n- **Target:** Scan_Type_Label\n- **Classes:** BotAttack (index 0), Normal (index 1), PortScan (index 2)\n- **Features:** Port, Request_Type, Protocol, Payload_Size, User_Agent, Status\n- **Accuracy:** 0.9989 (on test set)\n- **Pipeline:** Data cleaning → feature selection → label encoding → class balancing (SMOTE) → 70/30 stratified train/test split\n\n**CRITICAL MODEL TYPE CONSTRAINT:**\n- The model is a **RandomForestClassifier**.\n- Do NOT describe it as XGBoost, GradientBoosting, LogisticRegression, SVM, or any other algorithm.\n- This is NOT a debate or guess - the model type is \"RandomForestClassifier\" as provided.\n\n# Column Descriptions (with encoded value mappings)\n\n  - Port: Port number (encoded: 21=0, 22=1, 23=2, 25=3, 53=4, 80=5, 135=6, 443=7, 4444=8, 6667=9, 8080=10, 31337=11)\n  - Request_Type: Request type (DNS=0, FTP=1, HTTP=2, HTTPS=3, SMTP=4, SSH=5, Telnet=6)\n  - Protocol: Transport protocol (ICMP=0, TCP=1, UDP=2)\n  - Payload_Size: Packet payload size (StandardScaler normalized)\n  - User_Agent: Client agent (Mozilla=0, Nikto=1, Wget=2, curl=3, nmap=4, python-requests=5)\n  - Status: Request status (Failure=0, Success=1)\n\n**CRITICAL: STRICT VALUE CONSTRAINTS**\n- Use ONLY the exact value mappings provided in the column descriptions above.\n- Do NOT invent values that are not listed in the mappings.\n- Do NOT claim values exist if they are not in the provided data.\n- The data is ENCODED - use the mappings to decode values when explaining patterns.\n\n**DO NOT USE YOUR PRIOR KNOWLEDGE TO INVENT DATA:**\n- Do NOT invent model specifications not provided (e.g., number of trees, max depth, training parameters).\n- Do NOT hallucinate dataset statistics not given (e.g., total rows, class distribution numbers).\n- Do NOT claim the model has attributes you weren't told about.\n\nPlease acknowledge receipt and wait for the data samples and XAI explanations.\n",
+      "# Training Samples (representative examples)\n\n[{\"Port\":5,\"Request_Type\":0,\"Protocol\":0,\"Payload_Size\":0.4983130989,\"User_Agent\":5,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":10,\"Request_Type\":4,\"Protocol\":2,\"Payload_Size\":-1.7341923668,\"User_Agent\":1,\"Status\":0,\"Scan_Type_Label\":2},{\"Port\":0,\"Request_Type\":3,\"Protocol\":0,\"Payload_Size\":0.1072969753,\"User_Agent\":1,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":1,\"Request_Type\":1,\"Protocol\":1,\"Payload_Size\":0.4262263275,\"User_Agent\":3,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":3,\"Request_Type\":5,\"Protocol\":2,\"Payload_Size\":0.5900598989,\"User_Agent\":2,\"Status\":0,\"Scan_Type_Label\":1},{\"Port\":4,\"Request_Type\":2,\"Protocol\":2,\"Payload_Size\":-0.2564135531,\"User_Agent\":0,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":5,\"Request_Type\":1,\"Protocol\":0,\"Payload_Size\":-0.2520446579,\"User_Agent\":3,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":0,\"Request_Type\":3,\"Protocol\":0,\"Payload_Size\":-0.148283396,\"User_Agent\":5,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":0,\"Request_Type\":0,\"Protocol\":1,\"Payload_Size\":-0.1056866675,\"User_Agent\":0,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":4,\"Request_Type\":2,\"Protocol\":0,\"Payload_Size\":0.389090718,\"User_Agent\":1,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":1,\"Request_Type\":3,\"Protocol\":0,\"Payload_Size\":0.1782915229,\"User_Agent\":4,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":4,\"Request_Type\":3,\"Protocol\":2,\"Payload_Size\":1.1023128653,\"User_Agent\":3,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":1,\"Request_Type\":5,\"Protocol\":2,\"Payload_Size\":-0.8582288719,\"User_Agent\":5,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":0,\"Request_Type\":5,\"Protocol\":1,\"Payload_Size\":-1.5026409192,\"User_Agent\":1,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":1,\"Request_Type\":1,\"Protocol\":1,\"Payload_Size\":-1.4993642478,\"User_Agent\":4,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":0,\"Request_Type\":3,\"Protocol\":2,\"Payload_Size\":-0.3263158769,\"User_Agent\":1,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":4,\"Request_Type\":5,\"Protocol\":2,\"Payload_Size\":1.32731097,\"User_Agent\":3,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":3,\"Request_Type\":3,\"Protocol\":2,\"Payload_Size\":-0.1002255484,\"User_Agent\":5,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":4,\"Request_Type\":1,\"Protocol\":1,\"Payload_Size\":0.0494091134,\"User_Agent\":5,\"Status\":1,\"Scan_Type_Label\":1},{\"Port\":4,\"Request_Type\":2,\"Protocol\":0,\"Payload_Size\":-1.4644130859,\"User_Agent\":3,\"Status\":1,\"Scan_Type_Label\":1}]\n\n# Predictions (true label vs predicted label)\n\n[{\"true_label\":0,\"predicted_label\":0},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":2,\"predicted_label\":2},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":0,\"predicted_label\":0},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1},{\"true_label\":1,\"predicted_label\":1}]\n\n**Wait for the XAI explanations in the next message.**\n",
+      "# Explainability Data\n\n## SHAP Global Importance (mean |SHAP| per feature per class)\n\n{\n  \"BotAttack\": {\n    \"Port\": 0.081111,\n    \"Request_Type\": 0.002742,\n    \"Protocol\": 0.001517,\n    \"Payload_Size\": 0.031283,\n    \"User_Agent\": 0.00167,\n    \"Status\": 0.022504\n  },\n  \"Normal\": {\n    \"Port\": 0.095535,\n    \"Request_Type\": 0.002472,\n    \"Protocol\": 0.00158,\n    \"Payload_Size\": 0.048257,\n    \"User_Agent\": 0.001664,\n    \"Status\": 0.039981\n  },\n  \"PortScan\": {\n    \"Port\": 0.014439,\n    \"Request_Type\": 0.000513,\n    \"Protocol\": 0.000431,\n    \"Payload_Size\": 0.060894,\n    \"User_Agent\": 0.000596,\n    \"Status\": 0.018635\n  }\n}\n\n## SHAP Local Explanations (per-instance feature contributions)\n\n[\n  {\n    \"instance_index\": 6094,\n    \"features\": {\n      \"Port\": 2.0,\n      \"Request_Type\": 1.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": 1.6484247698489922,\n      \"User_Agent\": 4.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": 0.191214118418995,\n        \"Request_Type\": -0.002531450804896328,\n        \"Protocol\": 0.013449794100952235,\n        \"Payload_Size\": 0.36543387407865735,\n        \"User_Agent\": -0.030195982517460033,\n        \"Status\": -0.02169044371552401\n      },\n      \"Normal\": {\n        \"Port\": -0.1940175201346953,\n        \"Request_Type\": 0.0028265164020035683,\n        \"Protocol\": -0.013205786859076918,\n        \"Payload_Size\": -0.3295621287409756,\n        \"User_Agent\": 0.030328582446122628,\n        \"Status\": 0.029358696059748134\n      },\n      \"PortScan\": {\n        \"Port\": 0.00280340171570026,\n        \"Request_Type\": -0.0002950655971072361,\n        \"Protocol\": -0.00024400724187529797,\n        \"Payload_Size\": -0.03587174533768102,\n        \"User_Agent\": -0.0001325999286626317,\n        \"Status\": -0.007668252344224214\n      }\n    }\n  },\n  {\n    \"instance_index\": 8649,\n    \"features\": {\n      \"Port\": 1.0,\n      \"Request_Type\": 4.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": 0.48848308464468215,\n      \"User_Agent\": 0.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04221066285905393,\n        \"Request_Type\": -0.0014569749352423115,\n        \"Protocol\": -0.00042816898903431905,\n        \"Payload_Size\": -0.0004201533871697509,\n        \"User_Agent\": 7.944792885980686e-07,\n        \"Status\": -0.009804924748064724\n      },\n      \"Normal\": {\n        \"Port\": 0.049192927222409574,\n        \"Request_Type\": 0.0013535485332008585,\n        \"Protocol\": 0.0005258232674761656,\n        \"Payload_Size\": 0.02788884980627028,\n        \"User_Agent\": 2.2273443408649673e-05,\n        \"Status\": 0.016744936900360965\n      },\n      \"PortScan\": {\n        \"Port\": -0.006982264363355653,\n        \"Request_Type\": 0.00010342640204143233,\n        \"Protocol\": -9.765427844183939e-05,\n        \"Payload_Size\": -0.027468696419100547,\n        \"User_Agent\": -2.30679226972583e-05,\n        \"Status\": -0.0069400121522962595\n      }\n    }\n  },\n  {\n    \"instance_index\": 5040,\n    \"features\": {\n      \"Port\": 1.0,\n      \"Request_Type\": 3.0,\n      \"Protocol\": 2.0,\n      \"Payload_Size\": -1.1378381670212478,\n      \"User_Agent\": 0.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04063941986616623,\n        \"Request_Type\": -0.003263006114826247,\n        \"Protocol\": 0.0005679494280393041,\n        \"Payload_Size\": 0.003370053126959538,\n        \"User_Agent\": -0.003785199281334207,\n        \"Status\": -0.010570467731948729\n      },\n      \"Normal\": {\n        \"Port\": 0.04820455453727794,\n        \"Request_Type\": 0.003398122315036727,\n        \"Protocol\": -0.0008908110964884758,\n        \"Payload_Size\": 0.023412338571569543,\n        \"User_Agent\": 0.0038282389477268045,\n        \"Status\": 0.017775915898003987\n      },\n      \"PortScan\": {\n        \"Port\": -0.007565134671111793,\n        \"Request_Type\": -0.00013511620021049278,\n        \"Protocol\": 0.0003228616684491626,\n        \"Payload_Size\": -0.026782391698529154,\n        \"User_Agent\": -4.303966639260947e-05,\n        \"Status\": -0.0072054481660552465\n      }\n    }\n  },\n  {\n    \"instance_index\": 6901,\n    \"features\": {\n      \"Port\": 3.0,\n      \"Request_Type\": 3.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": 0.8172424511668077,\n      \"User_Agent\": 5.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04211496672021621,\n        \"Request_Type\": -0.0009618675611916866,\n        \"Protocol\": -0.00011768785079496845,\n        \"Payload_Size\": -0.0004785912599786898,\n        \"User_Agent\": -0.001192158666581666,\n        \"Status\": -0.00945481838051325\n      },\n      \"Normal\": {\n        \"Port\": 0.0486049882816152,\n        \"Request_Type\": 0.0008281895365292696,\n        \"Protocol\": 0.0002585483684716735,\n        \"Payload_Size\": 0.02807206691348333,\n        \"User_Agent\": 0.0018537194265959337,\n        \"Status\": 0.01611084664643108\n      },\n      \"PortScan\": {\n        \"Port\": -0.006490021561399134,\n        \"Request_Type\": 0.00013367802466242174,\n        \"Protocol\": -0.00014086051767670733,\n        \"Payload_Size\": -0.02759347565350459,\n        \"User_Agent\": -0.0006615607600142692,\n        \"Status\": -0.006656028265917849\n      }\n    }\n  },\n  {\n    \"instance_index\": 8058,\n    \"features\": {\n      \"Port\": 5.0,\n      \"Request_Type\": 1.0,\n      \"Protocol\": 0.0,\n      \"Payload_Size\": 1.421242217567922,\n      \"User_Agent\": 0.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04678263962640963,\n        \"Request_Type\": 0.008740622918063217,\n        \"Protocol\": 0.008408017612153042,\n        \"Payload_Size\": 0.020209350491080063,\n        \"User_Agent\": 0.009422225505701218,\n        \"Status\": -0.014317667339864561\n      },\n      \"Normal\": {\n        \"Port\": 0.05331909577126045,\n        \"Request_Type\": -0.008622618808790202,\n        \"Protocol\": -0.008234254491647136,\n        \"Payload_Size\": 0.007422435929018077,\n        \"User_Agent\": -0.009387497347292134,\n        \"Status\": 0.021231198120577548\n      },\n      \"PortScan\": {\n        \"Port\": -0.0065364561448509745,\n        \"Request_Type\": -0.00011800410927301722,\n        \"Protocol\": -0.0001737631205059004,\n        \"Payload_Size\": -0.027631786420098167,\n        \"User_Agent\": -3.472815840908917e-05,\n        \"Status\": -0.0069135307807130075\n      }\n    }\n  },\n  {\n    \"instance_index\": 1701,\n    \"features\": {\n      \"Port\": 0.0,\n      \"Request_Type\": 1.0,\n      \"Protocol\": 2.0,\n      \"Payload_Size\": -0.4191549006705548,\n      \"User_Agent\": 1.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04277002656831614,\n        \"Request_Type\": -0.0008991180848722866,\n        \"Protocol\": 6.956047649391383e-05,\n        \"Payload_Size\": -0.0015278258058235266,\n        \"User_Agent\": -0.0002968130342081195,\n        \"Status\": -0.00889586742255034\n      },\n      \"Normal\": {\n        \"Port\": 0.05000553523922757,\n        \"Request_Type\": 0.0007244653399277912,\n        \"Protocol\": -0.00045272637846505777,\n        \"Payload_Size\": 0.029458106640417755,\n        \"User_Agent\": 9.919885630903714e-05,\n        \"Status\": 0.015893779475709396\n      },\n      \"PortScan\": {\n        \"Port\": -0.0072355086709115415,\n        \"Request_Type\": 0.00017465274494449018,\n        \"Protocol\": 0.00038316590197112874,\n        \"Payload_Size\": -0.02793028083459421,\n        \"User_Agent\": 0.0001976141778990757,\n        \"Status\": -0.006997912053159078\n      }\n    }\n  },\n  {\n    \"instance_index\": 4216,\n    \"features\": {\n      \"Port\": 11.0,\n      \"Request_Type\": 2.0,\n      \"Protocol\": 2.0,\n      \"Payload_Size\": -1.5747276906386904,\n      \"User_Agent\": 2.0,\n      \"Status\": 0.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": 0.3369049867218152,\n        \"Request_Type\": -0.005470372818182708,\n        \"Protocol\": 0.0005264963025092748,\n        \"Payload_Size\": -0.35627096429519095,\n        \"User_Agent\": -0.00014415847111181845,\n        \"Status\": -0.019866077879112726\n      },\n      \"Normal\": {\n        \"Port\": -0.4635653151341048,\n        \"Request_Type\": 0.0018126531892275228,\n        \"Protocol\": -0.0024478408814970236,\n        \"Payload_Size\": -0.2920211089711735,\n        \"User_Agent\": -0.0011304325257358906,\n        \"Status\": -0.1469195965035922\n      },\n      \"PortScan\": {\n        \"Port\": 0.12666032841228858,\n        \"Request_Type\": 0.003657719628955186,\n        \"Protocol\": 0.0019213445789877384,\n        \"Payload_Size\": 0.6482920732663642,\n        \"User_Agent\": 0.001274590996847705,\n        \"Status\": 0.16678567438270508\n      }\n    }\n  },\n  {\n    \"instance_index\": 1493,\n    \"features\": {\n      \"Port\": 7.0,\n      \"Request_Type\": 0.0,\n      \"Protocol\": 2.0,\n      \"Payload_Size\": 0.9930904844228283,\n      \"User_Agent\": 5.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.03886869811913749,\n        \"Request_Type\": -0.00041855035660747284,\n        \"Protocol\": 0.00010604681876942289,\n        \"Payload_Size\": 0.00023571031982872089,\n        \"User_Agent\": -0.002286768172529826,\n        \"Status\": -0.01308783092959975\n      },\n      \"Normal\": {\n        \"Port\": 0.04333613842542281,\n        \"Request_Type\": 0.00017474170975364105,\n        \"Protocol\": -0.0006076362702408144,\n        \"Payload_Size\": 0.028780214060805127,\n        \"User_Agent\": 0.0029967534412448245,\n        \"Status\": 0.021048147806141046\n      },\n      \"PortScan\": {\n        \"Port\": -0.004467440306285203,\n        \"Request_Type\": 0.00024380864685381536,\n        \"Protocol\": 0.0005015894514713907,\n        \"Payload_Size\": -0.02901592438063389,\n        \"User_Agent\": -0.0007099852687149954,\n        \"Status\": -0.007960316876541255\n      }\n    }\n  },\n  {\n    \"instance_index\": 3529,\n    \"features\": {\n      \"Port\": 0.0,\n      \"Request_Type\": 3.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": 0.9679693368148253,\n      \"User_Agent\": 2.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04246734896609716,\n        \"Request_Type\": -0.0014989914008835428,\n        \"Protocol\": 0.0004240319721667,\n        \"Payload_Size\": 0.0004820840565873824,\n        \"User_Agent\": -0.0008569148910069057,\n        \"Status\": -0.010402951210042958\n      },\n      \"Normal\": {\n        \"Port\": 0.049260580406560936,\n        \"Request_Type\": 0.001383701486318929,\n        \"Protocol\": -0.0002416818691153185,\n        \"Payload_Size\": 0.027242393205111865,\n        \"User_Agent\": 0.0007767239763150101,\n        \"Status\": 0.017306641967935084\n      },\n      \"PortScan\": {\n        \"Port\": -0.00679323144046377,\n        \"Request_Type\": 0.0001152899145646208,\n        \"Protocol\": -0.00018235010305137902,\n        \"Payload_Size\": -0.027724477261699285,\n        \"User_Agent\": 8.019091469189517e-05,\n        \"Status\": -0.006903690757892192\n      }\n    }\n  },\n  {\n    \"instance_index\": 7222,\n    \"features\": {\n      \"Port\": 10.0,\n      \"Request_Type\": 5.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": -0.6780119434138895,\n      \"User_Agent\": 1.0,\n      \"Status\": 0.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": 0.6685785725553685,\n        \"Request_Type\": 0.007818471223830706,\n        \"Protocol\": -0.0001778803398963136,\n        \"Payload_Size\": 0.14052750323602398,\n        \"User_Agent\": 0.0020039001986842182,\n        \"Status\": 0.09692934268671353\n      },\n      \"Normal\": {\n        \"Port\": -0.7584616501148639,\n        \"Request_Type\": -0.007584502031199382,\n        \"Protocol\": 0.0025307253682485703,\n        \"Payload_Size\": 0.031162239448844102,\n        \"User_Agent\": -0.003219891945703072,\n        \"Status\": -0.14869856155220057\n      },\n      \"PortScan\": {\n        \"Port\": 0.08988307755949625,\n        \"Request_Type\": -0.00023396919263132766,\n        \"Protocol\": -0.002352845028352253,\n        \"Payload_Size\": -0.17168974268486822,\n        \"User_Agent\": 0.0012159917470188479,\n        \"Status\": 0.051769218865486556\n      }\n    }\n  },\n  {\n    \"instance_index\": 1123,\n    \"features\": {\n      \"Port\": 0.0,\n      \"Request_Type\": 4.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": 0.2744072180721353,\n      \"User_Agent\": 0.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04215684530314541,\n        \"Request_Type\": -0.001364314387636537,\n        \"Protocol\": -0.0003980444530354576,\n        \"Payload_Size\": -0.0007028433114716201,\n        \"User_Agent\": 0.00012119588217721398,\n        \"Status\": -0.009819238866164655\n      },\n      \"Normal\": {\n        \"Port\": 0.049169579632919465,\n        \"Request_Type\": 0.0012508395562457362,\n        \"Protocol\": 0.0004887882509845402,\n        \"Payload_Size\": 0.02813951703254333,\n        \"User_Agent\": -0.00010977782890494973,\n        \"Status\": 0.01678941252933835\n      },\n      \"PortScan\": {\n        \"Port\": -0.007012734329774121,\n        \"Request_Type\": 0.00011347483139078703,\n        \"Protocol\": -9.074379794907668e-05,\n        \"Payload_Size\": -0.02743667372107173,\n        \"User_Agent\": -1.1418053272270992e-05,\n        \"Status\": -0.0069701736631737135\n      }\n    }\n  },\n  {\n    \"instance_index\": 4639,\n    \"features\": {\n      \"Port\": 5.0,\n      \"Request_Type\": 3.0,\n      \"Protocol\": 2.0,\n      \"Payload_Size\": -0.6528907958058866,\n      \"User_Agent\": 2.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.043492783898629435,\n        \"Request_Type\": -0.0017630704017063683,\n        \"Protocol\": 0.0004282129554349541,\n        \"Payload_Size\": -0.0008799501390520312,\n        \"User_Agent\": -0.00019057652789586084,\n        \"Status\": -0.00842192242742772\n      },\n      \"Normal\": {\n        \"Port\": 0.05034645743956169,\n        \"Request_Type\": 0.0017264939200117065,\n        \"Protocol\": -0.0007576411887159505,\n        \"Payload_Size\": 0.028894811257352493,\n        \"User_Agent\": 1.0042514046645751e-05,\n        \"Status\": 0.01550819523087\n      },\n      \"PortScan\": {\n        \"Port\": -0.0068536735409322706,\n        \"Request_Type\": 3.6576481694676256e-05,\n        \"Protocol\": 0.0003294282332809911,\n        \"Payload_Size\": -0.028014861118300458,\n        \"User_Agent\": 0.00018053401384921425,\n        \"Status\": -0.007086272803442275\n      }\n    }\n  },\n  {\n    \"instance_index\": 6815,\n    \"features\": {\n      \"Port\": 4.0,\n      \"Request_Type\": 4.0,\n      \"Protocol\": 0.0,\n      \"Payload_Size\": 0.2962516942530074,\n      \"User_Agent\": 3.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.0433298718960851,\n        \"Request_Type\": -0.0010110571655643499,\n        \"Protocol\": -0.0004469843553668361,\n        \"Payload_Size\": 8.566699349334413e-05,\n        \"User_Agent\": 0.0002970282162645548,\n        \"Status\": -0.009914872232018087\n      },\n      \"Normal\": {\n        \"Port\": 0.05046417639260725,\n        \"Request_Type\": 0.0007127575523508866,\n        \"Protocol\": 0.00040636131263098804,\n        \"Payload_Size\": 0.027676738376651872,\n        \"User_Agent\": -0.0005791379854467164,\n        \"Status\": 0.017047463524332424\n      },\n      \"PortScan\": {\n        \"Port\": -0.0071343044965220224,\n        \"Request_Type\": 0.00029829961321348316,\n        \"Protocol\": 4.062304273585347e-05,\n        \"Payload_Size\": -0.027762405370145293,\n        \"User_Agent\": 0.0002821097691821622,\n        \"Status\": -0.007132591292314318\n      }\n    }\n  },\n  {\n    \"instance_index\": 8576,\n    \"features\": {\n      \"Port\": 5.0,\n      \"Request_Type\": 5.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": -0.4584749577961246,\n      \"User_Agent\": 0.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.04341981531099741,\n        \"Request_Type\": 0.0009549531779482892,\n        \"Protocol\": -0.0002201649288144857,\n        \"Payload_Size\": -0.000739286912716643,\n        \"User_Agent\": -6.86102869511443e-05,\n        \"Status\": -0.010827166177745066\n      },\n      \"Normal\": {\n        \"Port\": 0.050243392316753795,\n        \"Request_Type\": -0.0008921046747946995,\n        \"Protocol\": 0.0003860583864291173,\n        \"Payload_Size\": 0.028128478439573685,\n        \"User_Agent\": 6.187631912815876e-05,\n        \"Status\": 0.017800658386036613\n      },\n      \"PortScan\": {\n        \"Port\": -0.006823577005756359,\n        \"Request_Type\": -6.28485031535918e-05,\n        \"Protocol\": -0.00016589345761462522,\n        \"Payload_Size\": -0.027389191526857044,\n        \"User_Agent\": 6.7339678229688394e-06,\n        \"Status\": -0.006973492208291515\n      }\n    }\n  },\n  {\n    \"instance_index\": 3531,\n    \"features\": {\n      \"Port\": 7.0,\n      \"Request_Type\": 0.0,\n      \"Protocol\": 1.0,\n      \"Payload_Size\": -0.554590652991962,\n      \"User_Agent\": 5.0,\n      \"Status\": 1.0\n    },\n    \"shap_values_per_class\": {\n      \"BotAttack\": {\n        \"Port\": -0.03795975310907596,\n        \"Request_Type\": 0.00029745542063688125,\n        \"Protocol\": -0.0009381821028428168,\n        \"Payload_Size\": -0.001508253494883779,\n        \"User_Agent\": -0.001174861667998311,\n        \"Status\": -0.013036495485112485\n      },\n      \"Normal\": {\n        \"Port\": 0.04266425694850759,\n        \"Request_Type\": -0.0004154198264119744,\n        \"Protocol\": 0.0012841666709573155,\n        \"Payload_Size\": 0.029691495480828972,\n        \"User_Agent\": 0.0018524717977453542,\n        \"Status\": 0.02065138810149925\n      },\n      \"PortScan\": {\n        \"Port\": -0.004704503839431703,\n        \"Request_Type\": 0.00011796440577509726,\n        \"Protocol\": -0.0003459845681144955,\n        \"Payload_Size\": -0.028183241985945257,\n        \"User_Agent\": -0.0006776101297470526,\n        \"Status\": -0.007614892616386723\n      }\n    }\n  }\n]\n\n## LIME Local Explanations (rule-based feature contributions)\n\n[\n  {\n    \"instance_index\": 6094,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"1.00 < Port <= 4.00\",\n        \"weight\": 0.16135391244526542\n      },\n      {\n        \"rule\": \"Payload_Size > 0.79\",\n        \"weight\": -0.1349626807729492\n      },\n      {\n        \"rule\": \"2.00 < User_Agent <= 4.00\",\n        \"weight\": -0.012873567393034902\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": 0.008506558510590805\n      },\n      {\n        \"rule\": \"Request_Type <= 1.00\",\n        \"weight\": -0.0009026485134065617\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 8649,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port <= 1.00\",\n        \"weight\": 0.19389043236704773\n      },\n      {\n        \"rule\": \"-0.03 < Payload_Size <= 0.79\",\n        \"weight\": 0.0857128302844512\n      },\n      {\n        \"rule\": \"User_Agent <= 1.00\",\n        \"weight\": 0.017083203103616062\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": 0.004401332501952762\n      },\n      {\n        \"rule\": \"3.00 < Request_Type <= 5.00\",\n        \"weight\": -0.0026655702235020015\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 5040,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port <= 1.00\",\n        \"weight\": 0.19578679258618228\n      },\n      {\n        \"rule\": \"1.00 < Request_Type <= 3.00\",\n        \"weight\": 0.009065304948832016\n      },\n      {\n        \"rule\": \"User_Agent <= 1.00\",\n        \"weight\": -0.008086628794653668\n      },\n      {\n        \"rule\": \"1.00 < Protocol <= 2.00\",\n        \"weight\": 0.007849961578297171\n      },\n      {\n        \"rule\": \"Payload_Size <= -0.84\",\n        \"weight\": -0.002023513504050414\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 6901,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"1.00 < Port <= 4.00\",\n        \"weight\": 0.15946687586626632\n      },\n      {\n        \"rule\": \"Payload_Size > 0.79\",\n        \"weight\": -0.15793175974200643\n      },\n      {\n        \"rule\": \"User_Agent > 4.00\",\n        \"weight\": 0.016455894597810473\n      },\n      {\n        \"rule\": \"1.00 < Request_Type <= 3.00\",\n        \"weight\": 0.004531783081989413\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": 0.0035103012435077244\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 8058,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"4.00 < Port <= 5.00\",\n        \"weight\": 0.1726995850580402\n      },\n      {\n        \"rule\": \"Payload_Size > 0.79\",\n        \"weight\": -0.1482878842988024\n      },\n      {\n        \"rule\": \"User_Agent <= 1.00\",\n        \"weight\": 0.017762347295897957\n      },\n      {\n        \"rule\": \"Protocol <= 0.00\",\n        \"weight\": 0.011276630436060007\n      },\n      {\n        \"rule\": \"Request_Type <= 1.00\",\n        \"weight\": 0.011257869031906795\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 1701,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port <= 1.00\",\n        \"weight\": 0.20122076449617504\n      },\n      {\n        \"rule\": \"-0.84 < Payload_Size <= -0.03\",\n        \"weight\": 0.08247540322837006\n      },\n      {\n        \"rule\": \"User_Agent <= 1.00\",\n        \"weight\": -0.02551411049551831\n      },\n      {\n        \"rule\": \"Request_Type <= 1.00\",\n        \"weight\": 0.004202484495787815\n      },\n      {\n        \"rule\": \"1.00 < Protocol <= 2.00\",\n        \"weight\": 0.002648935181142422\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 4216,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port > 5.00\",\n        \"weight\": -0.565222666045744\n      },\n      {\n        \"rule\": \"Payload_Size <= -0.84\",\n        \"weight\": -0.02216619577165171\n      },\n      {\n        \"rule\": \"1.00 < Protocol <= 2.00\",\n        \"weight\": 0.011047850106639468\n      },\n      {\n        \"rule\": \"1.00 < User_Agent <= 2.00\",\n        \"weight\": -0.00692076468776389\n      },\n      {\n        \"rule\": \"1.00 < Request_Type <= 3.00\",\n        \"weight\": -0.0019606570342465194\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 1493,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port > 5.00\",\n        \"weight\": -0.5445366056709161\n      },\n      {\n        \"rule\": \"Payload_Size > 0.79\",\n        \"weight\": -0.13561648243398863\n      },\n      {\n        \"rule\": \"Request_Type <= 1.00\",\n        \"weight\": 0.013911462625399124\n      },\n      {\n        \"rule\": \"User_Agent > 4.00\",\n        \"weight\": 0.012503830900604118\n      },\n      {\n        \"rule\": \"1.00 < Protocol <= 2.00\",\n        \"weight\": 0.0027094363486181747\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 3529,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Payload_Size > 0.79\",\n        \"weight\": -0.17226307279065606\n      },\n      {\n        \"rule\": \"Port <= 1.00\",\n        \"weight\": 0.16939579273253336\n      },\n      {\n        \"rule\": \"1.00 < Request_Type <= 3.00\",\n        \"weight\": 0.015699027450777028\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": 0.013421984446247178\n      },\n      {\n        \"rule\": \"1.00 < User_Agent <= 2.00\",\n        \"weight\": 0.008335029909520704\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 7222,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port > 5.00\",\n        \"weight\": -0.5243170305963015\n      },\n      {\n        \"rule\": \"-0.84 < Payload_Size <= -0.03\",\n        \"weight\": 0.07107741198945808\n      },\n      {\n        \"rule\": \"User_Agent <= 1.00\",\n        \"weight\": -0.01283339732750961\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": 0.011873118776809737\n      },\n      {\n        \"rule\": \"3.00 < Request_Type <= 5.00\",\n        \"weight\": 0.005017897574112834\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 1123,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port <= 1.00\",\n        \"weight\": 0.20108210402073093\n      },\n      {\n        \"rule\": \"-0.03 < Payload_Size <= 0.79\",\n        \"weight\": 0.08026248216948258\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": 0.023663010554115044\n      },\n      {\n        \"rule\": \"3.00 < Request_Type <= 5.00\",\n        \"weight\": 0.00882469164336316\n      },\n      {\n        \"rule\": \"User_Agent <= 1.00\",\n        \"weight\": -1.0124117009518738e-05\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 4639,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"4.00 < Port <= 5.00\",\n        \"weight\": 0.14654471055192514\n      },\n      {\n        \"rule\": \"-0.84 < Payload_Size <= -0.03\",\n        \"weight\": 0.08039285812608811\n      },\n      {\n        \"rule\": \"1.00 < Request_Type <= 3.00\",\n        \"weight\": 0.014586850245907754\n      },\n      {\n        \"rule\": \"1.00 < Protocol <= 2.00\",\n        \"weight\": 0.0038109407340844704\n      },\n      {\n        \"rule\": \"1.00 < User_Agent <= 2.00\",\n        \"weight\": 0.0003153706196723313\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 6815,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"1.00 < Port <= 4.00\",\n        \"weight\": 0.16403237060726242\n      },\n      {\n        \"rule\": \"-0.03 < Payload_Size <= 0.79\",\n        \"weight\": 0.07189903454168656\n      },\n      {\n        \"rule\": \"Protocol <= 0.00\",\n        \"weight\": 0.01048545792949029\n      },\n      {\n        \"rule\": \"3.00 < Request_Type <= 5.00\",\n        \"weight\": 0.007593756367389949\n      },\n      {\n        \"rule\": \"2.00 < User_Agent <= 4.00\",\n        \"weight\": -0.003839656721556041\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 8576,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"4.00 < Port <= 5.00\",\n        \"weight\": 0.15631020442424717\n      },\n      {\n        \"rule\": \"-0.84 < Payload_Size <= -0.03\",\n        \"weight\": 0.11869561806188487\n      },\n      {\n        \"rule\": \"User_Agent <= 1.00\",\n        \"weight\": 0.01631969852246645\n      },\n      {\n        \"rule\": \"3.00 < Request_Type <= 5.00\",\n        \"weight\": 0.006464127676824827\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": -0.0034659324811545365\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  },\n  {\n    \"instance_index\": 3531,\n    \"feature_contributions\": [\n      {\n        \"rule\": \"Port > 5.00\",\n        \"weight\": -0.5530141118901396\n      },\n      {\n        \"rule\": \"-0.84 < Payload_Size <= -0.03\",\n        \"weight\": 0.08311238290994155\n      },\n      {\n        \"rule\": \"0.00 < Protocol <= 1.00\",\n        \"weight\": -0.011977153301369621\n      },\n      {\n        \"rule\": \"Request_Type <= 1.00\",\n        \"weight\": 0.009110871919812618\n      },\n      {\n        \"rule\": \"User_Agent > 4.00\",\n        \"weight\": -0.002374948622703947\n      },\n      {\n        \"rule\": \"Status <= 1.00\",\n        \"weight\": 0.0\n      }\n    ]\n  }\n]\n\n---\n\nNow please analyze this model using the SHAP and LIME explanations provided:\n\nKey SHAP global values (for reference):\n{\n  \"BotAttack\": {\n    \"Port\": 0.081111,\n    \"Request_Type\": 0.002742,\n    \"Protocol\": 0.001517,\n    \"Payload_Size\": 0.031283,\n    \"User_Agent\": 0.00167,\n    \"Status\": 0.022504\n  },\n  \"Normal\": {\n    \"Port\": 0.095535,\n    \"Request_Type\": 0.002472,\n    \"Protocol\": 0.00158,\n    \"Payload_Size\": 0.048257,\n    \"User_Agent\": 0.001664,\n    \"Status\": 0.039981\n  },\n  \"PortScan\": {\n    \"Port\": 0.014439,\n    \"Request_Type\": 0.000513,\n    \"Protocol\": 0.000431,\n    \"Payload_Size\": 0.060894,\n    \"User_Agent\": 0.000596,\n    \"Status\": 0.018635\n  }\n}\n\n1. **Model Context:** Briefly acknowledge the model's performance (accuracy, per-class balance)\n   as context for the explanation that follows. Do not spend effort analyzing accuracy — it is\n   already validated. Just establish the baseline so the rest of your analysis has credibility.\n\n2. **Global Feature Importance (SHAP):** Using the SHAP global values above, interpret the importance\n   ranking for each class (BotAttack, Normal, PortScan). Which features dominate and why from a\n   cybersecurity perspective? Cite the exact SHAP values from the data.\n\n3. **SHAP vs Data Patterns:** Do the SHAP rankings align with patterns visible in the training examples?\n\n4. **Local Explanations (SHAP + LIME):** For critical instances, explain the prediction\n   using both SHAP values AND LIME rules. Where do they agree? Where do they disagree?\n\n5. **Feature Interaction Insights:** Based on SHAP/LIME, what feature combinations are most decisive\n   for each class? How do features interact to drive predictions?\n\n6. **Cybersecurity Insights:** Strongest indicators for each class.\n   How could a SOC analyst use these explanations in practice?\n\n7. **SHAP-LIME Coherence:** Assess agreement between SHAP and LIME explanations.\n   Where they diverge, what does that tell us about the model's decision boundaries?\n\n8. **Improvement Suggestions:** Concrete improvements based on XAI evidence to make the model\n   more interpretable or robust.\n\n**CRITICAL - DO NOT INVENT DATA:**\n- Do NOT invent model specifications not provided (e.g., number of trees, max depth, training parameters).\n- Do NOT hallucinate dataset statistics not given (e.g., total rows, class distribution numbers).\n- Do NOT claim the model has attributes you weren't told about.\n- Cite EXACT SHAP values from the data provided above.\n- Use EXACT model type \"RandomForestClassifier\", accuracy \"0.9989\".\n- You MAY use your domain knowledge to EXPLAIN patterns, but do NOT contradict the values provided in the input data.\n\nUse numbered sections and subsections."
+    ]
+  },
+  "results": {
+    "glm-5:cloud": {
+      "response": "Here is the step-by-step analysis of the RandomForestClassifier intrusion detection model based on the provided SHAP and LIME explanations.\n\n### **STEP 1: Examine SHAP Global Importance**\n\nBased on the mean absolute SHAP values provided, the global feature importance is ranked as follows for each class:\n\n**Class: BotAttack (Index 0)**\n1.  **Port** (0.081111): The dominant feature.\n2.  **Payload_Size** (0.031283): Secondary importance.\n3.  **Status** (0.022504): Tertiary importance.\n4.  **Request_Type, Protocol, User_Agent**: Negligible importance (<0.003).\n\n**Class: Normal (Index 1)**\n1.  **Port** (0.095535): The most influential feature by a significant margin.\n2.  **Payload_Size** (0.048257): Strong secondary driver.\n3.  **Status** (0.039981): Moderate importance.\n4.  **Request_Type, Protocol, User_Agent**: Negligible importance (<0.0025).\n\n**Class: PortScan (Index 2)**\n1.  **Payload_Size** (0.060894): The primary driver for this class (distinct from others).\n2.  **Port** (0.014439): Secondary importance, notably lower than in BotAttack or Normal classes.\n3.  **Status** (0.018635): Moderate importance.\n4.  **Request_Type, Protocol, User_Agent**: Very low importance (<0.001).\n\n**Observations:**\n- **Port** is the strongest discriminator for **BotAttack** and **Normal** traffic but is less critical for **PortScan**.\n- **Payload_Size** is the defining feature for **PortScan** detection.\n- **Status** has a non-trivial role across all classes.\n- **User_Agent** and **Request_Type** have very low global importance, suggesting the model relies heavily on network/transport layer characteristics (Port, Payload) rather than application layer data.\n\n---\n\n### **STEP 2: Analyze SHAP Local Values**\n\n**Instance 6094 (Analysis)**\n- **Features:** Port 2.0 (Encoded 23/Telnet), User_Agent 4.0 (nmap), Payload 1.64 (High).\n- **Prediction:** Likely **BotAttack**.\n- **SHAP Analysis:**\n    - **BotAttack:** Strong positive push from `Payload_Size` (+0.365) and `Port` (+0.191). User_Agent (nmap) provides a small negative contribution (-0.03), counter-intuitively suggesting \"nmap\" presence slightly pushed *away* from BotAttack in this specific context, or perhaps the specific Port (22/23) combination drives the Bot label more.\n    - **Normal:** Strong negative push from `Port` (-0.194) and `Payload_Size` (-0.329). The model sees high payload and non-standard port as \"Not Normal\".\n    - **PortScan:** Contributions are close to zero; the model does not associate this traffic pattern with scanning.\n\n**Instance 4216 (Analysis)**\n- **Features:** Port 11.0 (Encoded 31337 - Elite/Backdoor), Payload -1.57 (Low), Status 0 (Failure).\n- **Prediction:** Likely **PortScan**.\n- **SHAP Analysis:**\n    - **BotAttack:** Strong positive push from `Port` (+0.336) (Port 31337 is a known malicious port) but strong negative push from `Payload_Size` (-0.356).\n    - **Normal:** Strong negative push from `Port` (-0.463). The model correctly identifies this as \"Not Normal\".\n    - **PortScan:** The largest positive contributor is `Payload_Size` (+0.648). Despite the distinct \"Bot\" port (31337), the *low payload size* strongly signals a **PortScan** behavior (probing ports often involves empty/small packets).\n- **Insight:** This instance reveals a conflict resolution. The feature `Port` screams \"Bot\", but `Payload_Size` screams \"PortScan\". The magnitude of the `Payload_Size` contribution for the PortScan class (+0.64) outweighs the Port contribution, swinging the prediction towards PortScan.\n\n**Instance 7222 (Analysis)**\n- **Features:** Port 10.0 (Encoded 8080), Payload -0.67, Status 0 (Failure).\n- **Prediction:** Likely **BotAttack**.\n- **SHAP Analysis:**\n    - **BotAttack:** Very strong positive push from `Port` (+0.668).\n    - **Normal:** Strong negative push from `Port` (-0.758).\n    - **PortScan:** Positive contribution from `Port` (+0.089), but negative from Payload (-0.17).\n- **Insight:** High/Unusual ports (like 8080 or 31337) strongly drive the prediction away from \"Normal\". In this case, unlike instance 4216, the Payload was not low enough to trigger the PortScan classification, allowing the Port feature to dominate the BotAttack classification.\n\n---\n\n### **STEP 3: Cross-reference with LIME**\n\n*Note: LIME weights provided appear to explain the probability of the \"Normal\" class (Class 1) relative to the predicted outcome. Positive LIME weights indicate evidence *for* Normal; Negative weights indicate evidence *against* Normal (evidence for Attack).*\n\n**Instance 1123 (True Label: Normal)**\n- **SHAP:** `Port` (+0.049 for Normal) and `Payload` (+0.028 for Normal).\n- **LIME:**\n    - Rule: `Port <= 1.00` -> Weight: +0.201 (Strong evidence for Normal).\n    - Rule: `Payload_Size <= -0.03` -> Weight: +0.080.\n- **Consensus:** Perfect agreement. Low ports (standard service ports) and standard payloads strongly predict \"Normal\".\n\n**Instance 6094 (Predicted: BotAttack)**\n- **SHAP:** `Port` (-0.194 for Normal), `Payload` (-0.329 for Normal).\n- **LIME:**\n    - Rule: `1.00 < Port <= 4.00` -> Weight: +0.16 (Positive/Nudging toward Normal?).\n    - Rule: `Payload_Size > 0.79` -> Weight: -0.13 (Negative/Against Normal).\n- **Consensus:** LIME is slightly ambiguous on Port (showing a positive weight for the range 1-4), but clearly flags High Payload as \"Not Normal\". SHAP provides a clearer directional push for BotAttack via `Payload`.\n\n**Instance 4216 (Predicted: PortScan)**\n- **LIME:**\n    - Rule: `Port > 5.00` -> Weight: -0.56 (Strong evidence *against* Normal).\n    - Rule: `Payload_Size <= -0.84` -> Weight: -0.02 (Slight evidence against Normal).\n- **Consensus:** Strong agreement. High Port is the primary driver for \"Not Normal\". While LIME doesn't explicitly distinguish between *which* attack type in this summary, the negative weight confirms it is anomalous.\n\n---\n\n### **STEP 4: Synthesize Findings**\n\n1.  **Primary Driver - Port:**\n    - The model uses `Port` as the primary filter.\n    - **Low Encoded Ports (0-4):** Maps to standard ports (21, 22, 23, 25, 53). These strongly predict **Normal** or potentially **BotAttack** if the payload is anomalous (e.g., high payload on Telnet).\n    - **High Encoded Ports (>5):** Maps to web/high ports (80, 443, 8080, 31337). These strongly predict **BotAttack** or **PortScan**.\n\n2.  **Secondary Driver - Payload_Size (Class Separator):**\n    - **High Payload:** Associated with **BotAttack** (Data exfiltration or C&C communication).\n    - **Low/Negative Payload:** Associated with **PortScan** (Connection attempts/probes).\n    - **Zero/Mid Payload:** Associated with **Normal** traffic.\n\n3.  **User_Agent (Relevance):**\n    - Global importance is negligible. However, locally (Instance 4216), `User_Agent` had minor interactions. The model generally ignores this feature, likely because malicious actors spoof valid agents (e.g., \"Mozilla\" encoded as 0).\n\n4.  **Consistency:**\n    - SHAP and LIME are coherent. Both highlight `Port` and `Payload_Size` as the decision boundaries.\n    - `Status=Failure` (0) consistently contributes negatively to \"Normal\" and positively to \"BotAttack/PortScan\", validating its status as a supporting feature.\n\n---\n\n### **STEP 5: Specific Detection Rules with Thresholds**\n\nBased on the synthesized SHAP and LIME data, the following detection rules can be inferred:\n\n1.  **Normal Classification Rule:**\n    - **Criteria:** `Port_encoded <= 4` AND `Payload_Size` (Standardized) ≈ 0 ± 0.5.\n    - **Logic:** Standard service ports with average payload sizes.\n    - **Evidence:** LIME `Port <= 1.00` weight +0.20; SHAP `Port` importance for Normal ~0.09.\n\n2.  **BotAttack Classification Rule:**\n    - **Criteria:** (`Port_encoded > 5` OR `Payload_Size` > 0.5) AND `Status = Failure`.\n    - **Logic:** High ports or anomalous high payloads drive this class.\n    - **Confidence:** High. SHAP magnitude for `Payload` in BotAttack instances (e.g., +0.36) is distinct.\n\n3.  **PortScan Classification Rule:**\n    - **Criteria:** `Payload_Size < -0.8` (Low/Negative standardized).\n    - **Logic:** Scans produce empty or minimal ACK packets.\n    - **Evidence:** SHAP `Payload_Size` is the #1 global feature for PortScan (0.060). Instance 4216 shows `Payload_Size` overrides the `Port` feature when predicting PortScan.\n\n---\n\n### **STEP 6: Summarization: Model Explanation Report**\n\n#### **1. Executive Summary**\nThe RandomForestClassifier demonstrates high accuracy (99.89%), relying heavily on **transport layer characteristics** (`Port`, `Payload_Size`) and **connection status** (`Status`). The model effectively distinguishes **Normal** traffic from malicious activities (**BotAttack**, **PortScan**) by learning distinct signatures regarding destination ports and data volume.\n\n#### **2. Global Interpretation**\n- **Feature Dominance:** The model is primarily bimodal, depending on the target class.\n    - For **Normal** and **BotAttack** classes, **Port** is the most critical feature (Global SHAP: 0.095 and 0.081 respectively). The model associates specific ports with specific behaviors (e.g., Port 21/22/80 with Normal, Port 8080/31337 with Attacks).\n    - For **PortScan**, **Payload_Size** is the dominant feature (Global SHAP: 0.060). The model has learned that scans typically involve empty or restricted packets.\n- **Feature Negligence:** `User_Agent` and `Request_Type` contribute minimally to the model's decision-making process globally, suggesting that this IDS model operates effectively as a network-flow analyzer rather than an application-layer inspector.\n\n#### **3. Local Interpretation & Boundary Analysis**\n- **Normal Traffic Boundaries:** \"Normal\" traffic is strictly defined by low-encoded ports (standard services) and moderate payload sizes. The model penalizes traffic deviating from this \"safety zone\" effectively.\n- **The \"Port vs. Payload\" Conflict (BotAttack vs. PortScan):**\n    - Analysis of Instance 4216 reveals a sophisticated decision boundary. When a packet arrives at a \"Backdoor\" port (Port 31337), the `Port` feature heavily pushes the prediction toward **BotAttack** (SHAP +0.33).\n    - However, if the `Payload_Size` is significantly low (SHAP +0.64 for PortScan), the model overrides the \"Port signal\" and classifies it as **PortScan**. This indicates the model prioritizes *behavior* (probing/empty packets) over *target* (suspicious port) when classifying scans.\n\n#### **4. Influential Characteristics**\n- **Port (Encoded):** The strongest indicator of service legitimacy. Encoding maps effectively separate standard traffic (0-5) from high-risk/high-ports (6-11).\n- **Payload_Size:** The primary discriminator between active attacks (Data transfer/Bot) and reconnaissance activities (Scan).\n\n#### **5. Impact of Codification on Model Bias**\n- **Encoding Scheme:** The ordinal encoding of Ports (0-11) creates a meaningful separation for the Random Forest. The model treats Ports 0-5 (SSH, DNS, HTTP, etc.) as a dense cluster of \"Normal\" and Ports >5 as a sparse cluster of \"Anomalous\".\n- **Risk:** The mapping forces distinct ports (e.g., 80 and 8080) into adjacent integers or ranges. The use of StandardScaler on Payload_Size effectively centers the decision boundary around the mean traffic size, making the model sensitive to deviations (high or low) rather than raw byte counts.\n\n#### **6. Cybersecurity Insights for SOC Analysts**\n1.  **Scan Detection:** The model detects **PortScans** primarily through **Packet Size**. Analysts should investigate packets with highly negative Payload_Size scores (below zero in normalized terms) regardless of destination port.\n2.  **Bot Detection:** **High Ports** are the primary heuristic for Bot traffic. However, analysts must be wary of \"Bot\" false positives on high-traffic, high-port services (like 8080) if the payload size is generic. The model flags Port 8080/31337 aggressively.\n3.  **False Positive Mitigation:** Since `User_Agent` is mostly ignored, attackers spoofing valid User-Agents (e.g., \"Mozilla\") will easily bypass this specific model feature. Future improvements should focus on User-Agent consistency checks.\n4.  **Priority Triage:** Alerts triggered by high `Port` values (SHAP > 0.3) should be prioritized for Botnets, while alerts triggered by low `Payload_Size` (SHAP > 0.6) should be prioritized for Reconnaissance.",
+      "thinking_process": "1.  **Analyze the Request:**\n    *   **Role:** Expert in Explainable AI (XAI) for intrusion detection.\n    *   **Task:** Analyze a classification model (RandomForestClassifier) for intrusion detection (Scan_Type_Label) using provided SHAP and LIME data.\n    *   **Process:** Strict step-by-step analysis (STEP 1 to STEP 6).\n    *   **Constraints:**\n        *   Wait for data in multiple messages.\n        *   Strictly use the provided model information (RandomForest).\n        *   Strictly use the provided column descriptions and mappings.\n        *   Do *not* hallucinate data, parameters, or statistics.\n        *   Do *not* use prior knowledge to invent data.\n        *   Output format: Show each step's findings before moving to the next.\n    *   **Current Status:** I have received the Model Information and Column Descriptions. I need to acknowledge receipt and ask for the data samples and XAI explanations.\n\n2.  **Verify Understanding of Provided Info (Mental Sandbox):**\n    *   Model: RandomForestClassifier.\n    *   Target: Scan_Type_Label (3 classes: BotAttack, Normal, PortScan).\n    *   Features: Port, Request_Type, Protocol, Payload_Size, User_Agent, Status.\n    *   Encodings:\n        *   Port: 21->0, 22->1 ... 31337->11.\n        *   Request_Type: DNS->0 ... Telnet->6.\n        *   Protocol: ICMP->0, TCP->1, UDP->2.\n        *   Payload_Size: StandardScaler normalized (continuous).\n        *   User_Agent: Mozilla->0 ... python-requests->5.\n        *   Status: Failure->0, Success->1.\n    *   Accuracy: High (99.89%).\n\n3.  **Formulate Response:**\n    *   Acknowledge the prompt.\n    *   Confirm understanding of the constraints (RandomForest, specific mappings, no hallucination).\n    *   State readiness for the next message containing the data/explanations.\n\n4.  **Refine Response:**\n    *   Keep it brief and professional.\n    *   Reiterate the instruction to wait for the next input.\n\n5.  **Final Output Generation:** (Drafting the response)\n    \"I acknowledge receipt of the Model Information and Column Descriptions. I have noted the constraints regarding the RandomForestClassifier, the specific feature encodings, and the requirement to work strictly with provided data without hallucinating new information.\n\n    I am ready to receive the SHAP and LIME data to proceed with the step-by-step analysis.\"\n\n--- Turn Break ---\n\nI have received the training samples and predictions. I will analyze these briefly to understand the context, but I will hold my full analysis until I receive the XAI explanations as instructed.\n\nI see the mapping of features to values in the training samples. For instance, \"Port\":5 corresponds to 80 (from description: 80=5), \"Request_Type\":0 is DNS, etc.\nThe predictions show perfect accuracy on this subset (true_label matches predicted_label for all shown instances).\n\nI am ready for the XAI explanations.\n\n--- Turn Break ---\n\nThe user wants a detailed XAI analysis of a RandomForestClassifier intrusion detection model, following a specific 6-step process.\nHowever, the prompt at the end overrides the initial \"wait for further instructions\" flow because it explicitly provides all the necessary data (Training Samples, Predictions, SHAP Global, SHAP Local, LIME Local) and asks for the analysis *now*.\n\nI need to follow the structure requested in the prompt at the end:\n1. Model Context\n2. Global Feature Importance (SHAP)\n3. SHAP vs Data Patterns\n4. Local Explanations (SHAP + LIME)\n5. Feature Interaction Insights\n6. Cybersecurity Insights\n7. SHAP-LIME Coherence\n8. Improvement Suggestions\n\nI also need to strictly adhere to the constraints:\n- Model Type: RandomForestClassifier.\n- No hallucinating data not provided (e.g., number of trees).\n- Use the specific mapping provided earlier for decoding (e.g., Port 11 = 31337).\n- Use the step-by-step logic defined in the initial prompt where applicable but formatted according to the final request.\n\n**Plan:**\n\n**STEP 1: Examine SHAP Global Importance**\n- I have the Global SHAP values.\n- Rank them for each class.\n- BotAttack: Port (0.081111) > Payload_Size (0.031283) > Status (0.022504).\n- Normal: Port (0.095535) > Payload_Size (0.048257) > Status (0.039981).\n- PortScan: Payload_Size (0.060894) > Status (0.018635) > Port (0.014439).\n- Note the inversion: Port is high importance for Bot/Normal, but low for PortScan. Payload_Size is high for all but highest for PortScan.\n\n**STEP 2: Analyze SHAP Local Values**\n- Look at specific instances to see how values push predictions.\n- Instance 6094:\n    - Features: Port=2 (23/Telnet?), Request=1 (FTP), Payload=1.64 (High). *Correction*: Check mappings.\n    - Mappings:\n        - Port: 21=0, 22=1, 23=2... 80=5... 31337=11.\n        - Request_Type: DNS=0, FTP=1...\n    - Instance 6094: Port 2.0 (Encoded 2=23/Telnet? Wait, mapping says 21=0, 22=1, 23=2. Yes). Request 1 (FTP). Payload 1.64 (High positive normalized). User Agent 4 (nmap). Status 1 (Success).\n    - True label? The prediction list doesn't map index 6094 directly to the sample list indices (samples are 0-19). The prediction list has indices 0-19. The SHAP local list has indices like 6094, 8649, etc. I must assume these specific indices in the SHAP local list are the ones to analyze.\n    - For Instance 6094:\n        - Predicted Class seems to be BotAttack (based on SHAP values pushing highest positive? Or looking at the base value/output?).\n        - Let's look at SHAP values for 6094:\n            - BotAttack: Port (+0.19), Payload (+0.36).\n            - Normal: Port (-0.19), Payload (-0.32).\n            - PortScan: Port (+0.00), Payload (-0.03).\n            - Interpretation: High payload and specific port pushes towards BotAttack. Normal is pushed against. PortScan is neutral/negative.\n            - Features Check: Port 2.0 (23/Telnet). User Agent 4 (nmap).\n- Instance 4216:\n    - Port 11.0 (31337 - known backdoor/hacker port).\n    - Payload -1.57 (Low).\n    - Status 0 (Failure).\n    - SHAP values:\n        - BotAttack: Port (+0.33), Payload (-0.35).\n        - Normal: Port (-0.46), Payload (-0.29), Status (-0.14).\n        - PortScan: Port (+0.12), Payload (+0.64), Status (+0.16).\n    - This is interesting. Port 11 (31337) pushes towards BotAttack significantly (+0.33) and away from Normal (-0.46).\n    - However, Payload size is negative. Low payload pushes strongly towards PortScan (+0.64).\n    - Result: Likely PortScan or BotAttack?\n    - Let's look at LIME for 4216:\n        - Port > 5.00: -0.56 weight (Negative correlation with the predicted class? LIME weights are usually for the predicted class vs others, or specific class? The prompt format for LIME doesn't specify \"predicted class\" explicitly, but usually LIME explains the predicted class).\n        - Standard LIME output usually lists weights for the predicted class.\n        - If Port > 5.00 contributes -0.56, and Payload < -0.84 contributes -0.02.\n        - Let's re-read SHAP. PortScan SHAP for Port is +0.12. Normal is -0.46. BotAttack is +0.33.\n        - PortScan SHAP for Payload is +0.64.\n        - The features strongly align with PortScan (Low Payload = High contribution). Status=Failure correlates with PortScan/BotAttack.\n        - This instance (4216) seems to be a tricky one or a specific attack type.\n        - Wait, if PortScan SHAP for Payload is +0.64 (strongest positive), then this instance is likely predicted as PortScan.\n        - Let's check the global importance again. PortScan is driven by Payload_Size (0.060).\n        - Instance 4216 Features: Port 11 (High), Payload -1.57 (Very Low).\n        - Normal SHAP: Port is very negative (-0.46). Payload negative.\n        - BotAttack SHAP: Port positive (+0.33). Payload negative (-0.35).\n        - PortScan SHAP: Port slightly positive (+0.12). Payload very positive (+0.64).\n        - Prediction: PortScan. (Low payload size is characteristic).\n\n- Instance 7222:\n    - Port 10.0 (8080).\n    - Payload -0.67 (Low-ish).\n    - Status 0 (Failure).\n    - SHAP:\n        - BotAttack: Port (+0.66). Wait, Port 10 is high importance for BotAttack?\n        - Global SHAP for BotAttack: Port is #1 feature (0.08).\n        - Local: Port=10.0 gives +0.67 for BotAttack.\n        - This seems to be a BotAttack.\n        - LIME: Port > 5.00 weight -0.52. (Again, LIME weights need careful interpretation. If explaining \"Class X\", negative weight means lower likelihood. But LIME here might be generic or specific to a class. Usually LIME provides local fidelity. If the weight is negative for Port>5, and the class is BotAttack, then Port>5 decreases probability? But SHAP says Port>5 increases probability significantly (+0.66)).\n        - There is a contradiction here to resolve in the analysis. SHAP says Port 10 (8080) strongly predicts BotAttack. LIME says Port > 5.00 has negative weight (-0.52).\n        - Resolution: Usually, SHAP is more precise regarding directionality. If LIME weight is -0.52, maybe it explains the \"Not Normal\" class? Or \"Not PortScan\"? Or maybe I need to interpret the signs carefully.\n        - Alternatively, look at instance 8058 (Port 5.0 = 80/HTTP).\n            - Predicted: Normal (Global importance Port is high).\n            - SHAP Normal: Port +0.05. Port 5 is lower index.\n            - SHAP BotAttack: Port -0.04.\n        - Instance 6094 (Port 2 = 23/Telnet).\n            - SHAP BotAttack: Port +0.19. Payload +0.36.\n            - This predicts BotAttack? Or Normal?\n            - Normal SHAP: Port -0.19.\n            - PortScan SHAP: Port +0.002.\n            - Likely BotAttack due to Payload Size (+0.36) and Port (+0.19).\n\n**STEP 3: Cross-reference with LIME**\n- LIME provides rules.\n- Instance 4216 (PortScan?): Payload negative. Port high.\n- LIME Rule: Payload <= -0.84 weight -0.02? (Small).\n- LIME Rule: Port > 5.00 weight -0.56.\n- If the prediction was PortScan, why is Port weight negative in LIME but positive in SHAP for PortScan (+0.12)? And Strongly positive in SHAP for BotAttack (+0.33)?\n- Let's look at the SHAP values again. BotAttack Port SHAP is +0.33. PortScan Port SHAP is +0.12.\n- The Payload is -1.57. BotAttack Payload SHAP is -0.35 (pushes away). PortScan Payload SHAP is +0.64 (pushes towards).\n- Result: The \"Payload\" feature likely determines this is PortScan outweighing the Port feature.\n- LIME interpretation: LIME might be explaining the \"Normal\" class (where Port > 5 has high negative weight -0.56).\n- Wait, standard LIME output usually specifies the class being explained. The JSON does not. It just lists rules.\n- Hypothesis: LIME explanations might be for the \"Normal\" class (class 1) as a baseline, or perhaps the \"Predicted\" class.\n- Let's check Instance 1123 (Port 0 = 21/FTP? No, encodings: 21=0).\n    - Port 0 (21/FTP). Request 4 (SMTP). User Agent 0 (Mozilla).\n    - SHAP Normal: Port +0.049.\n    - Prediction: Normal.\n    - LIME Weight: Port <= 1.00 weight +0.20. Positive weight.\n    - Port <= 1.00 (Port 0 is <= 1) contributes +0.20. This aligns with the prediction being \"Normal\" (Class 1).\n- Let's check Instance 4216 (Port 11, Payload -1.57).\n    - Prediction: Likely PortScan (based on SHAP Payload +0.64).\n    - LIME weights: Port > 5.00 weight -0.56. Payload <= -0.84 weight -0.02.\n    - If this was explaining PortScan, why is Payload weight so small (-0.02) when SHAP says it's the biggest driver (+0.64)?\n    - Possibility: LIME provided here might be explaining the probability of being \"Normal\" (Class 1).\n    - Check Instance 1123 (Normal): Port <= 1 contributes +0.20 (Positive for Normal).\n    - Check Instance 4216 (PortScan): Port > 5 gives -0.56 (Negative for Normal). This makes sense. High ports are suspicious, lowering \"Normal\" probability.\n    - Payload -1.57 gives -0.02 (Small negative for Normal). SHAP for Normal Payload is -0.29 (Negative). Consistent.\n    - Conclusion: LIME explanations are explaining the **Normal (Class 1)** probability/likelihood, or the \"Predicted\" class where positive weights support the prediction.\n    - Wait, let's test the \"LIME explains predicted class\" hypothesis.\n    - Instance 4216 (Hypothesis: Predicted PortScan).\n    - If LIME explains PortScan: Port > 5 should be positive?\n    - Port > 5: -0.56.\n    - If LIME explains Normal: High port decreases Normal prob (-0.56). This fits.\n    - Instance 1123 (Normal): Port <= 1 (+0.20). Low port increases Normal prob. Fits.\n    - Instance 6094 (Hypothesis: BotAttack? High Payload +0.36).\n    - Features: Port 2.0, Payload 1.64.\n    - LIME: Port 1.00-4.00 (+0.16). Payload > 0.79 (-0.13).\n    - If explaining Normal: High payload decreases Normal prob (-0.13)? SHAP says Payload -0.32 for Normal. Yes, fits.\n    - If explaining BotAttack: High payload should increase prob. LIME has (-0.13). Contradiction.\n    - **Conclusion:** The LIME weights provided in the data are consistently **explaining the \"Normal\" class (Class 1)** or potentially the *complement* of the predicted class if the prediction isn't Normal.\n    - Actually, let's look at Instance 8058 (Normal?).\n    - SHAP Normal Port +0.05.\n    - LIME: Port 4-5 (+0.17). Positive. Fits \"Normal\".\n    - Instance 5040 (Normal?).\n    - SHAP Normal Port +0.048.\n    - LIME: Port <= 1.00 (+0.19). Positive. Fits \"Normal\".\n    - Instance 7222 (BotAttack? High Port 8080).\n    - SHAP BotAttack Port +0.66.\n    - LIME: Port > 5.00 (-0.52). Negative for Normal. Fits. High port -> Not Normal.\n    - Instance 6094 (BotAttack? High Payload).\n    - SHAP BotAttack Payload +0.36.\n    - LIME: Payload > 0.79 (-0.13). Negative for Normal. Fits.\n    - **Verified Finding:** The LIME explanations are consistently explaining the **Normal** class behavior (Class 1). Positive weights => Evidence for Normal. Negative weights => Evidence against Normal (Evidence for Attack). I will proceed with this interpretation.\n\n**STEP 4: Synthesize Findings**\n- **BotAttack Indicators:**\n    - High Ports (Encoded > 5, e.g., 8080 (10), 31337 (11)). Note: In SHAP Local 7222, Port 10 (8080) -> +0.66 for BotAttack.\n    - High Payload Sizes (in some cases, e.g. local 6094).\n    - Status 0 (Failure) (Global Status 0.02 for BotAttack).\n    - User Agent \"nmap\" (4) or \"nikto\" (1) vs \"Mozilla\" (0).\n        - Local 6094: User Agent 4 (nmap). BotAttack SHAP -0.03 (Low impact here). Local 4216: User Agent 2 (Wget?). BotAttack SHAP ~0.\n        - Global Importance for User_Agent is very low for all classes (~0.001).\n- **PortScan Indicators:**\n    - Low Payload Size (Global 0.06). Local 4216: Payload -1.57 -> PortScan +0.64.\n    - High Ports (sometimes). Local 4216 Port 11 (+0.33 BotAttack, +0.12 PortScan). The model is somewhat confused or overlapping here, but Payload drives PortScan.\n    - Status Failure often present.\n- **Normal Indicators:**\n    - Low Ports (Encoded <= 5). E.g., 21, 22, 23, 25, 53, 80.\n    - Local 1123: Port 0 (21) -> Normal +0.049.\n    - \"Normal\" Payload range.\n    - User Agent Mozilla (0).\n- **Discrepancies:**\n    - Port \"Importance\".\n    - Global: Port is #1 for BotAttack and Normal.\n    - Global: Payload is #1 for PortScan.\n    - This makes sense. PortScan involves scanning vectors (payloads) or empty payloads, while the port might vary. But for a \"BotAttack\" (often C&C or specific exploit), the port matters (e.g., 8080, 31337). For \"Normal\", standard ports (80, 443, 21, 22) matter.\n\n**STEP 5: Thresholds/Detection Rules**\n- BotAttack: Port > 5 (Encoded) OR Port > 4? (Ports 8080, 31337).\n    - Port 10 (8080) -> strong signal.\n    - Port 11 (31337) -> strong signal.\n    - Payload > 1.0 often correlates with BotAttack (Local 6094).\n- PortScan: Payload < -1.0 or Low Payload.\n    - Local 4216: Payload -1.57.\n- Normal: Port <= 5 (Encoded: 0-5 cover 21, 22, 23, 25, 53, 80).\n    - If Port is high (10, 11), probability of Normal drops (LIME -0.56).\n\n**Step-by-Step Output Formatting:**\n1. Context: High accuracy (0.9989). Random Forest.\n2. Global: Port/Payload dominance.\n3. Data Pattern Alignment: Check training data (Sample 1: Normal, Port 5/80. Sample 2: PortScan? Port 10/8080, Request 4/SMTP? Status 0. Actually Training Sample 2 has label 2 (PortScan)).\n    - Wait, verify Sample 2:\n    - Index 1: Port 10 (8080). Request 4 (SMTP?). User Agent 1 (Nikto). Label 2 (PortScan).\n    - Matches pattern: High port + Status Failure + User Agent Nikto -> PortScan.\n    - But check SHAP for PortScan on similar instances.\n    - Sample Index 11 (Port 11=31337, Request 2=HTTP? No, Request 2=HTTP, Protocol 2=UDP, Label 1=Normal? Wait.)\n    - Training Sample 11: Port 1 (22/SSH). Request 3 (HTTPS? No, Request map: DNS=0, FTP=1, HTTP=2, HTTPS=3...). Request 3=HTTPS. Label 1 (Normal).\n    - I must rely on the SHAP/LIME explanation arrays provided, not just the tiny training list, though they should align.\n    - The SHAP local list contains specific indices (6094, 8649...) which are not in the small training sample list provided. That's fine, I analyze the SHAP/LIME data provided.\n\n**Refining the LIME interpretation:**\n- I've determined LIME explains \"Class 1: Normal\".\n- Rules:\n    - `Port > 5.00`: Negative weight (Supports Attack/Bot).\n    - `Port <= 1.00`: Positive weight (Supports Normal).\n    - `Payload > 0.79`: Slightly Negative weight (Often supports BotAttack).\n    - `Payload <= -0.84`: Negative weight (Supports PortScan/Anomaly).\n\n**Final Checks:**\n- Model: RandomForest. Correct.\n- Classes: Bot(0), Normal(1), Scan(2).\n- Mappings: Used correctly.\n- No hallucination: Only use provided values.\n\nLet's structure the report.\nSections:\n1. Model Context.\n2. Global Feature Importance.\n3. SHAP vs Data Patterns.\n4. Local Explanations.\n5. Feature Interaction.\n6. Cybersecurity Insights.\n7. SHAP-LIME Coherence.\n8. Improvements.\n\nI will write the final response now.",
+      "token_usage": {
+        "prompt_tokens": 16766,
+        "completion_tokens": 8294,
+        "total_tokens": 25060
+      },
+      "time_ms": 409620.57,
+      "time_formatted": "6m49s",
+      "error": null
+    },
+    "gpt-oss:20b-cloud": {
+      "response": "**1. Model Context**  \n- **Algorithm**: `RandomForestClassifier` (unspecified number of trees, max‑depth, etc.; the model type is the only known hyper‑parameter).  \n- **Accuracy**: `0.9989` on the held‑out test split (70/30 stratified).  \n- **Class balance**: While the raw class counts are not provided, SMOTE was used during training, so the model was exposed to an oversampled (synthetic) balancing of the three classes: **BotAttack (0)**, **Normal (1)**, **PortScan (2)**.  \n- The high test accuracy implies that the model has captured the underlying patterns with little over‑fitting, which sets a strong foundation for XAI‑based scrutiny.\n\n---\n\n**2. Global Feature Importance (SHAP)**  \n\n| Class | Feature | Mean | Rank | Comment |\n|-------|---------|-------|------|---------|\n| **BotAttack** | **Port** | 0.081111 | 1 | Highest influence – HTTP/HTTPS port windows (encoded 5, 7, 10) strongly push toward BotAttack. |\n| | **Payload_Size** | 0.031283 | 2 | Larger payloads contribute positively to BotAttack predictions. |\n| | **Status** | 0.022504 | 3 | Successful requests raise the BotAttack likelihood. |\n| | **Protocol**, **User_Agent**, **Request_Type** | 0.0015 – 0.003 | 4–6 | Minor but consistent contributions. |\n| **Normal** | **Port** | 0.095535 | 1 | Normal traffic clusters in the most common HTTP/HTTPS ports. |\n| | **Payload_Size** | 0.048257 | 2 | Moderate‑sized payloads signify legitimate requests. |\n| | **Status** | 0.039981 | 3 | Successful requests reinforce Normal classification. |\n| | **Protocol**, **Request_Type**, **User_Agent** | 0.0015 – 0.0025 | 4–6 | Weak influence. |\n| **PortScan** | **Payload_Size** | 0.060894 | 1 | Large payloads are strongly associated with PortScan events (likely enumeration). |\n| | **Port** | 0.014439 | 2 | Random, low‑importance: scanning traverses many ports. |\n| | **Status** | 0.018635 | 3 | Successful status is less indicative for scans but still useful. |\n| | **Protocol**, **Request_Type**, **User_Agent** | < 0.001 | 4–6 | Minor. |\n\n**Cybersecurity perspective**  \n- **Port** as a driver for both BotAttack and Normal shows that the majority of attack/benign traffic occurs on typical web ports (80, 443, 8080).  \n- **Payload_Size** is the biggest discriminator for **PortScan** – scanning tools often bundle large probes or use “flooding”.  \n- **Status** (Success) is the only state feature that aligns with “legitimate” patterns, helping the model separate benign from probing anomalies.\n\n---\n\n**3. SHAP vs Data Patterns**  \n\n- The training examples reinforce the global rankings.  \n  * Sample 4216 (Port=11→31337, Payload_Size≈−1.57) shows a **high positive** BotAttack contribution for Port (`+0.337`) and a **strong negative** Normal/PortScan contribution for Payload_Size (`−0.356, −0.292`). This aligns with the high global Port magnitude for BotAttack and large Payload_Size for PortScan.  \n  * Sample 7222 (Port=10→8080, Payload_Size≈−0.68) demonstrates a **large negative** BotAttack contribution for Payload_Size (`−0.140`) but a **positive** Normal contribution (`+0.031`), matching the moderate Payload_Size importance for Normal.  \n  * Instances with low Payload_Size (e.g., 5040, 1701) exhibit small or negative BotAttack contributions for Payload_Size, again matching the small global mean.\n\nThus, the observed feature usage in the dataset is consistent with the SHAP‑derived importance metrics.\n\n---\n\n**4. Local Explanations (SHAP + LIME)**  \n\n| Instance | Predicted Class | Dominant SHAP Features | LIME Rules Supporting the Same Decision | Points of Disagreement |\n|----------|-----------------|-----------------------|----------------------------------------|------------------------|\n| **6094** | Normal | **Port** (`+0.191`), **Protocol** (`+0.013`), **Payload_Size** (`−0.345`) | Rule 1: “1.00 < Port ≤ 4.00” (`+0.161`), Rule 2: “Payload_Size > 0.79” (`−0.135”). Both confirm that a medium port with a small Payload_Size pushes toward Normal. | LIME weight for Payload_Size is slightly less negative than SHAP (`−0.135` vs `−0.345`), suggesting LIME underestimates its suppressive effect. |\n| **8649** | PortScan | **Payload_Size** (`+0.028`) and **Port** (`−0.042`). | Rule 1: “Port ≤ 1.00” (`+0.194`), Rule 2: “Payload_Size in (−0.03, 0.79)” (`+0.086`). LIME sees Port as *positive* for Normal; SHAP sees it negative for PortScan, aligning in both but quantitatively different. | SHAP shows Port contribution to Normal slightly negative (`−0.194`), while LIME shows positive (`+0.194`). This indicates a borderline decision that hinges on other features (e.g., Protocol, User_Agent). |\n| **4216** | BotAttack | **Port** (`+0.337`), **Payload_Size** (`−0.356`), **Protocol** (`+0.0005`), **User_Agent** (`−0.00014`). | Rule 1: “Port > 5.00” (`−0.565`) signaled a *negative* contribution, directly conflicting with SHAP’s positive Port effect. | The LIME rule assigns Port a large negative weight, whereas SHAP acknowledges a ~0.34 positive shift, reflecting a strong disagreement on Port's sign. |\n| **7222** | PortScan | **Port** (`+0.669`), **Payload_Size** (`−0.172`), **Status** (`+0.096`). | Rule 1: “Port > 5.00” (`−0.524`) again indicates a negative effect on the predicted class (PortScan). LIME underestimates the impact of the large Payload_Size (−0.172 vs –0.524). | LIME and SHAP diverge in knowing that the model actually *favours* this instance as PortScan; LIME’s rules reveal the opposite sign for Port. |\n\n**General trend**:  \n- When the **Port** feature points to a high‑confidence decision (e.g., BotAttack via large port), LIME rules often reflect the opposite sign (negative weights).  \n- SHAP local values capture small incremental contributions that LIME perceives as larger (or opposite) due to its linear surrogate model.  \n- Overall, both methods agree on the *presence* of influential features, but diverge in magnitude and sign for Port and Payload_Size in certain instances.\n\n---\n\n**5. Feature Interaction Insights**  \n\n| Class | Key Feature Interaction | Evidence |\n|-------|------------------------|----------|\n| **BotAttack** | **Port × Payload_Size**: Large ports (80, 443, 8080) combined with *moderate-to-large* Payload_Size (`+0.191 +0.365` in instance 6094). | SHAP local values show positive Port and Payload_Size contributions. |\n| **Normal** | **Port × Status**: Typical web ports with *successful* status (`+0.048` Port, `+0.029` Status in instance 5040). | SHAP shows positive contributions for both. |\n| **PortScan** | **Payload_Size × Port**: High Payload_Size combined with *high* Port indicates scanning activity (`+0.669 Port, -0.172 Payload_Size` in instance 7222). | Despite negative Payload_Size locally, the large absolute value signals the model’s focus on scanning patterns. |\n\n**Interpretation**: Interactions are primarily additive but synergistic; the model often weights combinations rather than isolated feature values.\n\n---\n\n**6. Cybersecurity Insights**  \n\n1. **BotAttack**  \n   - **Port** on common HTTP/HTTPS ports combined with **Payload_Size > 0.3**: likely automated crawling or web‑bot traffic.  \n   - SOC analysts can flag repeated requests from the same IP on these ports with large payloads as potential bot‑related behavior.\n\n2. **PortScan**  \n   - **Payload_Size** is the strongest discriminator; large payloads (or erratic sizes) coupled with *high‑value ports* (often > 80) trigger scan detection.  \n   - Analysts should monitor for sequences of requests to many ports with sizeable payloads, especially if Status is Success.\n\n3. **Normal**  \n   - **Port** + **Status Success** + **small Payload_Size**: standard legitimate web traffic.  \n   - Use these as baseline signatures against which deviations are evaluated.\n\n---\n\n**7. SHAP‑LIME Coherence**  \n\n- **Agreement**: Both methods highlight **Port** and **Payload_Size** as pivotal.  \n- **Disagreement**:  \n  - *Direction* of Port’s contribution is inconsistent for some instances (e.g., 4216).  \n  - *Magnitude*: LIME’s linear surrogate often amplifies or diminishes effects relative to SHAP.  \n- **Implication**:  \n  - RandomForest’s non‑linear splits can produce complex interactions that LIME’s linear approximation struggles to capture, especially for features with weak marginal influence.  \n  - Disagreements are useful for model introspection: where LIME assigns counter‑intuitive signs, it signals highly non‑linear boundaries or rare patterns.\n\n---\n\n**8. Improvement Suggestions**  \n\n1. **Feature Engineering**  \n   - Introduce **binned** versions of Payload_Size (small/medium/large) to help the forest capture interaction thresholds.  \n   - Encode **Port** as “common web port”, “non‑web port” to reduce categorical noise.\n\n2. **Model‑level Enhancements**  \n   - Apply **feature importance recalibration** (e.g., permutation importance) to confirm SHAP findings.  \n   - Experiment with a **stacked ensemble** (adding a linear layer after the forest) to smooth local decision regions and improve LIME fidelity.\n\n3. **Explainability Layer**  \n   - Use the **TreeExplainer** (built into SHAP) to produce per‑path explanations; this can resolve sign ambiguities.  \n   - Deploy a **local surrogate** that respects the tree structure (e.g., `skater` or `EI` for trees) to generate LIME‑style rules consistent with SHAP.\n\n4. **Operational Deployment**  \n   - Build a **dashboard** that overlays SHAP‑derived global importance with live traffic dashboards.  \n   - Flag anomalies when Port + Payload_Size interactions exceed predefined SHAP thresholds; automated tickets can be generated for SOC analysts.\n\n5. **Validation**  \n   - Conduct an **out‑of‑sample test** on fresh data to confirm that the feature importance patterns persist.  \n   - Regularly retrain the model with updated SMOTE balancing to avoid drift.\n\n---\n\n*In summary*, the RandomForest model places heavy emphasis on **Port** and **Payload_Size** across all classes, with **Status** assisting Normal predictions. SHAP local values and LIME rules converge on these key features but diverge in sign/magnitude for certain corner cases, indicating complex non‑linear behavior that requires care when converting results into operational SOC rules. These insights can directly inform alert enrichment, triage, and proactive mitigation strategies.*",
+      "thinking_process": "We need to respond acknowledging receipt and waiting for data.\n\n--- Turn Break ---\n\nUser sent training sample set of 20 entries but not entire dataset. Next message will contain XAI explanations; we must wait. We'll say we are ready to accept the XAI data.\n\n--- Turn Break ---\n\nWe need to produce analysis covering steps 1-8. Provide sections: introduction, global importance, alignment with training data, local explanations, feature interaction, cybersecurity insights, SHAP-LIME coherence, improvement suggestions. Use the exact SHAP values, no invented data. Might also refer to local SHAP examples. Provide comparison: LIME rules vs SHAP contributions.\n\nWe should not generate new data. Provide answer consisting of sections with bullet points. Use numbering. All content must be grounded on provided data. Use the encoded mappings for interpretation: e.g., Port 5->80, etc. Explain from SOC perspective. Let's craft answer.",
+      "token_usage": {
+        "prompt_tokens": 15096,
+        "completion_tokens": 2896,
+        "total_tokens": 17992
+      },
+      "time_ms": 17715.72,
+      "time_formatted": "17.7s",
+      "error": null
+    }
+  }
+}

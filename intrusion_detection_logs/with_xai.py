@@ -108,6 +108,7 @@ def main():
             "n_shap_local": config.get("nShapLocal", 15),
             "n_lime_local": config.get("nLimeLocal", 15),
             "system_prompt": config.get("systemPrompt"),
+            "task": config.get("task"),
             "self_consistency": config.get("selfConsistency", False),
             "self_consistency_runs": config.get("selfConsistencyRuns", 5),
             "self_consistency_top_n": config.get("selfConsistencyTopN", 5),

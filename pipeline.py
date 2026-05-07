@@ -552,7 +552,8 @@ Be precise and ground your reasoning in the data samples provided. Do NOT fabric
 
 
 def _build_chat_prompts_with_xai(model_info, column_desc_str, train_sample_str, pred_sample_str, 
-                                 shap_global_str, shap_local_str, lime_local_str, feature_cols, class_names):
+                                 shap_global_str, shap_local_str, lime_local_str, feature_cols, class_names,
+                                 task=None):
     """Build chat prompts for with_xai experiment (split into chunks)."""
     
     prompts = []
@@ -626,7 +627,7 @@ Please acknowledge receipt and wait for the data samples and XAI explanations.
 
 ---
 
-Now please analyze this model using the SHAP and LIME explanations provided:
+{task if task else f'''Now please analyze this model using the SHAP and LIME explanations provided:
 
 Key SHAP global values (for reference):
 {shap_global_str}
@@ -664,8 +665,8 @@ Key SHAP global values (for reference):
 - Use EXACT model type "{model_info['type']}", accuracy "{model_info['accuracy']:.4f}".
 - You MAY use your domain knowledge to EXPLAIN patterns, but do NOT contradict the values provided in the input data.
 
-Use numbered sections and subsections.""")
-    
+Use numbered sections and subsections.'''}""")
+
     return prompts
 
 
@@ -774,6 +775,7 @@ def pipeline(
     target_col=None,
     class_names=None,
     system_prompt=None,
+    task=None,
     self_consistency=False,
     self_consistency_runs=5,
     self_consistency_top_n=5,
@@ -797,6 +799,8 @@ def pipeline(
         target_col: Target column name (required)
         class_names: List of class names. If None, inferred from target values (default: class_0, class_1, ...)
         system_prompt: Custom system prompt. If None, uses default expert prompt
+        task: Custom task/analysis instructions for with_xai chat prompts (replaces default 8-section analysis request).
+              If None, uses default analysis request. Only applies to with_xai experiment_type with chat=True.
         self_consistency: If True, run multiple times and aggregate feature rankings
         self_consistency_runs: Number of runs for self-consistency (default: 5)
         self_consistency_top_n: Number of top features to extract (default: 5)
@@ -902,7 +906,7 @@ def pipeline(
             prompts = _build_chat_prompts_with_xai(
                 model_info, column_desc_str, train_sample_str, pred_sample_str,
                 shap_global_str, shap_local_str, lime_local_str,
-                feature_cols, class_names
+                feature_cols, class_names, task=task
             )
             prompts[0] = prompts[0].replace(default_system, sys_prompt)
             max_tokens = [4096, 4096, explain_message_tokens]  # ack, ack, analysis
